@@ -1,6 +1,9 @@
 import { useState, useRef } from 'react';
-import {View} from 'react-native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import SubscribeScreen from './SubscribeScreen';
 import {
+  View,
+  Linking,
   Image,
   KeyboardAvoidingView,
   Platform,
@@ -11,6 +14,7 @@ import {
 } from 'react-native';
 
 export default function HomeScreen({ navigation }) {
+  const Stack = createNativeStackNavigator();
   const ref_input2 = useRef();
   const ref_input3 = useRef();
   const [username,setUserName] = useState(null)
@@ -24,6 +28,10 @@ export default function HomeScreen({ navigation }) {
       body : JSON.stringify({username:username,password:password})
     })
     navigation.navigate('TabNavigator');
+  };
+
+  const navigate = () => {
+    navigation.navigate('Subscribe');
   };
 
   return (
@@ -84,6 +92,10 @@ const styles = StyleSheet.create({
   },
   btntxt:{
     color:'white',
-  }
+  },
+  redirection:{
+    color:'#00bcf0',
+    textDecorationLine:'underline'
+  },
 
 });

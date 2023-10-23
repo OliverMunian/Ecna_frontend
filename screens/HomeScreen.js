@@ -61,6 +61,9 @@ export default function HomeScreen({ navigation }) {
           <TouchableOpacity style={styles.btn} onPress={() => handleSubmit()}>
             <Text style={styles.btntxt}> Valider</Text>
           </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigate()}>
+            <Text style={styles.redirection}> Vous n'avez pas encore de compte ? Cliquez ici  </Text>
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     

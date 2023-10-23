@@ -9,7 +9,7 @@ import NewScreen from './screens/NewScreen';
 import InterventionsScreen from './screens/InterventionsScreen'
 import PhoneScreen from './screens/PhoneScreen'
 import DashboardScreen from './screens/DashboardScreen'
-import users from './reducers/users';
+import user from './reducers/user';
 import entreprises from './reducers/entreprises';
 import vehicules from './reducers/vehicules';
 import interventions from './reducers/interventions';
@@ -21,7 +21,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 
 const store = configureStore({
-  reducer: {users,entreprises,vehicules,interventions,patients,anomalies},
+  reducer: {user,entreprises,vehicules,interventions,patients,anomalies},
 });
 
 const Stack = createNativeStackNavigator();

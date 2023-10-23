@@ -5,8 +5,8 @@ const initialState = {
  value: {token: null, username:null, SIREN:null},
 };
 
-export const users = createSlice({
-    name: 'users',
+export const user = createSlice({
+    name: 'user',
     initialState,
     reducers: {
     //ajoute le token dans le reducer 
@@ -24,5 +24,5 @@ export const users = createSlice({
  },
 });
 
-export const { addtokenToSotre, adduserToSotre, addSirenToSotre } = users.actions;
-export default users.reducer;
+export const { addtokenToSotre, adduserToSotre, addSirenToSotre } = user.actions;
+export default user.reducer;

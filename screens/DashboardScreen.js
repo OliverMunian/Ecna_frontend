@@ -16,7 +16,7 @@ export default function DashboardScreen() {
           </View>
         </View>
         <View style={styles.title}>
-          <FontAwesome name="warning" size="25" color="#0c2ce7" />
+          <FontAwesome name="" size="25" color="#0c2ce7" />
           <View style={styles.divtxt}>
             <Text style={styles.txt}> Anomalies </Text>
             <FontAwesome name="" size="25" color="grey" />
@@ -30,7 +30,7 @@ export default function DashboardScreen() {
           </View>
         </View>
         <View style={styles.title}>
-          <FontAwesome name="emergency" size="25" color="#0c2ce7" />
+          <FontAwesome name="" size="25" color="#0c2ce7" />
           <View style={styles.divtxt}>
             <Text style={styles.txt}> SAMU</Text>
             <FontAwesome name="" size="25" color="grey" />

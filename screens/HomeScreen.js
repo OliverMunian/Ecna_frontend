@@ -16,6 +16,7 @@ import { addtokenToSotre, addSirenToSotre } from '../reducers/user';
 import { useDispatch, useSelector } from 'react-redux'
 
 export default function HomeScreen({ navigation }) {
+  const dispatch = useDispatch()
   const Stack = createNativeStackNavigator();
   const ref_input2 = useRef();
   const ref_input3 = useRef();

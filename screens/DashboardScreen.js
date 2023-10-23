@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-export default function MapScreen() {
+export default function DashboardScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.maintitle}>

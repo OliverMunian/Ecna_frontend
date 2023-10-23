@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import Formulaire_interventions from '../components/Formulaire_interventions';
 
-export default function MapScreen() {
+export default function NewScreen() {
 
 
   return (

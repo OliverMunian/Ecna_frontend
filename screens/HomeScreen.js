@@ -12,7 +12,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import { addtokenToSotre } from '../reducers/user';
+import { addtokenToSotre, addSirenToSotre } from '../reducers/user';
 import { useDispatch, useSelector } from 'react-redux'
 
 export default function HomeScreen({ navigation }) {
@@ -23,7 +23,7 @@ export default function HomeScreen({ navigation }) {
   const [username,setUserName] = useState(null)
   const [password,setPassword] = useState(null)
   const [errorMessage,setErrorMessage] = useState(null)
-  const user = useSelector((state) => state.user.value.token)
+  const user = useSelector((state) => state.user.value)
   const BACKEND_ADRESS = 'http://10.3.0.43:3000'
 
   const handleSubmit = () => {
@@ -36,6 +36,7 @@ export default function HomeScreen({ navigation }) {
     .then(data => {
       if(data.result){
         dispatch(addtokenToSotre(data.token))
+        dispatch(addSirenToSotre(data.SIREN))
         navigation.navigate('TabNavigator');
       } else {
         setErrorMessage(data.error)
@@ -44,7 +45,8 @@ export default function HomeScreen({ navigation }) {
     
   };
   console.log(errorMessage)
-  console.log(user)
+  console.log(user.token)
+  console.log(user.SIREN)
 
   const navigate = () => {
     navigation.navigate('Subscribe');

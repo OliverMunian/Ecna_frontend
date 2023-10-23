@@ -9,31 +9,31 @@ export default function DashboardScreen() {
       </View>
       <View style={styles.box}>
         <View style={styles.title}>
-          <FontAwesome name="spinner" size="25" color="#0c2ce7" />
+          <FontAwesome name="spinner" size={fontSize=25} color="#0c2ce7" />
           <View style={styles.divtxt}>
             <Text style={styles.txt}>En cours </Text>
-            <FontAwesome name="" size="25" color="grey" />
+            <FontAwesome name="" size={fontSize=25} color="grey" />
           </View>
         </View>
         <View style={styles.title}>
-          <FontAwesome name="" size="25" color="#0c2ce7" />
+          <FontAwesome name="" size={fontSize=25} color="#0c2ce7" />
           <View style={styles.divtxt}>
             <Text style={styles.txt}> Anomalies </Text>
-            <FontAwesome name="" size="25" color="grey" />
+            <FontAwesome name="" size={fontSize=25} color="grey" />
           </View>
         </View>
         <View style={styles.title}>
-          <FontAwesome name="forward" size="25" color="#0c2ce7" />
+          <FontAwesome name="forward" size={fontSize=25} color="#0c2ce7" />
           <View style={styles.divtxt}>
             <Text style={styles.txt}> Ultérieures</Text>
-            <FontAwesome name="" size="25" color="grey" />
+            <FontAwesome name="" size={fontSize=25} color="grey" />
           </View>
         </View>
         <View style={styles.title}>
-          <FontAwesome name="" size="25" color="#0c2ce7" />
+          <FontAwesome name="" size={fontSize=25} color="#0c2ce7" />
           <View style={styles.divtxt}>
             <Text style={styles.txt}> SAMU</Text>
-            <FontAwesome name="" size="25" color="grey" />
+            <FontAwesome name="" size={fontSize=25} color="grey" />
           </View>
         </View>
       </View>

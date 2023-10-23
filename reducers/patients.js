@@ -9,11 +9,11 @@ export const patients = createSlice({
     name: 'patients',
     initialState,
     reducers: {
-    addinterventionsToStore: (state, action) => {
+    addpatientToStore: (state, action) => {
         state.value.push(action.payload);
    },
  },
 });
 
-export const { addinterventionsToStore } = patients.actions;
+export const { addpatientToStore } = patients.actions;
 export default patients.reducer;

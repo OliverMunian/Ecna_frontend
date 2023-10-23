@@ -57,83 +57,168 @@ export default function Formulaire_interventions() {
         })
     }  
     return (
-      <View style={styles.container}>
-        <TextInput
-        style={styles.input}
-        placeholder="firstName"
-        onChangeText={(value) => setFirstName(value)}
-        value={firstName}
-      />
+<View style={styles.container}>
+        <Text style={styles.titre}>Creation Intervention</Text>
+    <View style={styles.divinput}>
+            <Text style={styles.txt}>Prénom</Text>
+            <TextInput
+            style={styles.input}
+            placeholder="Prénom"
+            placeholderTextColor="black"
+            onChangeText={(value) => setFirstName(value)}
+            value={firstName}
+            />
+    </View>
+    <View style={styles.divinput}>
+      <Text style={styles.txt}>Nom</Text>
       <TextInput
         style={styles.input}
-        placeholder="lastName"
+        placeholder="Nom"
+        placeholderTextColor="black"
         onChangeText={(value) => setLastName(value)}
         value={lastName}
       />
+    </View>
+    <View style={styles.divinput}>
+      <Text style={styles.txt}>Adresse</Text>
       <TextInput
         style={styles.input}
-        placeholder="adress"
+        placeholder="Adresse"
+        placeholderTextColor="black"
         onChangeText={(value) => setAdress(value)}
         value={adress}
       />
-      <TextInput 
-        style={styles.input}
-        placeholder="SSnumber"
-        onChangeText={(value) => setSSnumber(value)}
-        value={SSnumber}
-      />
-      <TouchableOpacity onPress={() => handlesearch(SSnumber)} style={styles.search}>
-        <Text>Search</Text>
-      </TouchableOpacity>
-      <TextInput
-        style={styles.input}
-        placeholder="phone"
-        onChangeText={(value) => setPhone(value)}
-        value={phone}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="valide"
-        onChangeText={(value) => setValide(value)}
-        value={valide}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Departure"
-        onChangeText={(value) => setDeparture(value)}
-        value={Departure}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Arrival"
-        onChangeText={(value) => setArrival(value)}
-        value={Arrival}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="mutuelle"
-        onChangeText={(value) => setMutuelle(value)}
-        value={mutuelle}
-      />
+    </View>
+    <View style={styles.divinput}>
+        <Text style={styles.txt}>Sécurité Sociale</Text>
+        <View style={styles.divplaceholder}>
+        <TextInput 
+            style={styles.inputplaceholder}
+            placeholder="Sécurité Sociale"
+            placeholderTextColor="black"
+            onChangeText={(value) => setSSnumber(value)}
+            value={SSnumber}
+        />
+        <TouchableOpacity onPress={() => handlesearch(SSnumber)} style={styles.search}>
+        <Text style={styles.txt}>Search</Text>
+        </TouchableOpacity>
+        </View>
+    </View>
+    <View style={styles.divinput}>
+        <Text style={styles.txt}>Téléphone</Text>
+        <TextInput
+            style={styles.input}
+            placeholder="Téléphone"
+            placeholderTextColor="black"
+            onChangeText={(value) => setPhone(value)}
+            value={phone}
+        />
+    </View>
+       <View style={styles.divinput}>
+        <Text style={styles.txt}>Patient Valide</Text>
+        <TextInput
+            style={styles.input}
+            placeholder="Valide"
+            placeholderTextColor="black"
+            onChangeText={(value) => setValide(value)}
+            value={valide}
+        />
+    </View>
+    <View style={styles.divinput}>
+        <Text style={styles.txt}>Départ</Text>
+        <TextInput
+            style={styles.input}
+            placeholder="Départ"
+            placeholderTextColor="black"
+            onChangeText={(value) => setDeparture(value)}
+            value={Departure}
+        />
+    </View>
+    <View style={styles.divinput}>
+        <Text style={styles.txt}>Arrivée</Text>
+        <TextInput
+            style={styles.input}
+            placeholder="Arrivée"
+            placeholderTextColor="black"
+            onChangeText={(value) => setArrival(value)}
+            value={Arrival}
+        />
+    </View>
+    <View style={styles.divinput}>
+        <Text style={styles.txt}>Mutuelle</Text>
+        <TextInput
+            style={styles.input}
+            placeholder="Mutuelle"
+            placeholderTextColor="black"
+            onChangeText={(value) => setMutuelle(value)}
+            value={mutuelle}
+        />
+    </View>
       <TouchableOpacity style={styles.search} onPress={()=> handleSubmit()}>
-        <Text>Submit</Text>
+        <Text style={styles.txt}>Submit</Text>
       </TouchableOpacity>
-      </View> 
+</View> 
       );
    }
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      width: '100%',
-      height:'100%',
-      backgroundColor:'black',
+        flex: 1,
+        backgroundColor: "black",
+        alignItems: "center",
+        justifyContent: "space-around",
+        width: "100%",
+    },
+    titre:{
+        marginTop: 50,
+        color: "white",
+        fontSize: 35,
+        fontWeight: "bold",
     },
     search:{
-        backgroundColor:'white'
+        width: 100,
+        height: 40,
+        backgroundColor: "blue",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: "white",
     },
     input:{
-        flex:1,
-        backgroundColor:'white',
-        color:'black'
+        borderWidth: 1,
+        borderColor: "white",
+        width: "100%",
+        color: "black",
+        height: 40,
+        borderRadius: 10,
+        backgroundColor: "#a19999",
+        marginTop: 5,
+    },
+    txt:{
+        color:'white'
+    },
+    divinput: {
+        color: "white",
+        width: "80%",
+        borderColor: "white",
+        height: 20,
+        marginBottom: 60,
+      },
+    divplaceholder:{
+        marginTop:5,
+        flexDirection:"row",
+        width:"80%",
+    },
+    inputplaceholder:{
+        borderRadius: 10,
+        backgroundColor: "#a19999",
+        color: "black",
+        width: "80%",
+        borderColor: "white",
+        height: 40,
+        marginBottom: 60,
+        marginRight: 10,
+        borderWidth: 1,
+        borderColor: "white",
     }
 })

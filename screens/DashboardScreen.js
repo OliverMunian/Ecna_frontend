@@ -12,7 +12,7 @@ export default function DashboardScreen() {
           <FontAwesome name="spinner" size="25" color="#0c2ce7" />
           <View style={styles.divtxt}>
             <Text style={styles.txt}>En cours </Text>
-            <FontAwesome name='' size="25" color="grey" />
+            <FontAwesome name="" size="25" color="grey" />
           </View>
         </View>
         <View style={styles.title}>

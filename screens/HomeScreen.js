@@ -60,6 +60,9 @@ export default function HomeScreen({ navigation }) {
           <TouchableOpacity style={styles.btn} onPress={() => handleSubmit()}>
             <Text style={styles.btntxt}> Valider</Text>
           </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigate()}>
+            <Text style={styles.question}>Vous n'avez pas encore de compte ? Cliquez ici </Text>
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     
@@ -113,5 +116,8 @@ const styles = StyleSheet.create({
     color:'#00bcf0',
     textDecorationLine:'underline'
   },
-
+  question:{
+    color:'#0cc6e7',
+    textDecorationLine:'underline'
+  }
 });

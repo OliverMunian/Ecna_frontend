@@ -6,13 +6,15 @@ export default function Formulaire_interventions() {
     const [firstName,setFirstName] = useState('')
     const [lastName,setLastName] = useState('')
     const [adress,setAdress] = useState('')
-    const [SSnumber,setSSnumber] = useState(Number())
-    const [phone,setPhone] = useState(Number())
+    const [SSnumber,setSSnumber] = useState(0)
+    const [phone,setPhone] = useState(0)
     const [mutuelle,setMutuelle] = useState('')
     const [valide,setValide] = useState(false)
     const [existe,setExiste] = useState(false)
+    const [Departure, setDeparture] = useState()
+    const [Arrival, setArrival] = useState()
     const [error, setError] = useState('')
-    
+
     const BACKEND_ADRESS = 'http://10.3.0.13:3000'
 
     const handlesearch = (SSnumber) => {
@@ -27,23 +29,27 @@ export default function Formulaire_interventions() {
                 setFirstName(patientData.patient.firstName)
                 setLastName(patientData.patient.lastName)
                 setAdress(patientData.patient.adress)
-                setSSnumber(patientData.patient.SSnumber)
-                setPhone(patientData.patient.phone)
+                setSSnumber(patientData.patient.SSnumber.toString())
+                setPhone(patientData.patient.phone.toString())
+                console.log(patientData.patient)
                 setMutuelle(patientData.patient.mutuelle)
+                setExiste(true)
             }else{
                 setError(data.error)
             }
         })
-        // fetch(`${BACKEND_ADRESS}/add`,{
+        // fetch(`${BACKEND_ADRESS}/interventions/add`,{
         // method: 'POST',
         // headers: { 'Content-Type': 'application/json' },
-        // body: JSON.stringify({existe})
+        // body: JSON.stringify(
+        // {existe: existe, firstName:firstName, 
+        // lastName: lastName, adress: adress, 
+        // mutuelle: mutuelle ,valide: valide, phone: phone,
+        // departure: Departure, arrival: Arrival})
         // })
         // .then(response => response.json())
         // .then(data =>{
-        // if(data.result){
-        // dispatch((name))
-        // }
+        //     console.log(data)
         // })
     }
     return (
@@ -91,6 +97,18 @@ export default function Formulaire_interventions() {
       />
       <TextInput
         style={styles.input}
+        placeholder="Departure"
+        onChangeText={(value) => setDeparture(value)}
+        value={Departure}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Arrival"
+        onChangeText={(value) => setArrival(value)}
+        value={Arrival}
+      />
+      <TextInput
+        style={styles.input}
         placeholder="mutuelle"
         onChangeText={(value) => setMutuelle(value)}
         value={mutuelle}
@@ -110,6 +128,8 @@ const styles = StyleSheet.create({
         backgroundColor:'white'
     },
     input:{
-        color:'white'
+        flex:1,
+        backgroundColor:'white',
+        color:'black'
     }
 })

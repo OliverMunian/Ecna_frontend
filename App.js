@@ -21,7 +21,7 @@ const TabNavigator = () => {
         let iconName = '';
 
         if (route.name === 'Véhicules') {
-          iconName = 'truck';
+          iconName = 'ambulance';
         } else if (route.name === 'New') {
           iconName = 'plus';
         } else if (route.name === 'Interventions') {
@@ -35,7 +35,7 @@ const TabNavigator = () => {
 
         return <FontAwesome name={iconName} size={size} color={color} />;
       },
-      tabBarActiveTintColor: '#0000BB',
+      tabBarActiveTintColor: '#0c2ce7',
       tabBarInactiveTintColor: '#FFFF',
       tabBarStyle:{
         backgroundColor:'black',

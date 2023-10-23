@@ -39,22 +39,23 @@ export default function Formulaire_interventions() {
                 setError(patientData.error)
             }
         })
-    // const handleSubmit =()=>{
-    //     fetch(`${BACKEND_ADRESS}/interventions/add`,{
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(
-    //     {existe: existe, firstName:firstName, 
-    //     lastName: lastName, adress: adress, 
-    //     mutuelle: mutuelle ,valide: valide, phone: phone,
-    //     departure: Departure, arrival: Arrival})
-    //     })
-    //     .then(response => response.json())
-    //     .then(data =>{
-    //         console.log(data)
-    //     })
-    // }  
     }
+    const handleSubmit = () => {
+        console.log(existe)
+        fetch(`${BACKEND_ADRESS}/interventions/add`,{
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(
+        {existe: existe, firstName:firstName, 
+        lastName: lastName, adress: adress, SSnumber: SSnumber, 
+        mutuelle: mutuelle ,valide: valide, phone: phone,
+        departure: Departure, arrival: Arrival})
+        })
+        .then(response => response.json())
+        .then(data =>{
+            console.log(data)
+        })
+    }  
     return (
       <View style={styles.container}>
         <TextInput

@@ -12,18 +12,13 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import { addtokenToSotre } from '../reducers/user';
-import { useDispatch, useSelector } from 'react-redux'
 
 export default function HomeScreen({ navigation }) {
-  const dispatch = useDispatch()
   const Stack = createNativeStackNavigator();
   const ref_input2 = useRef();
   const ref_input3 = useRef();
   const [username,setUserName] = useState(null)
   const [password,setPassword] = useState(null)
-  const [errorMessage,setErrorMessage] = useState(null)
-  const user = useSelector((state) => state.user.value.token)
   const BACKEND_ADRESS = 'http://10.3.0.43:3000'
 
   const handleSubmit = () => {
@@ -32,36 +27,22 @@ export default function HomeScreen({ navigation }) {
       headers:{'Content-type' : 'application/json'},
       body : JSON.stringify({username:username,password:password})
     })
-    .then(response => response.json())
-    .then(data => {
-      if(data.result){
-        dispatch(addtokenToSotre(data.token))
-        navigation.navigate('TabNavigator');
-      } else {
-        setErrorMessage(data.error)
-      }
-    })
-    
+    navigation.navigate('TabNavigator');
   };
-  console.log(errorMessage)
-  console.log(user)
 
   const navigate = () => {
     navigation.navigate('Subscribe');
   };
 
   return (
-      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' | 'android' ? 'padding' : 'height'}>
+    
+      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View style={styles.view}>
         <Text style={styles.txt}> Veuillez compléter tous les champs pour continuer </Text>
           <TextInput onChangeText={(value) => setUserName(value)} placeholder="Username" style={styles.input} autoFocus={true} placeholderTextColor={'white'} returnKeyType = {"next"} onSubmitEditing={() => ref_input2.current.focus()}/>
-          <TextInput onChangeText={(value) => setPassword(value)} placeholder="Mot de passe" style={styles.input} placeholderTextColor={'white'} onSubmitEditing={() => ref_input3.current.focus()} ref={ref_input2} />
-          <Text style={styles.txt}>{errorMessage}</Text>
+          <TextInput onChangeText={(value) => setPassword(value)} placeholder="Mot de passe" style={styles.input} placeholderTextColor={'white'} onSubmitEditing={() => ref_input3.current.focus()} ref={ref_input2}/>
           <TouchableOpacity style={styles.btn} onPress={() => handleSubmit()}>
             <Text style={styles.btntxt}> Valider</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigate()}>
-            <Text style={styles.question}>Vous n'avez pas encore de compte ? Cliquez ici </Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -116,8 +97,5 @@ const styles = StyleSheet.create({
     color:'#00bcf0',
     textDecorationLine:'underline'
   },
-  question:{
-    color:'#0cc6e7',
-    textDecorationLine:'underline'
-  }
+
 });

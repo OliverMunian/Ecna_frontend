@@ -1,6 +1,9 @@
 import { useState, useRef } from 'react';
-import {View} from 'react-native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import SubscribeScreen from './SubscribeScreen';
 import {
+  View,
+  Linking,
   Image,
   KeyboardAvoidingView,
   Platform,
@@ -11,6 +14,7 @@ import {
 } from 'react-native';
 
 export default function HomeScreen({ navigation }) {
+  const Stack = createNativeStackNavigator();
   const ref_input2 = useRef();
   const ref_input3 = useRef();
 
@@ -18,19 +22,24 @@ export default function HomeScreen({ navigation }) {
     navigation.navigate('TabNavigator');
   };
 
+  const navigate = () => {
+    navigation.navigate('Subscribe');
+  };
+
   return (
-    
-      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <View style={styles.view}>
-        <Text style={styles.txt}> Veuillez compléter tous les champs pour continuer </Text>
-          <TextInput placeholder="Adresse mail" style={styles.input} autoFocus={true} placeholderTextColor={'white'} returnKeyType = {"next"} onSubmitEditing={() => ref_input2.current.focus()}/>
-          <TextInput placeholder="Mot de passe" style={styles.input} placeholderTextColor={'white'} onSubmitEditing={() => ref_input3.current.focus()} ref={ref_input2}/>
-          <TouchableOpacity style={styles.btn} onPress={() => handleSubmit()}>
-            <Text style={styles.btntxt}> Valider</Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
-    
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <View style={styles.view}>
+      <Text style={styles.txt}> Veuillez compléter tous les champs pour continuer </Text>
+        <TextInput placeholder="Nom d'utilisateur" style={styles.input} autoFocus={true} placeholderTextColor={'white'} returnKeyType = {"next"} onSubmitEditing={() => ref_input2.current.focus()}/>
+        <TextInput placeholder="Mot de passe" style={styles.input} placeholderTextColor={'white'} onSubmitEditing={() => ref_input3.current.focus()} ref={ref_input2}/>
+        <TouchableOpacity style={styles.btn} onPress={() => handleSubmit()}>
+          <Text style={styles.btntxt}> Valider</Text>
+        </TouchableOpacity>
+        <TouchableOpacity  onPress={() => navigate()}>
+          <Text style={styles.redirection}> Vous n'avez pas encore de compte ? Cliquez ici</Text>
+        </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
   )
 }
 
@@ -76,6 +85,10 @@ const styles = StyleSheet.create({
   },
   btntxt:{
     color:'white',
-  }
+  },
+  redirection:{
+    color:'#00bcf0',
+    textDecorationLine:'underline'
+  },
 
 });

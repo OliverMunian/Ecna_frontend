@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 
-export default function MapScreen() {
+export default function InterventionsScreen() {
 
 
   return (

@@ -15,6 +15,10 @@ export default function SubscribeScreen() {
               <TextInput style={styles.input} placeholder="Nom d'utilisateur" placeholderTextColor='black'/>
           </View>
           <View style={styles.divinput}>
+              <Text style={styles.txt}>Mot de passe</Text>
+              <TextInput style={styles.input} placeholder="Mot de passe" secureTextEntry={true} placeholderTextColor='black'/>
+          </View>
+          <View style={styles.divinput}>
               <Text style={styles.txt}>Adresse mail</Text>
               <TextInput style={styles.input} placeholder="Adresse mail" placeholderTextColor='black'/>
           </View>
@@ -23,7 +27,7 @@ export default function SubscribeScreen() {
               <TextInput style={styles.input} placeholder="Type de véhicule" placeholderTextColor='black'/>
           </View>
           <View style={styles.divinput}>
-              <Text style={styles.txt}>N° de téléphone</Text>
+              <Text style={styles.txt}>N° de SIREN</Text>
               <TextInput style={styles.input} placeholder="N° de téléphone" placeholderTextColor='black'/>
           </View>
           <TouchableOpacity style={styles.btn}>
@@ -48,7 +52,7 @@ const styles = StyleSheet.create({
   },
   maintitle:{
     color: 'white',
-    fontSize:25,
+    fontSize: 45,
     fontWeight:'bold'
   },
   formulaire:{
@@ -62,19 +66,19 @@ const styles = StyleSheet.create({
     width: '80%',
     borderColor:'white',
     height: 20,
-    marginBottom:100,
+    marginBottom:60,
   },
   txt:{
     color:'white',
     fontWeight:'bold',
-    fontSize:18,
   },
   input:{
     borderWidth: 1,
     borderColor:'white',
     width: '100%',
-    color:'white',
-    padding: 20,
+    color:'black',
+    height:40,
+
     borderRadius:10,
     backgroundColor:'#a19999',
     marginTop: 5

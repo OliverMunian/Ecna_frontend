@@ -26,6 +26,7 @@ export default function HomeScreen({ navigation }) {
   const user = useSelector((state) => state.user.value)
   const BACKEND_ADRESS = 'http://10.3.0.43:3000'
 
+  
   const handleSubmit = () => {
     fetch(`${BACKEND_ADRESS}/users/signin`, {
       method:'POST',

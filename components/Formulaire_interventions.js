@@ -3,17 +3,17 @@ import { StyleSheet, Text, View , TextInput, TouchableOpacity} from 'react-nativ
 
 export default function Formulaire_interventions() {
 
-    const [firstName,setFirstName] = useState('')
-    const [lastName,setLastName] = useState('')
-    const [adress,setAdress] = useState('')
-    const [SSnumber,setSSnumber] = useState(0)
-    const [phone,setPhone] = useState(0)
-    const [mutuelle,setMutuelle] = useState('')
-    const [valide,setValide] = useState(false)
+    const [firstName,setFirstName] = useState(null)
+    const [lastName,setLastName] = useState(null)
+    const [adress,setAdress] = useState(null)
+    const [SSnumber,setSSnumber] = useState(null)
+    const [phone,setPhone] = useState(null)
+    const [mutuelle,setMutuelle] = useState(null)
+    const [valide,setValide] = useState(null)
     const [existe,setExiste] = useState(false)
-    const [Departure, setDeparture] = useState()
-    const [Arrival, setArrival] = useState()
-    const [error, setError] = useState('')
+    const [Departure, setDeparture] = useState(null)
+    const [Arrival, setArrival] = useState(null)
+    const [error, setError] = useState(null)
 
     const BACKEND_ADRESS = 'http://10.3.0.13:3000'
 
@@ -26,31 +26,34 @@ export default function Formulaire_interventions() {
             .then(response => response.json())
             .then(patientData =>{
             if(patientData.result){
+                console.log(setValide(patientData.patient.valide))
                 setFirstName(patientData.patient.firstName)
                 setLastName(patientData.patient.lastName)
                 setAdress(patientData.patient.adress)
-                setSSnumber(patientData.patient.SSnumber.toString())
-                setPhone(patientData.patient.phone.toString())
-                console.log(patientData.patient)
+                setSSnumber(patientData.patient.SSnumber)
+                setPhone(patientData.patient.phone)
                 setMutuelle(patientData.patient.mutuelle)
+                setValide(patientData.patient.valide)
                 setExiste(true)
             }else{
-                setError(data.error)
+                setError(patientData.error)
             }
         })
-        // fetch(`${BACKEND_ADRESS}/interventions/add`,{
-        // method: 'POST',
-        // headers: { 'Content-Type': 'application/json' },
-        // body: JSON.stringify(
-        // {existe: existe, firstName:firstName, 
-        // lastName: lastName, adress: adress, 
-        // mutuelle: mutuelle ,valide: valide, phone: phone,
-        // departure: Departure, arrival: Arrival})
-        // })
-        // .then(response => response.json())
-        // .then(data =>{
-        //     console.log(data)
-        // })
+    // const handleSubmit =()=>{
+    //     fetch(`${BACKEND_ADRESS}/interventions/add`,{
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify(
+    //     {existe: existe, firstName:firstName, 
+    //     lastName: lastName, adress: adress, 
+    //     mutuelle: mutuelle ,valide: valide, phone: phone,
+    //     departure: Departure, arrival: Arrival})
+    //     })
+    //     .then(response => response.json())
+    //     .then(data =>{
+    //         console.log(data)
+    //     })
+    // }  
     }
     return (
       <View style={styles.container}>
@@ -75,7 +78,6 @@ export default function Formulaire_interventions() {
       <TextInput 
         style={styles.input}
         placeholder="SSnumber"
-        keyboardType="numeric"
         onChangeText={(value) => setSSnumber(value)}
         value={SSnumber}
       />
@@ -85,7 +87,6 @@ export default function Formulaire_interventions() {
       <TextInput
         style={styles.input}
         placeholder="phone"
-        keyboardType="numeric"
         onChangeText={(value) => setPhone(value)}
         value={phone}
       />
@@ -113,7 +114,9 @@ export default function Formulaire_interventions() {
         onChangeText={(value) => setMutuelle(value)}
         value={mutuelle}
       />
-
+      <TouchableOpacity style={styles.search} onPress={()=> handleSubmit()}>
+        <Text>Submit</Text>
+      </TouchableOpacity>
       </View> 
       );
    }

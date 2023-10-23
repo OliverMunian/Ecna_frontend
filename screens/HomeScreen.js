@@ -22,7 +22,7 @@ export default function HomeScreen({ navigation }) {
   const ref_input3 = useRef();
   const [username,setUserName] = useState(null)
   const [password,setPassword] = useState(null)
-  const [errorMessage,setErrorMessage] = useState('')
+  const [errorMessage,setErrorMessage] = useState(null)
   const user = useSelector((state) => state.user.value.token)
   const BACKEND_ADRESS = 'http://10.3.0.43:3000'
 
@@ -36,7 +36,6 @@ export default function HomeScreen({ navigation }) {
     .then(data => {
       if(data.result){
         dispatch(addtokenToSotre(data.token))
-        console.log(user)
         navigation.navigate('TabNavigator');
       } else {
         setErrorMessage(data.error)
@@ -44,19 +43,20 @@ export default function HomeScreen({ navigation }) {
     })
     
   };
+  console.log(errorMessage)
+  console.log(user)
 
   const navigate = () => {
     navigation.navigate('Subscribe');
   };
 
   return (
-    
-      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' | 'android' ? 'padding' : 'height'}>
         <View style={styles.view}>
         <Text style={styles.txt}> Veuillez compléter tous les champs pour continuer </Text>
           <TextInput onChangeText={(value) => setUserName(value)} placeholder="Username" style={styles.input} autoFocus={true} placeholderTextColor={'white'} returnKeyType = {"next"} onSubmitEditing={() => ref_input2.current.focus()}/>
           <TextInput onChangeText={(value) => setPassword(value)} placeholder="Mot de passe" style={styles.input} placeholderTextColor={'white'} onSubmitEditing={() => ref_input3.current.focus()} ref={ref_input2} />
-          <Text>{errorMessage}</Text>
+          <Text style={styles.txt}>{errorMessage}</Text>
           <TouchableOpacity style={styles.btn} onPress={() => handleSubmit()}>
             <Text style={styles.btntxt}> Valider</Text>
           </TouchableOpacity>

@@ -1,4 +1,4 @@
-
+// pas sur de l'utiliser encore ( à voir )
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {

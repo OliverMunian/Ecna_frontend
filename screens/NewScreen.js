@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
+import Formulaire_interventions from '../components/Formulaire_interventions';
 
 export default function MapScreen() {
 
@@ -6,7 +7,7 @@ export default function MapScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.box}>
-      <Text>Bienvenue sur le page pour demarrer une nouvelle intervention</Text>
+        <Formulaire_interventions/>
       </View>
     </View>
   );

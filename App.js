@@ -8,8 +8,20 @@ import NewScreen from './screens/NewScreen';
 import InterventionsScreen from './screens/InterventionsScreen'
 import PhoneScreen from './screens/PhoneScreen'
 import DashboardScreen from './screens/DashboardScreen'
+import users from './reducers/users';
+import entreprises from './reducers/entreprises';
+import vehicules from './reducers/vehicules';
+import interventions from './reducers/interventions';
+import patients from './reducers/patients';
+import anomalies from './reducers/anomalies';
+
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
 
 
+const store = configureStore({
+  reducer: {users,entreprises,vehicules,interventions,patients,anomalies},
+});
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -54,13 +66,13 @@ const TabNavigator = () => {
 
 export default function App() {
   return (
-    <>
+    <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
         </Stack.Navigator>
       </NavigationContainer>
-    </>
+    </Provider>
   );
 }

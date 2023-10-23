@@ -12,13 +12,18 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import { addtokenToSotre } from '../reducers/user';
+import { useDispatch, useSelector } from 'react-redux'
 
 export default function HomeScreen({ navigation }) {
+  const dispatch = useDispatch()
   const Stack = createNativeStackNavigator();
   const ref_input2 = useRef();
   const ref_input3 = useRef();
   const [username,setUserName] = useState(null)
   const [password,setPassword] = useState(null)
+  const [errorMessage,setErrorMessage] = useState('')
+  const user = useSelector((state) => state.user.value.token)
   const BACKEND_ADRESS = 'http://10.3.0.43:3000'
 
   const handleSubmit = () => {
@@ -27,7 +32,17 @@ export default function HomeScreen({ navigation }) {
       headers:{'Content-type' : 'application/json'},
       body : JSON.stringify({username:username,password:password})
     })
-    navigation.navigate('TabNavigator');
+    .then(response => response.json())
+    .then(data => {
+      if(data.result){
+        dispatch(addtokenToSotre(data.token))
+        console.log(user)
+        navigation.navigate('TabNavigator');
+      } else {
+        setErrorMessage(data.error)
+      }
+    })
+    
   };
 
   const navigate = () => {
@@ -40,7 +55,8 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.view}>
         <Text style={styles.txt}> Veuillez compléter tous les champs pour continuer </Text>
           <TextInput onChangeText={(value) => setUserName(value)} placeholder="Username" style={styles.input} autoFocus={true} placeholderTextColor={'white'} returnKeyType = {"next"} onSubmitEditing={() => ref_input2.current.focus()}/>
-          <TextInput onChangeText={(value) => setPassword(value)} placeholder="Mot de passe" style={styles.input} placeholderTextColor={'white'} onSubmitEditing={() => ref_input3.current.focus()} ref={ref_input2}/>
+          <TextInput onChangeText={(value) => setPassword(value)} placeholder="Mot de passe" style={styles.input} placeholderTextColor={'white'} onSubmitEditing={() => ref_input3.current.focus()} ref={ref_input2} />
+          <Text>{errorMessage}</Text>
           <TouchableOpacity style={styles.btn} onPress={() => handleSubmit()}>
             <Text style={styles.btntxt}> Valider</Text>
           </TouchableOpacity>

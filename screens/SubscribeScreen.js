@@ -1,11 +1,36 @@
 import { StyleSheet, Text, View, TextInput, Button } from "react-native";
+import HomeScreen from "./HomeScreen";
 import { TouchableOpacity } from "react-native";
 
-export default function SubscribeScreen() {
+export default function SubscribeScreen({navigation}) { 
+
+function Subscribe(){
+  fetch('http://10.3.0.23:3000/users/signup', {
+    method:'POST',
+    headers:{'Content-type' : 'application/json'},
+    body : JSON.stringify({username:username,password:password})
+  })
+  .then(response => response.json())
+  .then(data => {
+    if(data.result){
+      dispatch(addtokenToSotre(data.token))
+      dispatch(addSirenToSotre(data.SIREN))
+      navigation.navigate('TabNavigator');
+    } else {
+      setErrorMessage(data.error)
+    }
+  })
+} 
+
+  const navigate = () => {
+    navigation.navigate('Home');
+  };
   return (
     <View style={styles.container}>
       <View style={styles.titleprevious}>
-        <Text style={styles.previous}>Accueil</Text>
+        <TouchableOpacity onPress={()=>{ navigate()}}>
+          <Text style={styles.previous}>Accueil</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.div}>
         <View style={styles.title}>
@@ -67,20 +92,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "black",
-    alignItems: "center",
     justifyContent: "center",
     width: "100%",
   },
   titleprevious: {
-    top: -20,
-    left: 0,
+    top: -55,
+    left: 20,
   },
   previous: {
     left: 0,
     color: "white",
+    fontWeight:'bold'
   },
-  div:{
-    width:'100%'
+  div: {
+    width: "100%",
   },
   title: {
     left: 20,

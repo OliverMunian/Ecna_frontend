@@ -41,15 +41,21 @@ export default function Formulaire_interventions() {
         })
     }
     const handleSubmit = () => {
-        console.log(existe)
         fetch(`${BACKEND_ADRESS}/interventions/add`,{
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(
-        {existe: existe, firstName:firstName, 
-        lastName: lastName, adress: adress, SSnumber: SSnumber, 
-        mutuelle: mutuelle ,valide: valide, phone: phone,
-        departure: Departure, arrival: Arrival})
+        body: JSON.stringify({
+            existe: existe, 
+            firstName:firstName, 
+            lastName: lastName,
+            adress: adress,
+            SSnumber: SSnumber, 
+            mutuelle: mutuelle,
+            valide: valide,
+            phone: phone,
+            departure: Departure,
+            arrival: Arrival
+        })
         })
         .then(response => response.json())
         .then(data =>{

@@ -3,9 +3,8 @@ import { useState, useEffect } from "react";
 import Patient from '../components/Patient';
 
 export default function PhoneScreen(props) {
-      const [patients, setPatient] = useState([])
-
-    const BACKEND_ADRESS = "http://10.3.0.23:3000";
+    const [patients, setPatient] = useState([])
+    const BACKEND_ADRESS = "http://10.3.0.43:3000";
 
   useEffect(() => {
     fetch(`${BACKEND_ADRESS}/patients/all`)
@@ -20,9 +19,8 @@ export default function PhoneScreen(props) {
     patients.sort((a,b) => a.lastName - b.lastName)
     patient.lastName = patient.lastName.toUpperCase()
     return <Patient key={i} lastName={patient.lastName} firstName={patient.firstName}/>
-
   })
-  console.log(props)
+  
 
   return (
     <View style={styles.container}>

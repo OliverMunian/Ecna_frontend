@@ -21,12 +21,10 @@ export default function Patient(props) {
 
 const styles = StyleSheet.create({
   container: {
-    top: 100,
     alignItems: "left",
     marginLeft: 15,
     justifyContent: "flex-start",
     width: "100%",
-
   },
   box: {
     width: "100%",

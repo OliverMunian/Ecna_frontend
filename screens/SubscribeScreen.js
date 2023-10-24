@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View, TextInput, Button } from "react-native";
-import HomeScreen from "./HomeScreen";
+import AddVehiculesScreen from "./AddVehiculesScreen";
 import { TouchableOpacity } from "react-native";
 
 export default function SubscribeScreen({navigation}) { 
-const BACKEND_ADRESS = 'http://10.3.0.13:3000'
+const BACKEND_ADRESS = 'http://10.3.0.43:3000'
 function Subscribe(){
   fetch(`${BACKEND_ADRESS}/users/signup`, {
     method:'POST',
@@ -23,7 +23,7 @@ function Subscribe(){
 } 
 
   const navigate = () => {
-    navigation.navigate('Home');
+    navigation.navigate('AddVehicule');
   };
   return (
     <View style={styles.container}>

@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import Formulaire_interventions from '../components/Formulaire_interventions';
+import Formulaire_intervention from '../components/Formulaire_intervention';
 
 export default function NewScreen() {
 
@@ -7,7 +7,7 @@ export default function NewScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.box}>
-        <Formulaire_interventions/>
+        <Formulaire_intervention/>
       </View>
     </View>
   );

@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
+import Fiche_intervention from '../components/Fiche_intervention';
 
 export default function InterventionsScreen() {
 
@@ -7,7 +8,7 @@ export default function InterventionsScreen() {
     <View style={styles.container}>
 
       <View style={styles.box}>
-        <Text>Bienvenue sur la page des interventions</Text>
+        <Fiche_intervention/>
       </View>
     </View>
   );

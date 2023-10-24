@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   },
   lecteur: {
     flexDirection: "row",
-    top: 185,
+    top: 145,
     width: "95%",
     backgroundColor: "white",
     borderRadius: 10,

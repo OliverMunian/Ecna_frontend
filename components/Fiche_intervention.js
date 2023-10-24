@@ -3,7 +3,7 @@ import { StyleSheet, Text, View ,ScrollView} from 'react-native';
 
 export default function Fiche_intervention(){
     const [interventions,setInerventions] = useState([])
-    const BACKEND_ADRESS = 'http://10.3.0.13:3000'
+    const BACKEND_ADRESS = 'http://10.3.0.23:3000'
 
     useEffect(()=>{
         fetch(`${BACKEND_ADRESS}/interventions/find`)
@@ -25,7 +25,6 @@ export default function Fiche_intervention(){
                 <Text style={styles.arriver_position}>🏁 {inter.arrival}</Text>
                 <View style={styles.same_line}>
                     <Text style={styles.jour}>{date}</Text>
-                    
                 </View>
             </View>
             </>

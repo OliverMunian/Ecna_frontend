@@ -28,26 +28,26 @@ export default function HomeScreen({ navigation }) {
 
   
   const handleSubmit = () => {
-    // fetch(`${BACKEND_ADRESS}/users/signin`, {
-    //   method:'POST',
-    //   headers:{'Content-type' : 'application/json'},
-    //   body : JSON.stringify({username:username,password:password})
-    // })
-    // .then(response => response.json())
-    // .then(data => {
-    //   if(data.result){
-    //     dispatch(addtokenToSotre(data.token))
-    //     dispatch(addSirenToSotre(data.SIREN))
+     fetch(`${BACKEND_ADRESS}/users/signin`, {
+       method:'POST',
+       headers:{'Content-type' : 'application/json'},
+       body : JSON.stringify({username:username,password:password})
+     })
+     .then(response => response.json())
+     .then(data => {
+       if(data.result){
+         dispatch(addtokenToSotre(data.token))
+         dispatch(addSirenToSotre(data.SIREN))
         navigation.navigate('TabNavigator');
-    //   } else {
-    //     setErrorMessage(data.error)
-    //   }
-    // })
+       } else {
+         setErrorMessage(data.error)
+       }
+     })
     
   };
-  console.log(errorMessage)
-  console.log(user.token)
-  console.log(user.SIREN)
+ 
+  console.log('token',user.token)
+  console.log('Siren',user.SIREN)
 
   const navigate = () => {
     navigation.navigate('Subscribe');

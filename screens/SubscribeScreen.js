@@ -8,7 +8,7 @@ function Subscribe(){
   fetch('http://10.3.0.23:3000/users/signup', {
     method:'POST',
     headers:{'Content-type' : 'application/json'},
-    body : JSON.stringify({username:username,password:password})
+    body : JSON.stringify({username:username,password:password, email:email})
   })
   .then(response => response.json())
   .then(data => {
@@ -64,10 +64,10 @@ function Subscribe(){
           </View>
           <View style={styles.line}></View>
           <View style={styles.divinput}>
-            <Text style={styles.txt}>Type de véhicule</Text>
+            <Text style={styles.txt}>Nom de l'entreprise</Text>
             <TextInput
               style={styles.input}
-              placeholder="Type de véhicule"
+              placeholder="Nom de l'entreprise"
               placeholderTextColor="black"
             />
           </View>
@@ -75,7 +75,7 @@ function Subscribe(){
             <Text style={styles.txt}>N° de SIREN</Text>
             <TextInput
               style={styles.input}
-              placeholder="N° de téléphone"
+              placeholder="N° de SIREN"
               placeholderTextColor="black"
             />
           </View>

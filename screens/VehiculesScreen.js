@@ -33,7 +33,7 @@ console.log(vehicules)
   return (
     <View style={styles.container}>
       <View style={styles.box}>
-      <Text style={styles.txt}>Bienvenue sur la page des vehicules</Text>
+      <Text style={styles.txt}>Aucun véhicules à afficher pour le moment</Text>
       <View style={styles.vehiculeBox}>
       {vehiculeDisplay}
       </View>

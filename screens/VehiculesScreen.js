@@ -23,7 +23,7 @@ useEffect(() => {
   fetch(`${BACKEND_ADRESS}/vehicules/${SIREN}`)
   .then(response => response.json())
   .then(vehiculesData => {
-    console.log(vehiculesData.vehicules)
+    // console.log(vehiculesData.vehicules)
     setVehicules(vehiculesData.vehicules)
   })
 },[])

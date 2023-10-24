@@ -16,13 +16,16 @@ export default function PhoneScreen(props) {
   }, []);
   console.log(patients)
 
+  function hover(){
+  
+  }
+
     const all = patients.map((patient,i)=>{
     patients.sort((a,b) => a.lastName - b.lastName)
     patient.lastName = patient.lastName.toUpperCase()
     return <Patient key={i} lastName={patient.lastName} firstName={patient.firstName}/>
-
   })
-  console.log(props)
+  
 
   return (
     <View style={styles.container}>

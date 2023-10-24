@@ -15,7 +15,7 @@ export default function Formulaire_interventions() {
     const [Arrival, setArrival] = useState(null)
     const [error, setError] = useState(null)
 
-    const BACKEND_ADRESS = 'http://10.3.0.13:3000'
+    const BACKEND_ADRESS = 'http://10.3.0.23:3000'
 
     const handlesearch = (SSnumber) => {
         fetch(`${BACKEND_ADRESS}/patients/verify`,{
@@ -41,15 +41,21 @@ export default function Formulaire_interventions() {
         })
     }
     const handleSubmit = () => {
-        console.log(existe)
         fetch(`${BACKEND_ADRESS}/interventions/add`,{
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(
-        {existe: existe, firstName:firstName, 
-        lastName: lastName, adress: adress, SSnumber: SSnumber, 
-        mutuelle: mutuelle ,valide: valide, phone: phone,
-        departure: Departure, arrival: Arrival})
+        body: JSON.stringify({
+            existe: existe, 
+            firstName:firstName, 
+            lastName: lastName,
+            adress: adress,
+            SSnumber: SSnumber, 
+            mutuelle: mutuelle,
+            valide: valide,
+            phone: phone,
+            departure: Departure,
+            arrival: Arrival
+        })
         })
         .then(response => response.json())
         .then(data =>{

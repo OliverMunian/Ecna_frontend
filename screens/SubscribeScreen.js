@@ -1,25 +1,26 @@
 import { StyleSheet, Text, View, TextInput, Button } from "react-native";
-import HomeScreen from "./HomeScreen";
+import AddVehiculesScreen from "./AddVehiculesScreen";
 import { TouchableOpacity } from "react-native";
 
 export default function SubscribeScreen({navigation}) { 
-const BACKEND_ADRESS = 'http://10.3.0.13:3000'
+const BACKEND_ADRESS = 'http://10.3.0.23:3000'
 function Subscribe(){
-  fetch(`${BACKEND_ADRESS}/users/signup`, {
-    method:'POST',
-    headers:{'Content-type' : 'application/json'},
-    body : JSON.stringify({username:username,password:password, email:email})
-  })
-  .then(response => response.json())
-  .then(data => {
-    if(data.result){
-      dispatch(addtokenToSotre(data.token))
-      dispatch(addSirenToSotre(data.SIREN))
-      navigation.navigate('TabNavigator');
-    } else {
-      setErrorMessage(data.error)
-    }
-  })
+  navigation.navigate('AddVehicule')
+  // fetch(`${BACKEND_ADRESS}/users/signup`, {
+  //   method:'POST',
+  //   headers:{'Content-type' : 'application/json'},
+  //   body : JSON.stringify({username:username,password:password, email:email})
+  // })
+  // .then(response => response.json())
+  // .then(data => {
+  //   if(data.result){
+  //     dispatch(addtokenToSotre(data.token))
+  //     dispatch(addSirenToSotre(data.SIREN))
+  //     navigation.navigate('AddVehicule');
+  //   } else {
+  //     setErrorMessage(data.error)
+  //   }
+  // })
 } 
 
   const navigate = () => {
@@ -79,7 +80,7 @@ function Subscribe(){
               placeholderTextColor="black"
             />
           </View>
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity style={styles.btn} onPress={()=>Subscribe()}>
             <Text style={styles.btntxt}> Valider </Text>
           </TouchableOpacity>
         </View>

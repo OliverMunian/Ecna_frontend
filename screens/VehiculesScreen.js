@@ -6,7 +6,7 @@ import GV from "../assets/grosVolume.jpg"
 import MV from '../assets/moyenVolume.jpg'
 import VSLsrc from '../assets/VSL.jpg'
 import vehicules from '../reducers/vehicules';
-import { addinterventionsToStore } from '../reducers/vehicules';
+import { addinterventionsToStore, addplaqueToStore } from '../reducers/vehicules';
 import { useDispatch  } from 'react-redux';
 
 const GVuri = Image.resolveAssetSource(GV).uri
@@ -15,7 +15,7 @@ const VSLuri = Image.resolveAssetSource(VSLsrc).uri
 const imagesData = {grosVolume:GVuri,moyenVolume:MVuri,VSL:VSLuri}
 
 
-export default function MapScreen() {
+export default function VehiculeScreen({navigation}) {
 const dispatch = useDispatch()
 const interventions = useSelector((state) => state.vehicules.value.interventions)
 const [vehicules,setVehicules] = useState([])
@@ -40,6 +40,8 @@ function handlePress(plaque){
   .then(interventionsData => {
     console.log('handle',interventions)
     dispatch(addinterventionsToStore(interventionsData.interventions))
+    dispatch(addplaqueToStore(plaque))
+    navigation.navigate('Interventionduvehicule')
   })
 }
 

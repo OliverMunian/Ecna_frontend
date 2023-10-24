@@ -10,7 +10,7 @@ export const vehicules = createSlice({
     initialState,
     reducers: {
      //ajoute la plaque dans le reducer 
-    addplaqueToSotre: (state, action) => {
+    addplaqueToStore: (state, action) => {
       state.value.plaque = action.payload;
    },
    //ajoute le type du véhicule dans le reducer 
@@ -28,5 +28,5 @@ export const vehicules = createSlice({
  },
 });
 
-export const { addetatToStore, addplaqueToSotre, addtypeToStore, addinterventionsToStore } = vehicules.actions;
+export const { addetatToStore, addplaqueToStore, addtypeToStore, addinterventionsToStore } = vehicules.actions;
 export default vehicules.reducer;

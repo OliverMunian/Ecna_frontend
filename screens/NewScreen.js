@@ -1,13 +1,11 @@
-import { StyleSheet, Text, View } from 'react-native'
-import Formulaire_interventions from '../components/Formulaire_intervention';
+import { StyleSheet, Text, View } from "react-native";
+import Formulaire_intervention from "../components/Formulaire_intervention";
 
 export default function NewScreen() {
-
-
   return (
     <View style={styles.container}>
       <View style={styles.box}>
-        <Formulaire_intervention/>
+        <Formulaire_intervention />
       </View>
     </View>
   );
@@ -16,20 +14,20 @@ export default function NewScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: '100%',
-    height:'100%',
-    backgroundColor:'black',
+    width: "100%",
+    height: "100%",
+    backgroundColor: "black",
   },
   box: {
     flex: 1,
-    width: '100%',
-    height:'100%',
-    alignItems:'center',
-    justifyContent:'center',
-    backGroundColor:'#000000',
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    backGroundColor: "#000000",
   },
   txt: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 20,
   },
 });

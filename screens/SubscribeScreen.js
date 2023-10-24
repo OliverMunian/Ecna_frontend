@@ -3,7 +3,7 @@ import HomeScreen from "./HomeScreen";
 import { TouchableOpacity } from "react-native";
 
 export default function SubscribeScreen({navigation}) { 
-const BACKEND_ADRESS = 'http://10.3.0.13:3000'
+const BACKEND_ADRESS = 'http://10.3.0.23:3000'
 function Subscribe(){
   fetch(`${BACKEND_ADRESS}/users/signup`, {
     method:'POST',

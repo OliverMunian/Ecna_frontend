@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View , TextInput, TouchableOpacity} from 'react-native';
 
 export default function Formulaire_interventions() {

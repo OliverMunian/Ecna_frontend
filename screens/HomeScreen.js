@@ -58,7 +58,7 @@ export default function HomeScreen({ navigation }) {
       <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View style={styles.view}>
         <Text style={styles.txt}> Veuillez compléter tous les champs pour continuer </Text>
-          <TextInput onChangeText={(value) => setUserName(value)} placeholder="Username" style={styles.input} autoFocus={true} placeholderTextColor={'white'} returnKeyType = {"next"} onSubmitEditing={() => ref_input2.current.focus()}/>
+          <TextInput onChangeText={(value) => setUserName(value)} placeholder="Username" style={styles.input} placeholderTextColor={'white'} returnKeyType = {"next"} onSubmitEditing={() => ref_input2.current.focus()}/>
           <TextInput onChangeText={(value) => setPassword(value)} secureTextEntry={true} placeholder="Mot de passe" style={styles.input} placeholderTextColor={'white'}  ref={ref_input2}/>
           <TouchableOpacity style={styles.btn} onPress={() => handleSubmit()}>
             <Text style={styles.btntxt}> Valider</Text>

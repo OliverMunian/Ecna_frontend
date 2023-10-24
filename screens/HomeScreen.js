@@ -28,26 +28,26 @@ export default function HomeScreen({ navigation }) {
 
   
   const handleSubmit = () => {
-    // fetch(`${BACKEND_ADRESS}/users/signin`, {
-    //   method:'POST',
-    //   headers:{'Content-type' : 'application/json'},
-    //   body : JSON.stringify({username:username,password:password})
-    // })
-    // .then(response => response.json())
-    // .then(data => {
-    //   if(data.result){
-    //     dispatch(addtokenToSotre(data.token))
-    //     dispatch(addSirenToSotre(data.SIREN))
+     fetch(`${BACKEND_ADRESS}/users/signin`, {
+       method:'POST',
+       headers:{'Content-type' : 'application/json'},
+       body : JSON.stringify({username:username,password:password})
+     })
+     .then(response => response.json())
+     .then(data => {
+       if(data.result){
+         dispatch(addtokenToSotre(data.token))
+         dispatch(addSirenToSotre(data.SIREN))
         navigation.navigate('TabNavigator');
-    //   } else {
-    //     setErrorMessage(data.error)
-    //   }
-    // })
+       } else {
+         setErrorMessage(data.error)
+       }
+     })
     
   };
-  console.log(errorMessage)
-  console.log(user.token)
-  console.log(user.SIREN)
+ 
+  console.log('token',user.token)
+  console.log('Siren',user.SIREN)
 
   const navigate = () => {
     navigation.navigate('Subscribe');
@@ -58,7 +58,7 @@ export default function HomeScreen({ navigation }) {
       <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View style={styles.view}>
         <Text style={styles.txt}> Veuillez compléter tous les champs pour continuer </Text>
-          <TextInput onChangeText={(value) => setUserName(value)} placeholder="Username" style={styles.input} autoFocus={true} placeholderTextColor={'white'} returnKeyType = {"next"} onSubmitEditing={() => ref_input2.current.focus()}/>
+          <TextInput onChangeText={(value) => setUserName(value)} placeholder="Username" style={styles.input} placeholderTextColor={'white'} returnKeyType = {"next"} onSubmitEditing={() => ref_input2.current.focus()}/>
           <TextInput onChangeText={(value) => setPassword(value)} secureTextEntry={true} placeholder="Mot de passe" style={styles.input} placeholderTextColor={'white'}  ref={ref_input2}/>
           <TouchableOpacity style={styles.btn} onPress={() => handleSubmit()}>
             <Text style={styles.btntxt}> Valider</Text>

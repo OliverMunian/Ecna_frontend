@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import Formulaire_intervention from '../components/Formulaire_intervention';
+import Formulaire_interventions from '../components/Formulaire_intervention';
 
 export default function NewScreen() {
 

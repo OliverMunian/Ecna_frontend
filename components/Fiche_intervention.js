@@ -12,19 +12,18 @@ export default function Fiche_intervention(){
             setInerventions(allInterventions.Intervention)
         })
     },[])
-    const intervention = interventions.map((inter) =>{
+    const intervention = interventions.map((inter,i) =>{
         const day = new Date(inter.date).getDate()
         const month = new Date(inter.date).getMonth()
         const year = new Date(inter.date).getFullYear()
         let date = month + "/" + day + "/" + year;
         return (
             <>
-            <View style={styles.intervention}>
+            <View key={i} style={styles.intervention}>
                 <Text style={styles.patient}>{inter.patient.lastName}{inter.patient.firstName}</Text>
                 <Text style={styles.depart_position}>📍 {inter.departure}</Text>
                 <Text style={styles.arriver_position}>🏁 {inter.arrival}</Text>
                 <View style={styles.same_line}>
-                    <View></View>
                     <Text style={styles.jour}>{date}</Text>
                 </View>
             </View>

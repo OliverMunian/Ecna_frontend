@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TextInput, Button } from "react-native";
-import HomeScreen from "./HomeScreen";
+import AddVehiculesScreen from "./AddVehiculesScreen";
 import { TouchableOpacity } from "react-native";
 
 export default function SubscribeScreen({navigation}) { 
@@ -23,7 +23,7 @@ function Subscribe(){
 } 
 
   const navigate = () => {
-    navigation.navigate('Home');
+    navigation.navigate('AddVehicule');
   };
   return (
     <View style={styles.container}>

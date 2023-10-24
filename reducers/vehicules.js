@@ -23,7 +23,7 @@ export const vehicules = createSlice({
     },
     //ajoute l'interventions dans le reducer
     addinterventionsToStore: (state, action) => {
-      state.value.push(action.payload);
+      state.value.interventions = action.payload;
     },
  },
 });

@@ -9,6 +9,7 @@ const [vehicules,setVehicules] = useState([])
 const BACKEND_ADRESS = 'http://10.3.0.43:3000'
 const SIREN = useSelector((state) => state.user.value.SIREN)
 
+// Récupération des données des véhicules associées au SIREN du user connecté
 useEffect(() => {
   fetch(`${BACKEND_ADRESS}/vehicules/${SIREN}`)
   .then(response => response.json())
@@ -17,6 +18,7 @@ useEffect(() => {
     setVehicules(vehiculesData.vehicules)
   })
 },[])
+// Création des elements JSX 
 const vehiculeDisplay = vehicules.map((data,i) => {
   return <View key={i} style={styles.vehicule}>
     <Text style={styles.vehiculestxt}>

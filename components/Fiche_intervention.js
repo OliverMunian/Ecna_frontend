@@ -9,12 +9,12 @@ export default function Fiche_intervention(props) {
                 <Text style={styles.arriver_position}>🏁 {props.arrival}</Text>
                 <View style={styles.same_line}>
                     <Text style={styles.jour}>{props.date}</Text>
-                    {props.vehicule && (
+                    {props.dispatched && (
                         <Text style={styles.plaque}>{props.plaque}</Text>
                     )}
                 </View>
             </View>
-            {!props.vehicule && (
+            {!props.dispatched && (
                 <TouchableOpacity style={styles.dispatch}>
                     <Text>Dispatch</Text>
                 </TouchableOpacity>

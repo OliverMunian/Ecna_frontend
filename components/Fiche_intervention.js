@@ -10,13 +10,12 @@ export default function Fiche_intervention(props) {
                 <View style={styles.same_line}>
                     <Text style={styles.jour}>{props.date}</Text>
                     {props.dispatched && (
-                        // <Image style={styles.image} source={{ uri: props.type }} />
                         <Text style={styles.plaque}>{props.plaque}</Text>
                     )}
                 </View>
             </View>
             {!props.dispatched && (
-                <TouchableOpacity style={styles.dispatch} onPress={() => handleInter()}>
+                <TouchableOpacity style={styles.dispatch}>
                     <Text>Dispatch</Text>
                 </TouchableOpacity>
             )}

@@ -5,7 +5,7 @@ import FicheVehicule from '../components/Fiche_Vehicule';
 import GV from "../assets/grosVolume.png"
 import MV from '../assets/moyenVolume.png'
 import VSLsrc from '../assets/VSL.png'
-import { addinterventionsToStore, addplaqueToStore } from '../reducers/vehicules';
+import { addInterPlaque } from '../reducers/interVehicules';
 import { useDispatch  } from 'react-redux';
 
 const GVuri = Image.resolveAssetSource(GV).uri
@@ -24,8 +24,7 @@ function handlePress(plaque){
   fetch(`${BACKEND_ADRESS}/vehicules/interventions/${plaque}`)
   .then(response => response.json())
   .then(interventionsData => {
-    dispatch(addinterventionsToStore(interventionsData.interventions))
-    dispatch(addplaqueToStore(plaque))
+    dispatch(addInterPlaque({plaque:plaque,interventions:interventionsData.interventions}))
     navigation.navigate('Interventionduvehicule')
   })
 }

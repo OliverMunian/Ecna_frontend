@@ -1,65 +1,71 @@
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 
-export default function Fiche_intervention(props){
-        return (
-            <View style={styles.intervention}>
-                <Text style={styles.patient}>{props.lastName}{props.firstName}</Text>
+export default function Fiche_intervention(props) {
+    return (
+        <View style={styles.intervention}>
+            <View>
+                <Text style={styles.patient}>{props.lastName} {props.firstName}</Text>
                 <Text style={styles.depart_position}>📍 {props.departure}</Text>
                 <Text style={styles.arriver_position}>🏁 {props.arrival}</Text>
                 <View style={styles.same_line}>
-                    <View></View>
                     <Text style={styles.jour}>{props.date}</Text>
                     {props.vehicule && (
-                        <Text>{props.plaque}</Text>
-                    )}
-                    {!props.vehicule && (
-                        <TouchableOpacity style={styles.dispatch} onPress={()=> handleInter()}>
-                            <Text>Dispatch</Text>
-                        </TouchableOpacity>  
+                        <Text style={styles.plaque}>{props.plaque}</Text>
                     )}
                 </View>
             </View>
-        );
-    };
+            {!props.vehicule && (
+                <TouchableOpacity style={styles.dispatch} onPress={() => handleInter()}>
+                    <Text>Dispatch</Text>
+                </TouchableOpacity>
+            )}
+        </View>
+    );
+}
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "black"
+        backgroundColor: "black",
     },
-    intervention:{
-        borderRadius:8,
+    intervention: {
+        borderRadius: 8,
         width: 390,
         backgroundColor: 'white',
         marginTop: 20,
-        alingItems:'flex-start',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 10,
     },
-    depart:{
-        marginTop:4,
-        fontSize:20,
+    depart: {
+        marginTop: 4,
+        fontSize: 20,
     },
-    patient:{
-        marginLeft:10,
+    patient: {
         fontSize: 30,
     },
-    depart_position:{
-        marginLeft:10,
-        fontSize:20,
-        fontStyle: 'italic'
+    depart_position: {
+        fontSize: 20,
+        fontStyle: 'italic',
     },
-    arriver_position:{
-        marginLeft:10,
-        fontSize:20,
-        fontStyle: 'italic'
+    arriver_position: {
+        fontSize: 20,
+        fontStyle: 'italic',
     },
-    jour:{
-        marginTop:4,
-        fontSize:20,
+    jour: {
+        fontSize: 20,
         marginBottom: 5,
-
+        marginTop:5,
     },
-    same_line:{
-        flexDirection:'row',
-        justifyContent: 'space-between',
-        marginRight:10
+    same_line: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    dispatch: {
+        alignSelf: 'flex-end',
+    },
+    plaque:{
+        marginTop:10,
+        marginLeft:'52%',
     }
-})
+});

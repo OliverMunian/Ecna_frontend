@@ -7,9 +7,13 @@ import SelectDropdown from 'react-native-select-dropdown'
 import GV from "../assets/grosVolume.png"
 import MV from '../assets/moyenVolume.png'
 import VSLsrc from '../assets/VSL.png'
+import { defineListVehicules } from "../reducers/vehicules";
+import { useDispatch } from "react-redux";
+
 
 export default function FicheAddVehicule ({screenName}) {
 const navigation = useNavigation()
+const dispatch = useDispatch()
 // Import des images des assets et création de l'objet permettant de les dispatch
 const GVuri = Image.resolveAssetSource(GV).uri
 const MVuri = Image.resolveAssetSource(MV).uri
@@ -29,6 +33,7 @@ const [type,setType] = useState(null)
 const [etat,setEtat] = useState(null)
 
 const user = useSelector((state) => state.user.value)
+const SIREN  = useSelector((state) => state.user.value.SIREN)
 
 // Fonction qui se declenche lors du clique sur le bouton 'Ajouter' afin de sauvegarder le vehicule en BDD et l'afficher sur la page
 // grace à l'etat vehicules + reset des champs/etats dans le cas ou la sauvegarde est réussie en back
@@ -48,6 +53,13 @@ const handleAdd = () => {
 }
 
 const handleNext = () => {
+    fetch(`${BACKEND_ADRESS}/vehicules/${SIREN}`)
+    .then(response => response.json())
+    .then(data => {
+      if(data.result){
+        dispatch(defineListVehicules(data.vehicules))
+      }
+    })
     navigation.navigate(screenName)
 }
 

@@ -6,6 +6,7 @@ import HomeScreen from "./screens/HomeScreen";
 import SubscribeScreen from "./screens/SubscribeScreen";
 import VehiculesScreen from "./screens/VehiculesScreen";
 import NewScreen from "./screens/NewScreen";
+import SearchInput from "./screens/SearchInput";
 import InterventionsScreen from "./screens/InterventionsScreen";
 import PhoneScreen from "./screens/PhoneScreen";
 import DashboardScreen from "./screens/DashboardScreen";
@@ -75,6 +76,7 @@ export default function App() {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Subscribe" component={SubscribeScreen} />
           <Stack.Screen name="AddVehicule" component={AddVehiculesScreen} />
+          <Stack.Screen name="SearchInput" component={SearchInput}/>
           <Stack.Screen name="Interventionduvehicule" component={InterventionDuVehiculeScreen}/>
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
         </Stack.Navigator>

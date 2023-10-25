@@ -10,7 +10,7 @@ export const patients = createSlice({
     initialState,
     reducers: {
     addpatientToStore: (state, action) => {
-        state.value.push(action.payload);
+        state.value = action.payload;
    },
  },
 });

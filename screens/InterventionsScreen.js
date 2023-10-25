@@ -14,11 +14,10 @@ export default function InterventionsScreen() {
       .then(response => response.json())
       .then(allInterventions => {
         setInerventions(allInterventions.Intervention);
-
       });
   }, []);
-
   const intervention = interventions.map((inter, i) => {
+    console.log(inter.patient)
     const day = new Date(inter.date).getDate();
     const month = new Date(inter.date).getMonth();
     const year = new Date(inter.date).getFullYear();
@@ -27,7 +26,8 @@ export default function InterventionsScreen() {
       // dispatch(addinterventionsToStore(inter.vehicule, inter.vehicule.plaque))
       plaque = inter.vehicule.plaque
     }
-    return <Fiche_intervention key={i} lastName={inter.patient.lastName} firstName={inter.patient.firstName}
+    return <Fiche_intervention key={i} lastName={inter.patient.lastName}
+      firstName={inter.patient.firstName}
       departure={inter.departure} arrival={inter.arrival} date={date}
       plaque={plaque} vehicule={inter.vehicule} />
   })

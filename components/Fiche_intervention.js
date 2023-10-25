@@ -15,7 +15,7 @@ export default function Fiche_intervention(props) {
                 </View>
             </View>
             {!props.vehicule && (
-                <TouchableOpacity style={styles.dispatch} onPress={() => handleInter()}>
+                <TouchableOpacity style={styles.dispatch}>
                     <Text>Dispatch</Text>
                 </TouchableOpacity>
             )}

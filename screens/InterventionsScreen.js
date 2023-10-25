@@ -6,7 +6,8 @@ import { addinterventionsToStore } from '../reducers/vehicules';
 
 export default function InterventionsScreen() {
   const [interventions, setInerventions] = useState([]);
-    const BACKEND_ADRESS = 'http://10.3.0.43:3000';
+  const dispatch = useDispatch()
+  const BACKEND_ADRESS = 'http://10.3.0.13:3000';
 
   useEffect(() => {
     fetch(`${BACKEND_ADRESS}/interventions/find`)
@@ -23,7 +24,7 @@ export default function InterventionsScreen() {
     const year = new Date(inter.date).getFullYear();
     let date = month + "/" + day + "/" + year;
     if (inter.vehicule) {
-      dispatch(addinterventionsToStore(inter.vehicule, inter.vehicule.plaque))
+      // dispatch(addinterventionsToStore(inter.vehicule, inter.vehicule.plaque))
       plaque = inter.vehicule.plaque
     }
     return <Fiche_intervention key={i} lastName={inter.patient.lastName} firstName={inter.patient.firstName}

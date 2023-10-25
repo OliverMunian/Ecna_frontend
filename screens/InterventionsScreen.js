@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import Fiche_intervention from "../components/Fiche_intervention";
 
 export default function InterventionsScreen() {
@@ -11,18 +10,28 @@ export default function InterventionsScreen() {
     fetch(`${BACKEND_ADRESS}/interventions/find`)
       .then((response) => response.json())
       .then((allInterventions) => {
+        console.log(allInterventions)
         setInerventions(allInterventions.Intervention);
       });
   }, []);
-
   const intervention = interventions.map((inter, i) => {
     const day = new Date(inter.date).getDate();
     const month = new Date(inter.date).getMonth();
     const year = new Date(inter.date).getFullYear();
     let date = month + "/" + day + "/" + year;
-    if (inter.vehicule) {
-      plaque = inter.vehicule.plaque;
-    }
+    if(inter.vehicule === null){
+      return (
+        <Fiche_intervention
+        key={i}
+        lastName={inter.patient.lastName}
+        firstName={inter.patient.firstName}
+        departure={inter.departure}
+        arrival={inter.arrival}
+        date={date}
+        dispatched = {inter.vehicule}
+      />
+      )
+    } else 
     return (
       <Fiche_intervention
         key={i}
@@ -31,7 +40,7 @@ export default function InterventionsScreen() {
         departure={inter.departure}
         arrival={inter.arrival}
         date={date}
-        plaque={plaque}
+        plaque={inter.vehicule.plaque}
         vehicule={inter.vehicule}
       />
     );

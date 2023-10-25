@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity,Image } from 'react-native';
 
 export default function Fiche_intervention(props) {
     return (
@@ -9,13 +9,13 @@ export default function Fiche_intervention(props) {
                 <Text style={styles.arriver_position}>🏁 {props.arrival}</Text>
                 <View style={styles.same_line}>
                     <Text style={styles.jour}>{props.date}</Text>
-                    {props.vehicule && (
+                    {props.dispatched && (
                         <Text style={styles.plaque}>{props.plaque}</Text>
                     )}
                 </View>
             </View>
-            {!props.vehicule && (
-                <TouchableOpacity style={styles.dispatch} onPress={() => handleInter()}>
+            {!props.dispatched && (
+                <TouchableOpacity style={styles.dispatch}>
                     <Text>Dispatch</Text>
                 </TouchableOpacity>
             )}
@@ -67,5 +67,9 @@ const styles = StyleSheet.create({
     plaque:{
         marginTop:10,
         marginLeft:'52%',
+    },
+    image:{
+        backgroundColor:'blue',
+        position:'absolute',
     }
 });

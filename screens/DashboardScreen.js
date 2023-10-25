@@ -1,12 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Alert,
-  Image,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Text, TextInput, View, TouchableOpacity,Alert , Image, ScrollView} from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -16,16 +8,18 @@ import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
 
-export default function DashboardScreen() {
-  const dispatch = useDispatch();
-  const vehicules = useSelector((state) => state.vehicules.value);
-  const [vehiculesDispo, setVehiculesDispo] = useState([]);
-  const BACKEND_ADRESS = "http://10.3.0.23:3000";
-  const SIREN = useSelector((state) => state.user.value.SIREN);
-  const GVuri = Image.resolveAssetSource(GV).uri;
-  const MVuri = Image.resolveAssetSource(MV).uri;
-  const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
-  const imagesData = { Gros: GVuri, Moyen: MVuri, VSL: VSLuri };
+export default function DashboardScreen({navigation}) {
+const dispatch = useDispatch();
+const [recherche,setRecherche] = useState('')
+const vehicules = useSelector((state) => state.vehicules.value)
+const [vehiculesDispo,setVehiculesDispo] = useState([])
+const BACKEND_ADRESS = 'http://10.3.0.23:3000'
+const SIREN  = useSelector((state) => state.user.value.SIREN)
+const GVuri = Image.resolveAssetSource(GV).uri
+const MVuri = Image.resolveAssetSource(MV).uri
+const VSLuri = Image.resolveAssetSource(VSLsrc).uri
+const imagesData = {Gros:GVuri,Moyen:MVuri,VSL:VSLuri}
+
 
   // A l'initialisation du dashboard, dispatch de l'ensemble des véhicules correspondant au SIREN dans le reducer user
   useEffect(() => {
@@ -57,6 +51,21 @@ export default function DashboardScreen() {
     // alert('Aucun véhicule poour le moment')
   }
 
+const handleSearch = () =>{
+  fetch(`${BACKEND_ADRESS}/patients/${recherche}`)
+  .then(response => response.json())
+  .then(data=>{
+    if (data.result) {
+      const mappedPatients = data.data.map((item) => ({
+        firstName: item.firstName,
+        lastName: item.lastName,
+        interventions: item.interventions,
+      }))
+      dispatch(addpatientToStore(mappedPatients));
+      navigation.navigate('SearchInput');
+    }
+  })
+}
   return (
     <View style={styles.container}>
       <View style={styles.maintitle}>
@@ -112,6 +121,18 @@ export default function DashboardScreen() {
             <FontAwesome name="forward" size={(fontSize = 25)} color="black" />
           </TouchableOpacity>
         </View>
+      </View>
+      <View>
+        <TextInput 
+              style={styles.inputplaceholder}
+              placeholder="Recherche..."
+              placeholderTextColor="black"
+              onChangeText={(value) => setRecherche(value)}
+              value={recherche}
+          />
+          <TouchableOpacity onPress={()=>handleSearch()}style={styles.verifyButton}>
+            <Text>🔍</Text>
+          </TouchableOpacity>
       </View>
     </View>
   );
@@ -191,7 +212,7 @@ const styles = StyleSheet.create({
   },
   lecteur: {
     flexDirection: "row",
-    top: 145,
+    top: 165,
     width: "95%",
     backgroundColor: "white",
     borderRadius: 10,
@@ -208,5 +229,25 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     right: 0,
+  },
+  inputplaceholder:{
+    paddingLeft:10,
+    borderRadius: 10,
+    backgroundColor: "#a19999",
+    color: "black",
+    width: "95%",
+    borderColor: "white",
+    height: 40,
+    top:60,
+    marginLeft:10,
+    borderWidth: 1,
+    borderColor: "white",
+},
+  verifyButton: {
+    top:70,
+    position: 'absolute',
+    alignSelf:'center',
+    right:0,
+    marginRight:20,
   },
 });

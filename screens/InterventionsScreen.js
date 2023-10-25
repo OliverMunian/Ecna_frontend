@@ -2,7 +2,6 @@ import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Fiche_intervention from "../components/Fiche_intervention";
-import { addinterventionsToStore } from "../reducers/vehicules";
 
 export default function InterventionsScreen() {
   const [interventions, setInerventions] = useState([]);
@@ -22,7 +21,6 @@ export default function InterventionsScreen() {
     const year = new Date(inter.date).getFullYear();
     let date = month + "/" + day + "/" + year;
     if (inter.vehicule) {
-      // dispatch(addinterventionsToStore(inter.vehicule, inter.vehicule.plaque));
       plaque = inter.vehicule.plaque;
     }
     return (

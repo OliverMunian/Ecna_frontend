@@ -23,7 +23,6 @@ export default function InterventionsScreen() {
     const year = new Date(inter.date).getFullYear();
     let date = month + "/" + day + "/" + year;
     if (inter.vehicule) {
-      dispatch(addinterventionsToStore(inter.vehicule, inter.vehicule.plaque))
       plaque = inter.vehicule.plaque
     }
     return <Fiche_intervention key={i} lastName={inter.patient.lastName} firstName={inter.patient.firstName}

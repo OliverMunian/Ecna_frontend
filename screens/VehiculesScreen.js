@@ -72,6 +72,11 @@ const vehiculesDisplay = vehicules.map((data,i) => {
       <Text style={styles.titre}>
          Véhicules
       </Text>
+      <TouchableOpacity style={styles.btn} onPress={() => handleAdd()}>
+        <Text>
+          Ajouter
+        </Text>
+      </TouchableOpacity>
       </View>
       <View style={styles.box}>
       {vehiculesDisplay}

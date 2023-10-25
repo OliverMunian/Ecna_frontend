@@ -4,7 +4,7 @@ import Patient from "../components/Patient";
 import { addpatientToStore } from '../reducers/patients';
 import { useDispatch  } from 'react-redux';
 
-export default function PhoneScreen({navigate}) {
+export default function PhoneScreen({navigation}) {
   const dispatch = useDispatch()
   const [patients, setPatient] = useState([]);
 

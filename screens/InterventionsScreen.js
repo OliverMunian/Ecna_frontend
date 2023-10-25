@@ -1,19 +1,18 @@
-import { StyleSheet, Text, View, ScrollView } from 'react-native'
-import { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import Fiche_intervention from '../components/Fiche_intervention';
-import { addinterventionsToStore } from '../reducers/vehicules';
+import Fiche_intervention from "../components/Fiche_intervention";
+import { addinterventionsToStore } from "../reducers/vehicules";
 
 export default function InterventionsScreen() {
   const [interventions, setInerventions] = useState([]);
-    const BACKEND_ADRESS = 'http://10.3.0.43:3000';
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
 
   useEffect(() => {
     fetch(`${BACKEND_ADRESS}/interventions/find`)
-      .then(response => response.json())
-      .then(allInterventions => {
+      .then((response) => response.json())
+      .then((allInterventions) => {
         setInerventions(allInterventions.Intervention);
-
       });
   }, []);
 
@@ -23,13 +22,22 @@ export default function InterventionsScreen() {
     const year = new Date(inter.date).getFullYear();
     let date = month + "/" + day + "/" + year;
     if (inter.vehicule) {
-      dispatch(addinterventionsToStore(inter.vehicule, inter.vehicule.plaque))
-      plaque = inter.vehicule.plaque
+      // dispatch(addinterventionsToStore(inter.vehicule, inter.vehicule.plaque));
+      plaque = inter.vehicule.plaque;
     }
-    return <Fiche_intervention key={i} lastName={inter.patient.lastName} firstName={inter.patient.firstName}
-      departure={inter.departure} arrival={inter.arrival} date={date}
-      plaque={plaque} vehicule={inter.vehicule} />
-  })
+    return (
+      <Fiche_intervention
+        key={i}
+        lastName={inter.patient.lastName}
+        firstName={inter.patient.firstName}
+        departure={inter.departure}
+        arrival={inter.arrival}
+        date={date}
+        plaque={plaque}
+        vehicule={inter.vehicule}
+      />
+    );
+  });
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Interventions</Text>
@@ -38,7 +46,8 @@ export default function InterventionsScreen() {
         horizontal={false}
         showsHorizontalScrollIndicator={false}
         endFillColor="#000"
-        overScrollMode="never">
+        overScrollMode="never"
+      >
         {intervention}
       </ScrollView>
     </View>
@@ -47,17 +56,17 @@ export default function InterventionsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: "black",
   },
   title: {
-    color: 'white',
+    color: "white",
     fontSize: 40,
     marginTop: 60,
     marginLeft: 10,
     fontWeight: "bold",
   },
   line: {
-    borderBottomColor: 'grey',
+    borderBottomColor: "grey",
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
 });

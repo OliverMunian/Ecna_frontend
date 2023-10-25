@@ -1,34 +1,32 @@
-import { StyleSheet, Text, View, TouchableOpacity,Alert } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useEffect } from "react";
-import { useSelector , useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { defineListVehicules } from "../reducers/vehicules";
 
-
 export default function DashboardScreen() {
-const dispatch = useDispatch();
-const vehicules = useSelector((state) => state.vehicules.value)
-const BACKEND_ADRESS = 'http://10.3.0.43:3000'
-const SIREN  = useSelector((state) => state.user.value.SIREN)
+  const dispatch = useDispatch();
+  const vehicules = useSelector((state) => state.vehicules.value);
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
+  const SIREN = useSelector((state) => state.user.value.SIREN);
 
-// A l'initialisation du dashboard, dispatch de l'ensemble des véhicules correspondant au SIREN dans le reducer user
-useEffect(() => {
-  fetch(`${BACKEND_ADRESS}/vehicules/${SIREN}`)
-  .then(response => response.json())
-  .then(data => {
-    if(data.result){
-      dispatch(defineListVehicules(data.vehicules))
-    }
-  })
-},[])
+  // A l'initialisation du dashboard, dispatch de l'ensemble des véhicules correspondant au SIREN dans le reducer user
+  useEffect(() => {
+    fetch(`${BACKEND_ADRESS}/vehicules/${SIREN}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          dispatch(defineListVehicules(data.vehicules));
+        }
+      });
+  }, []);
 
-console.log(vehicules)
+  console.log(vehicules);
 
-function next(){
-    Alert.alert("Oups !", "Aucun véhicule a afficher pour le moment !")
+  function next() {
+    Alert.alert("Oups !", "Aucun véhicule a afficher pour le moment !");
     // alert('Aucun véhicule poour le moment')
   }
-
 
   return (
     <View style={styles.container}>
@@ -76,7 +74,7 @@ function next(){
       <View style={styles.lecteur}>
         <View style={styles.encours}></View>
         <View style={styles.suivant}>
-          <TouchableOpacity onPress={() =>next()}>
+          <TouchableOpacity onPress={() => next()}>
             <FontAwesome name="forward" size={(fontSize = 25)} color="black" />
           </TouchableOpacity>
         </View>

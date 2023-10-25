@@ -2,34 +2,38 @@ import { StyleSheet, Text, View, TextInput, Button } from "react-native";
 import AddVehiculesScreen from "./AddVehiculesScreen";
 import { TouchableOpacity } from "react-native";
 
-export default function SubscribeScreen({navigation}) { 
-const BACKEND_ADRESS = 'http://10.3.0.43:3000'
-function Subscribe(){
-  navigation.navigate('AddVehicule')
-  // fetch(`${BACKEND_ADRESS}/users/signup`, {
-  //   method:'POST',
-  //   headers:{'Content-type' : 'application/json'},
-  //   body : JSON.stringify({username:username,password:password, email:email})
-  // })
-  // .then(response => response.json())
-  // .then(data => {
-  //   if(data.result){
-  //     dispatch(addtokenToSotre(data.token))
-  //     dispatch(addSirenToSotre(data.SIREN))
-  //     navigation.navigate('AddVehicule');
-  //   } else {
-  //     setErrorMessage(data.error)
-  //   }
-  // })
-} 
+export default function SubscribeScreen({ navigation }) {
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
+  function Subscribe() {
+    navigation.navigate("AddVehicule");
+    // fetch(`${BACKEND_ADRESS}/users/signup`, {
+    //   method:'POST',
+    //   headers:{'Content-type' : 'application/json'},
+    //   body : JSON.stringify({username:username,password:password, email:email})
+    // })
+    // .then(response => response.json())
+    // .then(data => {
+    //   if(data.result){
+    //     dispatch(addtokenToSotre(data.token))
+    //     dispatch(addSirenToSotre(data.SIREN))
+    //     navigation.navigate('AddVehicule');
+    //   } else {
+    //     setErrorMessage(data.error)
+    //   }
+    // })
+  }
 
   const navigate = () => {
-    navigation.navigate('Home');
+    navigation.navigate("Home");
   };
   return (
     <View style={styles.container}>
       <View style={styles.titleprevious}>
-        <TouchableOpacity onPress={()=>{ navigate()}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigate();
+          }}
+        >
           <Text style={styles.previous}>Accueil</Text>
         </TouchableOpacity>
       </View>
@@ -80,7 +84,7 @@ function Subscribe(){
               placeholderTextColor="black"
             />
           </View>
-          <TouchableOpacity style={styles.btn} onPress={()=>Subscribe()}>
+          <TouchableOpacity style={styles.btn} onPress={() => Subscribe()}>
             <Text style={styles.btntxt}> Valider </Text>
           </TouchableOpacity>
         </View>
@@ -103,7 +107,7 @@ const styles = StyleSheet.create({
   previous: {
     left: 0,
     color: "white",
-    fontWeight:'bold'
+    fontWeight: "bold",
   },
   div: {
     width: "100%",

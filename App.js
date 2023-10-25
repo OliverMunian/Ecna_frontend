@@ -21,6 +21,7 @@ import interVehicules from "./reducers/interVehicules";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import FicheAddVehicule from "./components/Fiche_AddVehicule";
+import AddVehiculesScreenBis from "./screens/AddVehiculesScreenBis";
 
 const store = configureStore({
   reducer: { user, vehicules, patients, interVehicules},
@@ -77,6 +78,7 @@ export default function App() {
           <Stack.Screen name="Subscribe" component={SubscribeScreen} />
           <Stack.Screen name="AddVehicule" component={AddVehiculesScreen} />
           <Stack.Screen name="SearchInput" component={SearchInput}/>
+          <Stack.Screen name='AddVehiculeBis' component={AddVehiculesScreenBis}/>
           <Stack.Screen name="Interventionduvehicule" component={InterventionDuVehiculeScreen}/>
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
         </Stack.Navigator>

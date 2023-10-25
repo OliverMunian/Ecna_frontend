@@ -10,32 +10,37 @@ import { useState } from "react";
 import FicheVehicule from "./Fiche_Vehicule";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
-import SelectDropdown from "react-native-select-dropdown";
-import GV from "../assets/grosVolume.png";
-import MV from "../assets/moyenVolume.png";
-import VSLsrc from "../assets/VSL.png";
+import SelectDropdown from 'react-native-select-dropdown'
+import GV from "../assets/grosVolume.png"
+import MV from '../assets/moyenVolume.png'
+import VSLsrc from '../assets/VSL.png'
+import { defineListVehicules } from "../reducers/vehicules";
+import { useDispatch } from "react-redux";
 
-export default function FicheAddVehicule({ screenName }) {
-  const navigation = useNavigation();
-  // Import des images des assets et création de l'objet permettant de les dispatch
-  const GVuri = Image.resolveAssetSource(GV).uri;
-  const MVuri = Image.resolveAssetSource(MV).uri;
-  const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
-  const imagesData = { Gros: GVuri, Moyen: MVuri, VSL: VSLuri };
 
-  const BACKEND_ADRESS = "http://10.3.0.23:3000";
+export default function FicheAddVehicule ({screenName}) {
+const navigation = useNavigation()
+const dispatch = useDispatch()
+// Import des images des assets et création de l'objet permettant de les dispatch
+const GVuri = Image.resolveAssetSource(GV).uri
+const MVuri = Image.resolveAssetSource(MV).uri
+const VSLuri = Image.resolveAssetSource(VSLsrc).uri
+const imagesData = {Gros:GVuri,Moyen:MVuri,VSL:VSLuri}
+
+const BACKEND_ADRESS = 'http://10.3.0.43:3000'
 
   // Definition des possibilités des menus déroulants
   const types = ["Gros", "Moyen", "VSL"];
   const etats = ["En ligne", "Hors ligne", "Indisponible"];
 
-  // Setup des etats qui stockeront la data recuperée des champs input/menus
-  const [vehicules, setVehicules] = useState([]);
-  const [plaque, setPlaque] = useState(null);
-  const [type, setType] = useState(null);
-  const [etat, setEtat] = useState(null);
+// Setup des etats qui stockeront la data recuperée des champs input/menus
+const [vehicules,setVehicules] = useState([])
+const [plaque,setPlaque] = useState(null)
+const [type,setType] = useState(null)
+const [etat,setEtat] = useState(null)
 
-  const user = useSelector((state) => state.user.value);
+const user = useSelector((state) => state.user.value)
+const SIREN  = useSelector((state) => state.user.value.SIREN)
 
   // Fonction qui se declenche lors du clique sur le bouton 'Ajouter' afin de sauvegarder le vehicule en BDD et l'afficher sur la page
   // grace à l'etat vehicules + reset des champs/etats dans le cas ou la sauvegarde est réussie en back
@@ -62,9 +67,16 @@ export default function FicheAddVehicule({ screenName }) {
       });
   };
 
-  const handleNext = () => {
-    navigation.navigate(screenName);
-  };
+const handleNext = () => {
+    fetch(`${BACKEND_ADRESS}/vehicules/${SIREN}`)
+    .then(response => response.json())
+    .then(data => {
+      if(data.result){
+        dispatch(defineListVehicules(data.vehicules))
+      }
+    })
+    navigation.navigate(screenName)
+}
 
   // Création des elements JSX à partir du composant Fichevehicule
   const vehiculesDisplay = vehicules.map((data, i) => {

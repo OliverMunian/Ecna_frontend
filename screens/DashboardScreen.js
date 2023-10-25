@@ -1,30 +1,44 @@
-import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity,Alert , Image, ScrollView} from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect , useState } from "react";
+import { useSelector , useDispatch } from "react-redux";
 import { defineListVehicules } from "../reducers/vehicules";
+import VehiculeDashBoard from "../components/VehiculeDashBoard";
+import GV from "../assets/grosVolume.png"
+import MV from '../assets/moyenVolume.png'
+import VSLsrc from '../assets/VSL.png'
+
 
 export default function DashboardScreen() {
-  const dispatch = useDispatch();
-  const vehicules = useSelector((state) => state.vehicules.value);
-  const BACKEND_ADRESS = "http://10.3.0.23:3000";
-  const SIREN = useSelector((state) => state.user.value.SIREN);
+const dispatch = useDispatch();
+const vehicules = useSelector((state) => state.vehicules.value)
+const [vehiculesDispo,setVehiculesDispo] = useState([])
+const BACKEND_ADRESS = 'http://10.3.0.43:3000'
+const SIREN  = useSelector((state) => state.user.value.SIREN)
+const GVuri = Image.resolveAssetSource(GV).uri
+const MVuri = Image.resolveAssetSource(MV).uri
+const VSLuri = Image.resolveAssetSource(VSLsrc).uri
+const imagesData = {Gros:GVuri,Moyen:MVuri,VSL:VSLuri}
 
-  // A l'initialisation du dashboard, dispatch de l'ensemble des véhicules correspondant au SIREN dans le reducer user
-  useEffect(() => {
-    fetch(`${BACKEND_ADRESS}/vehicules/${SIREN}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.result) {
-          dispatch(defineListVehicules(data.vehicules));
-        }
-      });
-  }, []);
 
-  console.log(vehicules);
+// A l'initialisation du dashboard, dispatch de l'ensemble des véhicules correspondant au SIREN dans le reducer user
+useEffect(() => {
+  fetch(`${BACKEND_ADRESS}/vehicules/${SIREN}`)
+  .then(response => response.json())
+  .then(data => {
+    if(data.result){
+      dispatch(defineListVehicules(data.vehicules))
+      setVehiculesDispo(data.vehicules.filter(e => e.etat === 'En ligne'))
+    }
+  })
+},[])
 
-  function next() {
-    Alert.alert("Oups !", "Aucun véhicule a afficher pour le moment !");
+const vehiculesDispoDisplay = vehiculesDispo.map((data,i) => {
+  return (<VehiculeDashBoard key={i} type={imagesData[data.type]} plaque={data.plaque} />)
+})
+
+function next(){
+    Alert.alert("Oups !", "Aucun véhicule a afficher pour le moment !")
     // alert('Aucun véhicule poour le moment')
   }
 
@@ -68,11 +82,16 @@ export default function DashboardScreen() {
           <Text style={styles.h2}> Véhicules disponibles </Text>
         </View>
       </View>
-      <View style={styles.vehicles}>
-        <View style={styles.onevehicle}></View>
-      </View>
+      <ScrollView style={styles.vehicles}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        endFillColor="#000"
+        >
+        {vehiculesDispoDisplay}
+      </ScrollView>
       <View style={styles.lecteur}>
-        <View style={styles.encours}></View>
+        <View style={styles.encours}>
+        </View>
         <View style={styles.suivant}>
           <TouchableOpacity onPress={() => next()}>
             <FontAwesome name="forward" size={(fontSize = 25)} color="black" />
@@ -145,7 +164,7 @@ const styles = StyleSheet.create({
     top: 100,
     height: 150,
     borderWidth: 1,
-    justifyContent: "center",
+    flexDirection:'row'
   },
   onevehicle: {
     width: "45%",

@@ -75,6 +75,7 @@ export default function App() {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Subscribe" component={SubscribeScreen} />
           <Stack.Screen name="AddVehicule" component={AddVehiculesScreen} />
+          <Stack.Screen name="Véhicules" component={VehiculesScreen} />
           <Stack.Screen name="Interventionduvehicule" component={InterventionDuVehiculeScreen}/>
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
         </Stack.Navigator>

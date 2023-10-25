@@ -24,36 +24,10 @@ export default function VehiculeScreen({ navigation }) {
     .then(response => response.json())
     .then(interventionsData => {
       dispatch(addInterPlaque({plaque:plaque,interventions:interventionsData.interventions}))
+      console.log(interventionsData)
       navigation.navigate('Interventionduvehicule')
     })
   }
-  // Création des elements JSX 
-  // const vehiculesDisplay = vehicules.map((data,i) => {
-  //   if(data.etat === 'En ligne'){
-  //     return (
-  //       <TouchableOpacity key={i} onPress={() => handlePress(data.plaque)} >
-  //       <FicheVehicule  plaque={data.plaque} etat={data.etat} color='green' type={imagesData[data.type]} />
-  //       </TouchableOpacity>
-  //     )
-  //   } else if (data.etat === 'En cours d\'intervention'){
-  //     return (
-  //     <TouchableOpacity key={i} onPress={() => handlePress(data.plaque)} >
-  //       <FicheVehicule plaque={data.plaque} etat={data.etat} color='orange' type ={imagesData[data.type]}/>
-  //     </TouchableOpacity>
-  //     )
-  //   } else if (data.etat === 'Indisponible'){
-  //     return (
-  //     <TouchableOpacity key={i} onPress={() => handlePress(data.plaque)} >
-  //       <FicheVehicule  plaque={data.plaque} etat={data.etat} color='red' type={imagesData[data.type]}/>
-  //     </TouchableOpacity>
-  //     )
-  //   } else if (data.etat === 'Hors ligne'){
-  //     return (
-  //     <TouchableOpacity key={i} onPress={() => handlePress(data.plaque)} >
-  //       <FicheVehicule  plaque={data.plaque} etat={data.etat} color='black' type={imagesData[data.type]}/>
-  //     </TouchableOpacity>
-  //     )
-  //   }
     // Création des elements JSX
     const vehiculesDisplay = vehicules.map((data, i) => {
       if (data.etat === "En ligne") {

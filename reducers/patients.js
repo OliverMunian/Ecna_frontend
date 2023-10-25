@@ -2,7 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
- value: [],
+ value: {},
 };
 
 export const patients = createSlice({
@@ -10,7 +10,7 @@ export const patients = createSlice({
     initialState,
     reducers: {
     addpatientToStore: (state, action) => {
-        state.value.push(action.payload);
+        state.value = action.payload ;
    },
  },
 });

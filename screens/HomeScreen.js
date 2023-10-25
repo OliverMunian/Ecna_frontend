@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
   View,
   Linking,
@@ -16,14 +15,13 @@ import { useDispatch, useSelector } from 'react-redux'
 
 export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch()
-  const Stack = createNativeStackNavigator();
   const ref_input2 = useRef();
   const ref_input3 = useRef();
   const [username,setUserName] = useState(null)
   const [password,setPassword] = useState(null)
   const [errorMessage,setErrorMessage] = useState(null)
   const user = useSelector((state) => state.user.value)
-  const BACKEND_ADRESS = 'http://10.3.0.13:3000'
+  const BACKEND_ADRESS = 'http://10.3.0.43:3000'
 
   
   const handleSubmit = () => {

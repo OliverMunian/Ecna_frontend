@@ -18,7 +18,7 @@ export const user = createSlice({
     state.value.username = action.payload;
   },
   //ajoute le SIREN dans le reducer 
-  addSirenToSotre: (state, action) => {
+   addSirenToSotre: (state, action) => {
     state.value.SIREN = action.payload;
   },
  },

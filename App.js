@@ -12,16 +12,16 @@ import DashboardScreen from "./screens/DashboardScreen";
 import AddVehiculesScreen from "./screens/AddVehiculesScreen";
 import InterventionDuVehiculeScreen from "./screens/InterventionDuVehiculeScreen";
 import user from "./reducers/user";
-import entreprises from "./reducers/entreprises";
 import vehicules from "./reducers/vehicules";
 import patients from "./reducers/patients";
-import anomalies from "./reducers/anomalies";
+
 
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
+import FicheAddVehicule from "./components/Fiche_AddVehicule";
 
 const store = configureStore({
-  reducer: { user, entreprises, vehicules, patients, anomalies },
+  reducer: { user, vehicules, patients},
 });
 
 const Stack = createNativeStackNavigator();
@@ -74,10 +74,7 @@ export default function App() {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Subscribe" component={SubscribeScreen} />
           <Stack.Screen name="AddVehicule" component={AddVehiculesScreen} />
-          <Stack.Screen
-            name="Interventionduvehicule"
-            component={InterventionDuVehiculeScreen}
-          />
+          <Stack.Screen name="Interventionduvehicule" component={InterventionDuVehiculeScreen}/>
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
         </Stack.Navigator>
       </NavigationContainer>

@@ -3,6 +3,6 @@ import FicheAddVehicule from "../components/Fiche_AddVehicule";
 
 export default function AddVehiculesScreen () {
     return (
-        <FicheAddVehicule/>
+        <FicheAddVehicule screenName={'TabNavigator'} />
     )
 }

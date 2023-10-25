@@ -13,7 +13,6 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 export default function FicheVehicule (props) {
     return (
     <View>
-       
     <View style={styles.trait}/>
     <View style={styles.container}>
         <View style={styles.left}>

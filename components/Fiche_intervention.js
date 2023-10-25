@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity,Image } from 'react-native';
 
 export default function Fiche_intervention(props) {
     return (
@@ -67,5 +67,9 @@ const styles = StyleSheet.create({
     plaque:{
         marginTop:10,
         marginLeft:'52%',
+    },
+    image:{
+        backgroundColor:'blue',
+        position:'absolute',
     }
 });

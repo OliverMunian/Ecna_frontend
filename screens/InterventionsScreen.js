@@ -4,7 +4,7 @@ import Fiche_intervention from "../components/Fiche_intervention";
 
 export default function InterventionsScreen() {
   const [interventions, setInerventions] = useState([]);
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
 
   useEffect(() => {
     fetch(`${BACKEND_ADRESS}/interventions/find`)
@@ -32,6 +32,19 @@ export default function InterventionsScreen() {
       />
       )
     } else 
+    if(inter.vehicule === null){
+      return (
+        <Fiche_intervention
+        key={i}
+        lastName={inter.patient.lastName}
+        firstName={inter.patient.firstName}
+        departure={inter.departure}
+        arrival={inter.arrival}
+        date={date}
+        dispatched = {inter.vehicule}
+      />
+      )
+    } else {
     return (
       <Fiche_intervention
         key={i}
@@ -40,8 +53,8 @@ export default function InterventionsScreen() {
         departure={inter.departure}
         arrival={inter.arrival}
         date={date}
-        dispatched = {inter.vehicule}
-        plaque = {inter.vehicule.plaque}
+        plaque={plaque}
+        vehicule={inter.vehicule}
       />
     );
   });

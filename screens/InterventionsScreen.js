@@ -44,10 +44,11 @@ export default function InterventionsScreen() {
         arrival={inter.arrival}
         date={date}
         dispatched = {inter.vehicule}
+        selectDispatch={selectDispatch}
       />
       )
     } else 
-    if(inter.vehicule === null){
+    {
       return (
         <Fiche_intervention
         key={i}

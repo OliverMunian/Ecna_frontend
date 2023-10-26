@@ -64,7 +64,7 @@ export default function InterventionsScreen() {
   }});
 
 
-    });
+    
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Interventions</Text>

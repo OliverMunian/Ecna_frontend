@@ -23,16 +23,17 @@ export default function InterventionsScreen() {
     fetch(`${BACKEND_ADRESS}/interventions/find`)
       .then((response) => response.json())
       .then((allInterventions) => {
+        console.log(allInterventions);
         // console.log(allInterventions)
         setInerventions(allInterventions.Intervention);
       });
   }, []);
+  
   const intervention = interventions.map((inter, i) => {
     const day = new Date(inter.date).getDate();
     const month = new Date(inter.date).getMonth();
     const year = new Date(inter.date).getFullYear();
     let date = month + "/" + day + "/" + year;
-    console.log(inter.vehicule)
     if(inter.vehicule === null){
       return (
         <Fiche_intervention
@@ -43,12 +44,12 @@ export default function InterventionsScreen() {
         arrival={inter.arrival}
         date={date}
         dispatched = {inter.vehicule}
-        selectDispatch={selectDispatch}
       />
       )
     } else 
-    return (
-      <Fiche_intervention
+    if(inter.vehicule === null){
+      return (
+        <Fiche_intervention
         key={i}
         lastName={inter.patient.lastName}
         firstName={inter.patient.firstName}
@@ -60,6 +61,9 @@ export default function InterventionsScreen() {
         type={imagesData[inter.vehicule.type]}
       />
     );
+  }});
+
+
     });
   return (
     <View style={styles.container}>
@@ -83,10 +87,11 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "white",
-    fontSize: 40,
-    marginTop: 60,
+    fontSize: 35,
+    marginTop: 130,
     marginLeft: 10,
     fontWeight: "bold",
+    fontStyle:'italic',
   },
   line: {
     borderBottomColor: "grey",

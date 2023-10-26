@@ -11,6 +11,7 @@ import InterventionsScreen from "./screens/InterventionsScreen";
 import PhoneScreen from "./screens/PhoneScreen";
 import DashboardScreen from "./screens/DashboardScreen";
 import AddVehiculesScreen from "./screens/AddVehiculesScreen";
+import PatientScreen from './screens/PatientScreen'
 import InterventionDuVehiculeScreen from "./screens/InterventionDuVehiculeScreen";
 import user from "./reducers/user";
 import vehicules from "./reducers/vehicules";
@@ -80,6 +81,7 @@ export default function App() {
           <Stack.Screen name="SearchInput" component={SearchInput}/>
           <Stack.Screen name='AddVehiculeBis' component={AddVehiculesScreenBis}/>
           <Stack.Screen name="Interventionduvehicule" component={InterventionDuVehiculeScreen}/>
+          <Stack.Screen name="Infosdupatient" component={PatientScreen}/>
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
         </Stack.Navigator>
       </NavigationContainer>

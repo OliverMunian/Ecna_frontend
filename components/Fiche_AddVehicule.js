@@ -17,7 +17,6 @@ import VSLsrc from '../assets/VSL.png'
 import { defineListVehicules } from "../reducers/vehicules";
 import { useDispatch } from "react-redux";
 
-
 export default function FicheAddVehicule ({screenName}) {
 const navigation = useNavigation()
 const dispatch = useDispatch()

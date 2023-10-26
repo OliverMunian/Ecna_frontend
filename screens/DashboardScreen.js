@@ -17,6 +17,7 @@ import VehiculeDashBoard from "../components/VehiculeDashBoard";
 import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
+import { addpatientToStore } from "../reducers/patients";
 
 export default function DashboardScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -64,14 +65,17 @@ export default function DashboardScreen({ navigation }) {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          const mappedPatients = data.data.map((item) => ({
-            firstName: item.firstName,
-            lastName: item.lastName,
-            interventions: item.interventions,
-          }));
-          dispatch(addpatientToStore(mappedPatients));
-          navigation.navigate("SearchInput");
+          const filteredPatients = data.data.filter((item) => item.interventions !== undefined);
+          if (filteredPatients.length > 0) {
+            const mappedPatients = filteredPatients.map((item) => ({
+              firstName: item.firstName,
+              lastName: item.lastName,
+              interventions: item.interventions,
+            }));
+            dispatch(addpatientToStore(mappedPatients));
+            navigation.navigate("SearchInput");on.navigate("SearchInput");
         }
+      }
       });
   };
   return (

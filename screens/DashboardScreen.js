@@ -65,8 +65,6 @@ export default function DashboardScreen({ navigation }) {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          const filteredPatients = data.data.filter((item) => item.interventions !== undefined);
-          if (filteredPatients.length > 0) {
             const mappedPatients = filteredPatients.map((item) => ({
               firstName: item.firstName,
               lastName: item.lastName,
@@ -75,9 +73,8 @@ export default function DashboardScreen({ navigation }) {
             dispatch(addpatientToStore(mappedPatients));
             navigation.navigate("SearchInput");on.navigate("SearchInput");
         }
-      }
-      });
-  };
+      })
+      };
   return (
     <View style={styles.container}>
       <View style={styles.maintitle}>

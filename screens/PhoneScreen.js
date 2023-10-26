@@ -1,39 +1,54 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
 import Patient from "../components/Patient";
-import { addpatientToStore } from "../reducers/patients";
-import { useDispatch } from "react-redux";
+import { addpatientToStore } from "../reducers/patient";
+import { useDispatch , useSelector } from "react-redux";
 
 export default function PhoneScreen({navigation}) {
   const dispatch = useDispatch()
-  const [patients, setPatient] = useState([]);
+  const [patients, setPatients] = useState([]);
+  const patient = useSelector((state) => state.patient.value)
+  console.log(patient)
 
-  const BACKEND_ADRESS = "http://10.3.0.23:3000";
+  const BACKEND_ADRESS = "http://10.3.0.43:3000";
 
   useEffect(() => {
     fetch(`${BACKEND_ADRESS}/patients/all`)
       .then((response) => response.json())
-      .then((patient) => {
-        setPatient(patient.data);
+      .then((patientData) => {
+        function sortPatients (a,b) {
+          if(a.lastName<b.lastName){
+            return -1
+          } else if(a.lastName>b.lastName) {
+            return 1
+          }
+          return 0
+        }
+        const sorted = patientData.data.sort(sortPatients)
+        setPatients(sorted)
       });
   }, []);
-  console.log(patients);
 
-  function hover(patient) {
-    console.log('console log du click' +patients)
-    dispatch(addpatientToStore(patient));
-    navigation.navigate('Infosdupatient');
+  const handleClick = (SSnumber) => {
+    fetch(`${BACKEND_ADRESS}/patients/unique/${SSnumber}`)
+    .then(response => response.json())
+    .then(patientData => {
+      if(patientData.result){
+        dispatch(addpatientToStore(patientData.data))
+        navigation.navigate('Infosdupatient')
+      }
+    })
   }
-
+ 
   const all = patients.map((patient, i) => {
-    patients.sort((a, b) => a.lastName - b.lastName);
+    patients.sort((a, b) => b.lastName - a.lastName);
     patient.lastName = patient.lastName.toUpperCase();
     return (
-      <TouchableOpacity onPress={() => hover(patient)}>
+      <TouchableOpacity key={i} onPress={() => handleClick(patient.SSnumber)}>
         <Patient
-          key={i}
           lastName={patient.lastName}
           firstName={patient.firstName}
+          SSNumber={patient.SSnumber}
         />
       </TouchableOpacity>
     );
@@ -51,16 +66,16 @@ export default function PhoneScreen({navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "black",
+     flex: 1,
+     backgroundColor: "black",
   },
   box: {
-    marginTop: 130,
+     marginTop: 130,
   },
   title: {
-    color: "white",
-    fontSize: 40,
-    fontWeight: "bold",
+     color: "white",
+     fontSize: 40,
+     fontWeight: "bold",
     fontStyle:'italic'
   },
 });

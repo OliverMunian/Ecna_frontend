@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from "react-redux";
 import Fiche_intervention from "../components/Fiche_intervention";
-export default function SearchInput() {
+export default function SearchInput({navigation}) {
     const patients = useSelector((state) => state.patients.value)
     console.log(patients)
     const patient = patients.map((inter,i)=>{
@@ -9,7 +9,7 @@ export default function SearchInput() {
             const month = new Date(inter.interventions.date).getMonth();
             const year = new Date(inter.interventions.date).getFullYear();
             let date = month + "/" + day + "/" + year;
-            return <Fiche_intervention key={i} lastName={inter.lastName} firstName={inter.firstName}
+            return <Fiche_intervention navigation={navigation} key={i} lastName={inter.lastName} firstName={inter.firstName}
               departure={inter.interventions.departure} arrival={inter.interventions.arrival} date={date}/>
           })
     return (

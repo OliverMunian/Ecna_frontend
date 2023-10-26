@@ -97,7 +97,14 @@ export default function VehiculeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.titreBox}>
-        <Text style={styles.titre}>Véhicules</Text>
+      <Text style={styles.titre}>
+         Véhicules
+      </Text>
+      <TouchableOpacity style={styles.btn} onPress={() => handleAdd()}>
+        <Text>
+          Ajouter
+        </Text>
+      </TouchableOpacity>
       </View>
       <View style={styles.box}>{vehiculesDisplay}</View>
       <View style={styles.trait} />

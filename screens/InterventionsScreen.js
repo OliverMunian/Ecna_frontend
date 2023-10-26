@@ -10,7 +10,7 @@ export default function InterventionsScreen() {
     fetch(`${BACKEND_ADRESS}/interventions/find`)
       .then((response) => response.json())
       .then((allInterventions) => {
-        console.log(allInterventions)
+        console.log(allInterventions);
         setInerventions(allInterventions.Intervention);
       });
   }, []);
@@ -70,10 +70,11 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "white",
-    fontSize: 40,
-    marginTop: 60,
+    fontSize: 35,
+    marginTop: 130,
     marginLeft: 10,
     fontWeight: "bold",
+    fontStyle:'italic',
   },
   line: {
     borderBottomColor: "grey",

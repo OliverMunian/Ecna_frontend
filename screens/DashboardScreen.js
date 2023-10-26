@@ -1,63 +1,79 @@
-import { StyleSheet, Text, View, TouchableOpacity,Alert , Image, ScrollView, TextInput} from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  TouchableOpacity,
+  Alert,
+  Image,
+  ScrollView,
+  SafeAreaView,
+} from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { useEffect , useState } from "react";
-import { useSelector , useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { defineListVehicules } from "../reducers/vehicules";
 import VehiculeDashBoard from "../components/VehiculeDashBoard";
-import GV from "../assets/grosVolume.png"
-import MV from '../assets/moyenVolume.png'
-import VSLsrc from '../assets/VSL.png'
+import GV from "../assets/grosVolume.png";
+import MV from "../assets/moyenVolume.png";
+import VSLsrc from "../assets/VSL.png";
 
+export default function DashboardScreen({ navigation }) {
+  const dispatch = useDispatch();
+  const [recherche, setRecherche] = useState("");
+  const vehicules = useSelector((state) => state.vehicules.value);
+  const [vehiculesDispo, setVehiculesDispo] = useState([]);
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
+  const SIREN = useSelector((state) => state.user.value.SIREN);
+  const GVuri = Image.resolveAssetSource(GV).uri;
+  const MVuri = Image.resolveAssetSource(MV).uri;
+  const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
+  const imagesData = { Gros: GVuri, Moyen: MVuri, VSL: VSLuri };
 
-export default function DashboardScreen({navigation}) {
-const dispatch = useDispatch();
-const [recherche,setRecherche] = useState('')
-const vehicules = useSelector((state) => state.vehicules.value)
-const [vehiculesDispo,setVehiculesDispo] = useState([])
-const BACKEND_ADRESS = 'http://10.3.0.13:3000'
-const SIREN  = useSelector((state) => state.user.value.SIREN)
-const GVuri = Image.resolveAssetSource(GV).uri
-const MVuri = Image.resolveAssetSource(MV).uri
-const VSLuri = Image.resolveAssetSource(VSLsrc).uri
-const imagesData = {Gros:GVuri,Moyen:MVuri,VSL:VSLuri}
+  // A l'initialisation du dashboard, dispatch de l'ensemble des véhicules correspondant au SIREN dans le reducer user
+  useEffect(() => {
+    fetch(`${BACKEND_ADRESS}/vehicules/${SIREN}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          dispatch(defineListVehicules(data.vehicules));
+          setVehiculesDispo(
+            data.vehicules.filter((e) => e.etat === "En ligne")
+          );
+        }
+      });
+  }, []);
 
+  const vehiculesDispoDisplay = vehiculesDispo.map((data, i) => {
+    return (
+      <VehiculeDashBoard
+        key={i}
+        type={imagesData[data.type]}
+        plaque={data.plaque}
+      />
+    );
+  });
 
-// A l'initialisation du dashboard, dispatch de l'ensemble des véhicules correspondant au SIREN dans le reducer user
-useEffect(() => {
-  fetch(`${BACKEND_ADRESS}/vehicules/${SIREN}`)
-  .then(response => response.json())
-  .then(data => {
-    if(data.result){
-      dispatch(defineListVehicules(data.vehicules))
-      setVehiculesDispo(data.vehicules.filter(e => e.etat === 'En ligne'))
-    }
-  })
-},[])
-
-const vehiculesDispoDisplay = vehiculesDispo.map((data,i) => {
-  return (<VehiculeDashBoard key={i} type={imagesData[data.type]} plaque={data.plaque} />)
-})
-
-function next(){
-    Alert.alert("Oups !", "Aucun véhicule a afficher pour le moment !")
+  function next() {
+    Alert.alert("Oups !", "Aucun véhicule a afficher pour le moment !");
     // alert('Aucun véhicule poour le moment')
   }
 
-const handleSearch = () =>{
-  fetch(`${BACKEND_ADRESS}/patients/${recherche}`)
-  .then(response => response.json())
-  .then(data=>{
-    if (data.result) {
-      const mappedPatients = data.data.map((item) => ({
-        firstName: item.firstName,
-        lastName: item.lastName,
-        interventions: item.interventions,
-      }))
-      dispatch(addpatientToStore(mappedPatients));
-      navigation.navigate('SearchInput');
-    }
-  })
-}
+  const handleSearch = () => {
+    fetch(`${BACKEND_ADRESS}/patients/${recherche}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          const mappedPatients = data.data.map((item) => ({
+            firstName: item.firstName,
+            lastName: item.lastName,
+            interventions: item.interventions,
+          }));
+          dispatch(addpatientToStore(mappedPatients));
+          navigation.navigate("SearchInput");
+        }
+      });
+  };
   return (
     <View style={styles.container}>
       <View style={styles.maintitle}>
@@ -98,33 +114,43 @@ const handleSearch = () =>{
           <Text style={styles.h2}> Véhicules disponibles </Text>
         </View>
       </View>
-      <ScrollView style={styles.vehicles}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        endFillColor="#000"
+
+      {/* SCROLL HORIZONTAL */}
+      <SafeAreaView>
+        <ScrollView
+          style={styles.vehicles}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          endFillColor="#000"
         >
-        {vehiculesDispoDisplay}
-      </ScrollView>
+          {vehiculesDispoDisplay}
+        </ScrollView>
+      </SafeAreaView>
+
+      {/* LECTEUR CAROUSEL */}
       <View style={styles.lecteur}>
-        <View style={styles.encours}>
-        </View>
+        <View style={styles.encours}></View>
         <View style={styles.suivant}>
           <TouchableOpacity onPress={() => next()}>
             <FontAwesome name="forward" size={(fontSize = 25)} color="black" />
           </TouchableOpacity>
         </View>
       </View>
+      {/* BARRE DE RECHERCHE */}
       <View>
-        <TextInput 
-              style={styles.inputplaceholder}
-              placeholder="Recherche..."
-              placeholderTextColor="black"
-              onChangeText={(value) => setRecherche(value)}
-              value={recherche}
-          />
-          <TouchableOpacity onPress={()=>handleSearch()}style={styles.verifyButton}>
-            <Text>🔍</Text>
-          </TouchableOpacity>
+        <TextInput
+          style={styles.inputplaceholder}
+          placeholder="Recherche..."
+          placeholderTextColor="black"
+          onChangeText={(value) => setRecherche(value)}
+          value={recherche}
+        />
+        <TouchableOpacity
+          onPress={() => handleSearch()}
+          style={styles.verifyButton}
+        >
+          <Text>🔍</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -154,6 +180,7 @@ const styles = StyleSheet.create({
   h1: {
     fontSize: 40,
     fontWeight: "bold",
+    fontStyle:'italic',
     color: "white",
   },
   title: {
@@ -179,7 +206,6 @@ const styles = StyleSheet.create({
     width: "100%",
     left: 15,
     top: 80,
-    // borderBottomColor: "grey",
     borderWidth: 1,
   },
   h2: {
@@ -189,13 +215,14 @@ const styles = StyleSheet.create({
   },
   vehicles: {
     width: "100%",
+    flexDirection: "row",
     top: 100,
-    height: 150,
+    height: 120,
     borderWidth: 1,
-    flexDirection:'row'
+    flexDirection: "row",
   },
   onevehicle: {
-    width: "45%",
+    width: "100%",
     height: 140,
     backgroundColor: "white",
     marginLeft: 10,
@@ -221,24 +248,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     right: 0,
   },
-  inputplaceholder:{
-    paddingLeft:10,
+  inputplaceholder: {
+    paddingLeft: 10,
     borderRadius: 10,
     backgroundColor: "#a19999",
     color: "black",
     width: "95%",
     borderColor: "white",
     height: 40,
-    top:60,
-    marginLeft:10,
+    top: 60,
+    marginLeft: 10,
     borderWidth: 1,
     borderColor: "white",
-},
+  },
   verifyButton: {
-    top:70,
-    position: 'absolute',
-    alignSelf:'center',
-    right:0,
-    marginRight:20,
+    top: 70,
+    position: "absolute",
+    alignSelf: "center",
+    right: 0,
+    marginRight: 20,
   },
 });

@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
 import Patient from "../components/Patient";
-import { addpatientToStore } from '../reducers/patients';
-import { useDispatch  } from 'react-redux';
+import { addpatientToStore } from "../reducers/patients";
+import { useDispatch } from "react-redux";
 
 export default function PhoneScreen({navigation}) {
   const dispatch = useDispatch()
   const [patients, setPatient] = useState([]);
 
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
 
   useEffect(() => {
     fetch(`${BACKEND_ADRESS}/patients/all`)
@@ -19,17 +19,17 @@ export default function PhoneScreen({navigation}) {
   }, []);
   console.log(patients);
 
-  function hover() {
-    console.log();
-    dispatch(addpatientToStore())
-    navigation.navigate()
+  function hover(patient) {
+    console.log('console log du click' +patients)
+    dispatch(addpatientToStore(patient));
+    navigation.navigate('Infosdupatient');
   }
 
   const all = patients.map((patient, i) => {
     patients.sort((a, b) => a.lastName - b.lastName);
     patient.lastName = patient.lastName.toUpperCase();
     return (
-      <TouchableOpacity onPress={() => hover()}>
+      <TouchableOpacity onPress={() => hover(patient)}>
         <Patient
           key={i}
           lastName={patient.lastName}
@@ -54,12 +54,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "black",
   },
-  box:{
-    marginTop:100,
+  box: {
+    marginTop: 130,
   },
-  title:{
-    color:'white',
-    fontSize:40,
-    fontWeight:'bold'
+  title: {
+    color: "white",
+    fontSize: 40,
+    fontWeight: "bold",
+    fontStyle:'italic'
   },
 });

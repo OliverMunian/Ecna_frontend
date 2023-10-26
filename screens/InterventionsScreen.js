@@ -14,24 +14,12 @@ export default function InterventionsScreen() {
         setInerventions(allInterventions.Intervention);
       });
   }, []);
+  
   const intervention = interventions.map((inter, i) => {
     const day = new Date(inter.date).getDate();
     const month = new Date(inter.date).getMonth();
     const year = new Date(inter.date).getFullYear();
     let date = month + "/" + day + "/" + year;
-    if(inter.vehicule === null){
-      return (
-        <Fiche_intervention
-        key={i}
-        lastName={inter.patient.lastName}
-        firstName={inter.patient.firstName}
-        departure={inter.departure}
-        arrival={inter.arrival}
-        date={date}
-        dispatched = {inter.vehicule}
-      />
-      )
-    } else 
     if(inter.vehicule === null){
       return (
         <Fiche_intervention
@@ -57,7 +45,9 @@ export default function InterventionsScreen() {
         vehicule={inter.vehicule}
       />
     );
-  });
+  }});
+
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Interventions</Text>

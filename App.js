@@ -15,7 +15,7 @@ import PatientScreen from './screens/PatientScreen'
 import InterventionDuVehiculeScreen from "./screens/InterventionDuVehiculeScreen";
 import user from "./reducers/user";
 import vehicules from "./reducers/vehicules";
-import patients from "./reducers/patients";
+import patient from "./reducers/patient";
 import interVehicules from "./reducers/interVehicules";
 
 
@@ -25,7 +25,7 @@ import FicheAddVehicule from "./components/Fiche_AddVehicule";
 import AddVehiculesScreenBis from "./screens/AddVehiculesScreenBis";
 
 const store = configureStore({
-  reducer: { user, vehicules, patients, interVehicules},
+  reducer: { user, vehicules, patient, interVehicules},
 });
 
 const Stack = createNativeStackNavigator();

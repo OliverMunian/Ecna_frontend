@@ -97,6 +97,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-end",
     backgroundColor: "black",
+    borderColor:'red',
+    borderWidth:1
   },
   view: {
     width: "100%",

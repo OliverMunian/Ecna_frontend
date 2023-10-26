@@ -10,7 +10,7 @@ export default function VehiculeDashBoard (props) {
             <Image style={styles.image} source={{uri : props.type}}/>
             <View style={styles.bottom}>
             <FontAwesome name='circle' size={(fontSize=10)} color='green' />
-            <Text>
+            <Text style={styles.txt}>
                 {props.plaque}
             </Text>
             </View>
@@ -27,19 +27,23 @@ const styles = StyleSheet.create({
         alignItems:'center',
         backgroundColor:'white',
         height:'100%',
-        width:'43%',
+        width:150,
         borderRadius:20,
         marginRight:10,
         marginLeft:10,
     },
     image : {
-        height:'60%',
-        width:'60%',
+        height:'80%',
+        width:'80%',
         alignItems:'center',
     },
     bottom : {
         flexDirection:'row',
         alignContent:'center',
         alignItems:'center'
-    }
+    },
+    txt:{
+        marginLeft:10,
+        fontWeight: 'bold'
+    },
 })

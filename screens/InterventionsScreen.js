@@ -10,7 +10,7 @@ export default function InterventionsScreen() {
     fetch(`${BACKEND_ADRESS}/interventions/find`)
       .then((response) => response.json())
       .then((allInterventions) => {
-        console.log(allInterventions)
+        console.log(allInterventions);
         setInerventions(allInterventions.Intervention);
       });
   }, []);
@@ -19,31 +19,31 @@ export default function InterventionsScreen() {
     const month = new Date(inter.date).getMonth();
     const year = new Date(inter.date).getFullYear();
     let date = month + "/" + day + "/" + year;
-    if(inter.vehicule === null){
+    if (inter.vehicule === null) {
       return (
         <Fiche_intervention
-        key={i}
-        lastName={inter.patient.lastName}
-        firstName={inter.patient.firstName}
-        departure={inter.departure}
-        arrival={inter.arrival}
-        date={date}
-        dispatched = {inter.vehicule}
-      />
-      )
-    } else 
-    return (
-      <Fiche_intervention
-        key={i}
-        lastName={inter.patient.lastName}
-        firstName={inter.patient.firstName}
-        departure={inter.departure}
-        arrival={inter.arrival}
-        date={date}
-        plaque={inter.vehicule.plaque}
-        vehicule={inter.vehicule}
-      />
-    );
+          key={i}
+          lastName={inter.patient.lastName}
+          firstName={inter.patient.firstName}
+          departure={inter.departure}
+          arrival={inter.arrival}
+          date={date}
+          dispatched={inter.vehicule}
+        />
+      );
+    } else
+      return (
+        <Fiche_intervention
+          key={i}
+          lastName={inter.patient.lastName}
+          firstName={inter.patient.firstName}
+          departure={inter.departure}
+          arrival={inter.arrival}
+          date={date}
+          plaque={inter.vehicule.plaque}
+          vehicule={inter.vehicule}
+        />
+      );
   });
   return (
     <View style={styles.container}>
@@ -67,10 +67,11 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "white",
-    fontSize: 40,
-    marginTop: 60,
+    fontSize: 35,
+    marginTop: 130,
     marginLeft: 10,
     fontWeight: "bold",
+    fontStyle:'italic',
   },
   line: {
     borderBottomColor: "grey",

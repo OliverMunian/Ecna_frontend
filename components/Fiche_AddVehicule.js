@@ -44,7 +44,7 @@ const SIREN  = useSelector((state) => state.user.value.SIREN)
   // Fonction qui se declenche lors du clique sur le bouton 'Ajouter' afin de sauvegarder le vehicule en BDD et l'afficher sur la page
   // grace à l'etat vehicules + reset des champs/etats dans le cas ou la sauvegarde est réussie en back
   const handleAdd = () => {
-    fetch(${BACKEND_ADRESS}/vehicules/add, {
+    fetch(`${BACKEND_ADRESS}/vehicules/add`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
@@ -67,7 +67,7 @@ const SIREN  = useSelector((state) => state.user.value.SIREN)
   };
 
 const handleNext = () => {
-    fetch(${BACKEND_ADRESS}/vehicules/${SIREN})
+    fetch(`${BACKEND_ADRESS}/vehicules/${SIREN}`)
     .then(response => response.json())
     .then(data => {
       if(data.result){

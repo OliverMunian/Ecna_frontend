@@ -14,29 +14,34 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { defineListVehicules } from "../reducers/vehicules";
 import VehiculeDashBoard from "../components/VehiculeDashBoard";
+import SearchBar from "../components/SearchBar";
 import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
-import { addpatientToStore } from "../reducers/patient";
 import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
+import { defineListPatients } from "../reducers/listPatients";
+import { defineListInter } from "../reducers/interventions";
+import { updateSearchResults } from "../reducers/searchResult";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function DashboardScreen({ navigation }) {
   const dispatch = useDispatch();
-  const [recherche, setRecherche] = useState("");
+  const BACKEND_ADRESS = "http://10.3.0.43:3000";
 
   const vehiculesDispo = useSelector((state) => state.vehiculesDispo.value);
-  const BACKEND_ADRESS = "http://10.3.0.23:3000";
-  const SIREN = useSelector((state) => state.user.value.SIREN);
+  const user = useSelector((state) => state.user.value);
+  const interventions = useSelector((state) => state.interventions.value)
+  const recherche = useSelector((state) => state.searchQuery.value)
 
   const GVuri = Image.resolveAssetSource(GV).uri;
   const MVuri = Image.resolveAssetSource(MV).uri;
   const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
   const imagesData = { Gros: GVuri, Moyen: MVuri, VSL: VSLuri };
 
-  // A l'initialisation du dashboard, dispatch de l'ensemble des véhicules correspondant au SIREN dans le reducer user
+  // A l'initialisation du dashboard, dispatch de toutes les info
   useEffect(() => {
-    fetch(`${BACKEND_ADRESS}/vehicules/${SIREN}`)
+  // Fetch des vehicules correspondant au siren
+    fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
@@ -48,6 +53,29 @@ export default function DashboardScreen({ navigation }) {
           );
         }
       });
+// Fetch des patients correspondant au token      
+    fetch(`${BACKEND_ADRESS}/patients/all/${user.token}`)
+      .then((response) => response.json())
+      .then((patientData) => {
+        // Fonction qui permet de trier les patients par ordre alphabétique
+        function sortPatients(a, b) {
+          if (a.lastName < b.lastName) {
+            return -1;
+          } else if (a.lastName > b.lastName) {
+            return 1;
+          }
+          return 0;
+        }
+        const sorted = patientData.patients.sort(sortPatients);
+        // Dispatch dans le reducer
+        dispatch(defineListPatients(sorted));
+      });
+// Fetch des vehicules correspondant au SIREN
+     fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
+      .then((response) => response.json())
+      .then((interData) => {
+        dispatch(defineListInter(interData.interventions));
+      })
   }, []);
 
   const vehiculesDispoDisplay = vehiculesDispo.map((data, i) => {
@@ -66,21 +94,14 @@ export default function DashboardScreen({ navigation }) {
   }
 
   const handleSearch = () => {
-    fetch(`${BACKEND_ADRESS}/patients/${recherche}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.result) {
-          const mappedPatients = data.data.map((item) => ({
-            firstName: item.firstName,
-            lastName: item.lastName,
-            interventions: item.interventions,
-          }));
-          console.log(mappedPatients);
-          dispatch(addpatientToStore(mappedPatients));
-          navigation.navigate("SearchInput");
-        }
-      });
+    const pattern = new RegExp(recherche,'i')
+    const searchQuery = interventions.filter(inter => inter.patient.lastName.match(pattern) || inter.patient.firstName.match(pattern))
+    dispatch(updateSearchResults(searchQuery))
+    navigation.navigate('SearchResults')
   };
+
+
+
   return (
     <LinearGradient
       style={styles.container}
@@ -152,21 +173,13 @@ export default function DashboardScreen({ navigation }) {
         </View>
       </View> */}
       {/* BARRE DE RECHERCHE */}
-      <View styles={styles.search}>
-        <TextInput
-          style={styles.inputplaceholder}
-          placeholder="Recherche..."
-          placeholderTextColor="#575757"
-          onChangeText={(value) => setRecherche(value)}
-          value={recherche}
-        />
+      <SearchBar/>
         <TouchableOpacity
           onPress={() => handleSearch()}
           style={styles.verifyButton}
         >
           <Text>🔍</Text>
         </TouchableOpacity>
-      </View>
     </LinearGradient>
   );
 }
@@ -270,32 +283,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     right: 0,
   },
-  search: {
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 3,
-    borderColor: "green",
-    width: "100%",
-    zIndex: 2,
-  },
-  inputplaceholder: {
-    width: 300,
-    paddingLeft: 10,
-    borderRadius: 10,
-    backgroundColor: "#a19999",
-    color: "black",
-    borderColor: "white",
-    height: 40,
-    top: 60,
-    borderWidth: 1,
-    borderColor: "white",
-  },
   verifyButton: {
     width: "100%",
     top: 70,
-    position: "absolute",
     alignSelf: "center",
     right: 0,
-    marginRight: 20,
+    marginRight: 0,
+    marginLeft : 500
   },
 });

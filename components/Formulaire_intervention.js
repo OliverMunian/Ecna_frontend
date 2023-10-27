@@ -11,7 +11,7 @@ import { defineListInter } from "../reducers/interventions";
 import { defineListPatients } from "../reducers/listPatients";
 
 export default function Formulaire_interventions({ navigation }) {
-  const BACKEND_ADRESS = "http://10.3.0.23:3000";
+  const BACKEND_ADRESS = "http://10.3.0.43:3000";
   const dispatch = useDispatch();
   // Recuperation des informations du user du reducer
   const user = useSelector((state) => state.user.value);
@@ -88,7 +88,7 @@ export default function Formulaire_interventions({ navigation }) {
             if (interData.result) {
               dispatch(defineListInter(interData.interventions));
             }
-            // mise à jour du reducer patients
+        // mise à jour du reducer patients
           })
           .then(() => {
             fetch(`${BACKEND_ADRESS}/patients/all/${user.token}`)

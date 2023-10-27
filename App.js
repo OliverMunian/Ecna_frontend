@@ -6,11 +6,12 @@ import HomeScreen from "./screens/HomeScreen";
 import SubscribeScreen from "./screens/SubscribeScreen";
 import VehiculesScreen from "./screens/VehiculesScreen";
 import NewScreen from "./screens/NewScreen";
-import SearchInput from "./screens/SearchInput";
+import SearchResults from "./screens/SearchResults";
 import InterventionsScreen from "./screens/InterventionsScreen";
 import PhoneScreen from "./screens/PhoneScreen";
 import DashboardScreen from "./screens/DashboardScreen";
 import AddVehiculesScreen from "./screens/AddVehiculesScreen";
+import AddVehiculesScreenBis from "./screens/AddVehiculesScreenBis";
 import PatientScreen from './screens/PatientScreen'
 import InterventionDuVehiculeScreen from "./screens/InterventionDuVehiculeScreen";
 import user from "./reducers/user";
@@ -20,13 +21,14 @@ import interVehicules from "./reducers/interVehicules";
 import interventions from "./reducers/interventions";
 import listPatients from "./reducers/listPatients";
 import vehiculesDispo from "./reducers/vehiculesDispo";
+import searchResult from "./reducers/searchResult";
+import searchQuery from "./reducers/searchQuery";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import FicheAddVehicule from "./components/Fiche_AddVehicule";
-import AddVehiculesScreenBis from "./screens/AddVehiculesScreenBis";
+
 
 const store = configureStore({
-  reducer: { user, vehicules, patient, interVehicules, interventions, listPatients, vehiculesDispo},
+  reducer: { user, vehicules, patient, interVehicules, interventions, listPatients, vehiculesDispo, searchResult, searchQuery},
 });
 
 const Stack = createNativeStackNavigator();
@@ -80,7 +82,7 @@ export default function App() {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Subscribe" component={SubscribeScreen} />
           <Stack.Screen name="AddVehicule" component={AddVehiculesScreen} />
-          <Stack.Screen name="SearchInput" component={SearchInput}/>
+          <Stack.Screen name="SearchResults" component={SearchResults}/>
           <Stack.Screen name='AddVehiculeBis' component={AddVehiculesScreenBis}/>
           <Stack.Screen name="Interventionduvehicule" component={InterventionDuVehiculeScreen}/>
           <Stack.Screen name="Infosdupatient" component={PatientScreen}/>

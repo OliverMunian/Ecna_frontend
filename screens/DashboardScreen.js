@@ -84,6 +84,8 @@ export default function DashboardScreen({ navigation }) {
     end={{x:0.5,y:1}}>
       <View style={styles.maintitle}>
         <Text style={styles.h1}> Véhicules disponibles </Text>
+      </View>
+      <View>
         {/* <Text style={styles.h1}> Votre activité </Text>
       </View>
       <View style={styles.box}>
@@ -145,20 +147,16 @@ export default function DashboardScreen({ navigation }) {
       </View> */}
       {/* BARRE DE RECHERCHE */}
       <View styles={styles.search}>
-        <TextInput style={styles.inputplaceholder}></TextInput>
-        {/* <TextInput
-          style={styles.inputplaceholder}
-          placeholder="Recherche..."
-          placeholderTextColor="black"
-          onChangeText={(value) => setRecherche(value)}
-          value={recherche}
-        /> */}
-        {/* <TouchableOpacity
+        <TextInput style={styles.inputplaceholder} placeholder="Recherche..." 
+        placeholderTextColor="#575757"
+        onChangeText={(value) => setRecherche(value)}
+          value={recherche}/>
+        <TouchableOpacity
           onPress={() => handleSearch()}
           style={styles.verifyButton}
         >
           <Text>🔍</Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
     </LinearGradient>
   );
@@ -264,6 +262,8 @@ const styles = StyleSheet.create({
     right: 0,
   },
   search:{
+    alignItems:'center',
+    justifyContent:'center',
     borderWidth:3,
     borderColor:'green',
     width: "100%",

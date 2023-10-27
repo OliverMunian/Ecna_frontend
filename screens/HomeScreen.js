@@ -9,9 +9,11 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  ImageBackground,
 } from "react-native";
 import { addtokenToSotre, addSirenToSotre } from "../reducers/user";
 import { useDispatch, useSelector } from "react-redux";
+import background from '../assets/ambulance.jpg'
 
 export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -49,6 +51,10 @@ export default function HomeScreen({ navigation }) {
   };
 
   return (
+    <View style={styles.containerUn}>
+      <ImageBackground source={background} resizeMode="cover" style={styles.image} blurRadius={2}>
+      <Text style={styles.title}> ECNA </Text>
+        <Text style={styles.titleDeux}> Time is now your </Text>
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -85,20 +91,48 @@ export default function HomeScreen({ navigation }) {
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
+    </ImageBackground>
+    </View>
+
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  containerUn:{
     flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor:'black',
+  },
+  container: {
+    top:300,
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
     alignItems: "center",
     justifyContent: "flex-end",
-    backgroundColor: "black",
-    borderColor:'red',
-    borderWidth:1
+  },
+  image:{
+    blurRadius:5,
+    height:850,
+    width:'100%',
+    justifyContent: 'flex-start',
+    alignItems:'flex-end',
+  },
+  title:{
+    top:100,
+    color:'white',
+    fontSize:65,
+    fontWeight:'bold',
+  },
+  titleDeux:{
+    top:100,
+    marginRight:60,  
+    color:'white',
+    fontSize:15,
+    fontWeight:'bold',
+    fontStyle:'italic',
+    textAlign:'left',
   },
   view: {
     width: "100%",
@@ -110,7 +144,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   input: {
-    backgroundColor: "black",
+    backgroundColor: "transparent",
     width: "75%",
     height: 75,
     borderRadius: 20,
@@ -123,17 +157,19 @@ const styles = StyleSheet.create({
   btn: {
     width: 130,
     height: 60,
-    backgroundColor: "blue",
+    backgroundColor: "black",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 20,
-    borderWidth: 1,
+    borderWidth: 3,
     borderColor: "white",
   },
   btntxt: {
     color: "white",
+    fontWeight:'bold'
   },
   redirection: {
+    marginTop:20,
     color: "#00bcf0",
     textDecorationLine: "underline",
   },

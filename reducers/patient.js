@@ -1,12 +1,11 @@
-// pas encore fini( à voir )
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
  value: {},
 };
 
-export const patients = createSlice({
-    name: 'patients',
+export const patient = createSlice({
+    name: 'patient',
     initialState,
     reducers: {
     addpatientToStore: (state, action) => {
@@ -15,5 +14,5 @@ export const patients = createSlice({
  },
 });
 
-export const { addpatientToStore } = patients.actions;
-export default patients.reducer;
+export const { addpatientToStore } = patient.actions;
+export default patient.reducer;

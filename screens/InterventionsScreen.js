@@ -8,27 +8,27 @@ import VSLsrc from "../assets/VSL.png";
 
 export default function InterventionsScreen() {
   const [interventions, setInerventions] = useState([]);
-  const BACKEND_ADRESS = "http://10.3.0.23:3000";
+  const [dispatchedVehicles, setDispatchedVehicles] = useState([])
+  const BACKEND_ADRESS = "http://10.3.0.13:3000";
   const GVuri = Image.resolveAssetSource(GV).uri;
   const MVuri = Image.resolveAssetSource(MV).uri;
   const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
   const imagesData = { Gros: GVuri, Moyen: MVuri, VSL: VSLuri };
   const vehicules = useSelector((state) => state.vehicules.value);
-
-  const selectDispatch = (etat_vehicule) => {
-    console.log(etat_vehicule);
-  };
-
+ 
   useEffect(() => {
     fetch(`${BACKEND_ADRESS}/interventions/find`)
       .then((response) => response.json())
       .then((allInterventions) => {
-        console.log(allInterventions);
         // console.log(allInterventions)
         setInerventions(allInterventions.Intervention);
       });
   }, []);
 
+  const selectDispatch = (dispatchedVehicle) => {
+    setDispatchedVehicles((prevDispatchedVehicles) => [...prevDispatchedVehicles, dispatchedVehicle]);
+  };
+  console.log(dispatchedVehicles)
   const intervention = interventions.map((inter, i) => {
     const day = new Date(inter.date).getDate();
     const month = new Date(inter.date).getMonth();
@@ -37,16 +37,17 @@ export default function InterventionsScreen() {
     if (inter.vehicule === null) {
       return (
         <Fiche_intervention
-          key={i}
-          lastName={inter.patient.lastName}
-          firstName={inter.patient.firstName}
-          departure={inter.departure}
-          arrival={inter.arrival}
-          date={date}
-          dispatched={inter.vehicule}
-        />
-      );
-    } else if (inter.vehicule === null) {
+        key={i}
+        lastName={inter.patient.lastName}
+        firstName={inter.patient.firstName}
+        departure={inter.departure}
+        arrival={inter.arrival}
+        date={date}
+        dispatched = {inter.vehicule}
+        selectDispatch={selectDispatch}
+      />
+      )
+    } else {
       return (
         <Fiche_intervention
           key={i}

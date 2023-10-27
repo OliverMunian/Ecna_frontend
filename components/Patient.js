@@ -13,6 +13,7 @@ export default function Patient(props) {
       <View style={styles.box}>
           <Text style={styles.txt}>
             {props.lastName} {props.firstName}
+            {props.SSnumber}
           </Text>
       </View>
     </View>

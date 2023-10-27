@@ -18,13 +18,14 @@ import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
 import { LinearGradient } from 'expo-linear-gradient';
+import { addpatientToStore } from "../reducers/patient";
 
 export default function DashboardScreen({ navigation }) {
   const dispatch = useDispatch();
   const [recherche, setRecherche] = useState("");
   const vehicules = useSelector((state) => state.vehicules.value);
   const [vehiculesDispo, setVehiculesDispo] = useState([]);
-  const BACKEND_ADRESS = "http://10.3.0.23:3000";
+  const BACKEND_ADRESS = "http://10.3.0.13:3000";
   const SIREN = useSelector((state) => state.user.value.SIREN);
   const GVuri = Image.resolveAssetSource(GV).uri;
   const MVuri = Image.resolveAssetSource(MV).uri;
@@ -65,16 +66,17 @@ export default function DashboardScreen({ navigation }) {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          const mappedPatients = data.data.map((item) => ({
-            firstName: item.firstName,
-            lastName: item.lastName,
-            interventions: item.interventions,
-          }));
-          dispatch(addpatientToStore(mappedPatients));
-          navigation.navigate("SearchInput");
+            const mappedPatients = data.data.map((item) => ({
+              firstName: item.firstName,
+              lastName: item.lastName,
+              interventions: item.interventions,
+            }));
+            console.log(mappedPatients)
+            dispatch(addpatientToStore(mappedPatients));
+            navigation.navigate("SearchInput");
         }
-      });
-  };
+      })
+      };
   return (
     <LinearGradient style={styles.container}
     colors={["#1a2755","#9b84ad"]}

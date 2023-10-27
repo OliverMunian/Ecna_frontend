@@ -5,7 +5,7 @@ import { addtokenToSotre , addSirenToSotre } from "../reducers/user";
 import background from '../assets/ambulance.jpg'
 
 export default function SubscribeScreen({ navigation }) {
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://10.3.0.13:3000";
   const dispatch = useDispatch()
 
   // Mise en place états liés aux input
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     borderRadius:20,
     width:'20%',
     alignItems:'center',
-    padding:10,
+    padding:5,
     marginTop:20,
   },
   btntxt:{

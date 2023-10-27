@@ -14,16 +14,31 @@ import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
 import { addInterPlaque } from "../reducers/interVehicules";
 import { useDispatch } from "react-redux";
-
+import {LinearGradient} from 'expo-linear-gradient'
 const GVuri = Image.resolveAssetSource(GV).uri;
 const MVuri = Image.resolveAssetSource(MV).uri;
 const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
 const imagesData = { Gros: GVuri, Moyen: MVuri, VSL: VSLuri };
 
+const getColorByEtat = (etat) => {
+  switch (etat) {
+    case "En ligne":
+      return "green";
+    case "En cours d'intervention":
+      return "orange";
+    case "Indisponible":
+      return "red";
+    case "Hors ligne":
+      return "black";
+    default:
+      return "black";
+  }
+}
 export default function VehiculeScreen({ navigation }) {
   const dispatch = useDispatch();
   const vehicules = useSelector((state) => state.vehicules.value);
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  console.log(vehicules)  
+  const BACKEND_ADRESS = "http://10.3.0.13:3000";
   const SIREN = useSelector((state) => state.user.value.SIREN);
 
   // Update du reducer lorsqu'on clique sur un composant véhicule afin de stocker la liste des interventions dans le reducer
@@ -44,71 +59,39 @@ export default function VehiculeScreen({ navigation }) {
   const handleAdd = () => {
     navigation.navigate("AddVehiculeBis");
   };
-
-  // Création des elements JSX
-  const vehiculesDisplay = vehicules.map((data, i) => {
-    if (data.etat === "En ligne") {
-      return (
-        <TouchableOpacity key={i} onPress={() => handlePress(data.plaque)}>
-          <FicheVehicule
-            plaque={data.plaque}
-            etat={data.etat}
-            color="green"
-            type={imagesData[data.type]}
-          />
-        </TouchableOpacity>
-      );
-    } else if (data.etat === "En cours d'intervention") {
-      return (
-        <TouchableOpacity key={i} onPress={() => handlePress(data.plaque)}>
-          <FicheVehicule
-            plaque={data.plaque}
-            etat={data.etat}
-            color="orange"
-            type={imagesData[data.type]}
-          />
-        </TouchableOpacity>
-      );
-    } else if (data.etat === "Indisponible") {
-      return (
-        <TouchableOpacity key={i} onPress={() => handlePress(data.plaque)}>
-          <FicheVehicule
-            plaque={data.plaque}
-            etat={data.etat}
-            color="red"
-            type={imagesData[data.type]}
-          />
-        </TouchableOpacity>
-      );
-    } else if (data.etat === "Hors ligne") {
-      return (
-        <TouchableOpacity key={i} onPress={() => handlePress(data.plaque)}>
-          <FicheVehicule
-            plaque={data.plaque}
-            etat={data.etat}
-            color="black"
-            type={imagesData[data.type]}
-          />
-        </TouchableOpacity>
-      );
-    }
-  });
-
+  
   return (
-    <View style={styles.container}>
+    <LinearGradient style={styles.container}
+    colors={["#1a2755","#9b84ad"]}
+    start={{x:0.5,y:0}}
+    end={{x:0.5,y:1}}>
       <View style={styles.titreBox}>
-      <Text style={styles.titre}>
-         Véhicules
-      </Text>
-      <TouchableOpacity style={styles.btn} onPress={() => handleAdd()}>
-        <Text>
-          Ajouter
-        </Text>
-      </TouchableOpacity>
+        <Text style={styles.titre}>Véhicules</Text>
+        <TouchableOpacity style={styles.btn} onPress={() => handleAdd()}>
+          <Text>Ajouter</Text>
+        </TouchableOpacity>
       </View>
-      <View style={styles.box}>{vehiculesDisplay}</View>
+      <ScrollView
+        horizontal={false}
+        showsHorizontalScrollIndicator={false}
+        endFillColor="#000"
+        overScrollMode="never"
+      >
+      <View style={styles.box}>
+        {vehicules.map((data, i) => (
+          <FicheVehicule
+            key={i}
+            plaque={data.plaque}
+            etat={data.etat}
+            color={getColorByEtat(data.etat)}
+            type={imagesData[data.type]}
+            onDispatch={(plaque) => handlePress(plaque)}
+          />
+        ))}
+      </View>
       <View style={styles.trait} />
-    </View>
+      </ScrollView>
+    </LinearGradient>
   );
 }
 

@@ -10,7 +10,7 @@ export default function PhoneScreen({navigation}) {
   const patient = useSelector((state) => state.patient.value)
   console.log(patient)
 
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://10.3.0.13:3000";
 
   useEffect(() => {
     fetch(`${BACKEND_ADRESS}/patients/all`)

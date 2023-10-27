@@ -1,26 +1,30 @@
 import { StyleSheet, Text, View, TextInput, Button } from "react-native";
 import AddVehiculesScreen from "./AddVehiculesScreen";
 import { TouchableOpacity } from "react-native";
+import { useState } from "react";
 
 export default function SubscribeScreen({ navigation }) {
+  const [username, setUserName] = useState('')
+  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('')
   const BACKEND_ADRESS = "http://10.3.0.13:3000";
   function Subscribe() {
     navigation.navigate("AddVehicule");
-    // fetch(`${BACKEND_ADRESS}/users/signup`, {
-    //   method:'POST',
-    //   headers:{'Content-type' : 'application/json'},
-    //   body : JSON.stringify({username:username,password:password, email:email})
-    // })
-    // .then(response => response.json())
-    // .then(data => {
-    //   if(data.result){
-    //     dispatch(addtokenToSotre(data.token))
-    //     dispatch(addSirenToSotre(data.SIREN))
-    //     navigation.navigate('AddVehicule');
-    //   } else {
-    //     setErrorMessage(data.error)
-    //   }
-    // })
+    fetch(`${BACKEND_ADRESS}/users/signup`, {
+      method:'POST',
+      headers:{'Content-type' : 'application/json'},
+      body : JSON.stringify({username:username,password:password, email:email})
+    })
+    .then(response => response.json())
+    .then(data => {
+      if(data.result){
+        dispatch(addtokenToSotre(data.token))
+        dispatch(addSirenToSotre(data.SIREN))
+        navigation.navigate('AddVehicule');
+      } else {
+        setErrorMessage(data.error)
+      }
+    })
   }
 
   const navigate = () => {
@@ -48,6 +52,8 @@ export default function SubscribeScreen({ navigation }) {
               style={styles.input}
               placeholder="Nom d'utilisateur"
               placeholderTextColor="black"
+              onChangeText={(value) => setUserName(value)}
+              value={username}
             />
           </View>
           <View style={styles.divinput}>
@@ -56,6 +62,8 @@ export default function SubscribeScreen({ navigation }) {
               style={styles.input}
               placeholder="Adresse mail"
               placeholderTextColor="black"
+              onChangeText={(value) => setEmail(value)}
+              value={email}
             />
           </View>
           <View style={styles.divinput}>
@@ -65,6 +73,8 @@ export default function SubscribeScreen({ navigation }) {
               placeholder="Mot de passe"
               secureTextEntry={true}
               placeholderTextColor="black"
+              onChangeText={(value) => setPassword(value)}
+              value={password}
             />
           </View>
           <View style={styles.line}></View>

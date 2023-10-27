@@ -4,10 +4,9 @@ import { useState } from "react";
 export default function Fiche_intervention(props) {
     const vehicules = useSelector((state) => state.vehicules.value);
     const [modalVisible, setModalVisible] = useState(false);
-
     const handledispatch = () => {
         vehicules.map((etat_vehicule)=>{
-            if(etat_vehicule.etat == "En ligne"){
+            if(etat_vehicule.etat === "En ligne"){
                 props.selectDispatch(etat_vehicule)
                 setModalVisible(true)
             }
@@ -40,9 +39,7 @@ export default function Fiche_intervention(props) {
          <Modal visible={modalVisible} animationType="fade" transparent>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Modal Content</Text>
-                        {/* Add the content you want to display in the modal */}
-                        {/* You can customize the content as needed */}
+                        <Text style={styles.modalText}>Dispatch Véhicule</Text>
                         <TouchableOpacity
                             style={styles.button}
                             onPress={handleClose}

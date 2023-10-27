@@ -9,7 +9,7 @@ export default function SearchInput({navigation}) {
     const MVuri = Image.resolveAssetSource(MV).uri;
     const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
     const imagesData = { Gros: GVuri, Moyen: MVuri, VSL: VSLuri };
-    const patients = useSelector((state) => state.patients.value)
+    const patients = useSelector((state) => state.patien.value)
     const patient = patients.map((inter, i) => {
       console.log(inter.interventions)
       const day = new Date(inter.interventions.date).getDate();

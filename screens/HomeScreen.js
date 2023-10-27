@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { addtokenToSotre, addSirenToSotre } from "../reducers/user";
 import { useDispatch, useSelector } from "react-redux";
-import background from '../assets/ambulance.jpg'
+import background from "../assets/ambulance.jpg";
 
 export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -54,87 +54,91 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.containerUn}>
-      <ImageBackground source={background} resizeMode="cover" style={styles.image} blurRadius={2}>
-      <Text style={styles.title}> ECNA </Text>
+      <ImageBackground
+        source={background}
+        resizeMode="cover"
+        style={styles.image}
+        blurRadius={2}
+      >
+        <Text style={styles.title}> ECNA </Text>
         <Text style={styles.titleDeux}> Time is now your </Text>
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
-      <View style={styles.view}>
-        <Text style={styles.txt}>
-          {" "}
-          Veuillez compléter tous les champs pour continuer{" "}
-        </Text>
-        <TextInput
-          onChangeText={(value) => setUserName(value)}
-          placeholder="Username"
-          style={styles.input}
-          placeholderTextColor={"white"}
-          returnKeyType={"next"}
-          onSubmitEditing={() => ref_input2.current.focus()}
-        />
-        <TextInput
-          onChangeText={(value) => setPassword(value)}
-          secureTextEntry={true}
-          placeholder="Mot de passe"
-          style={styles.input}
-          placeholderTextColor={"white"}
-          ref={ref_input2}
-        />
-        <TouchableOpacity style={styles.btn} onPress={() => handleSubmit()}>
-          <Text style={styles.btntxt}> Valider</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigate()}>
-          <Text style={styles.redirection}>
-            {" "}
-            Vous n'avez pas encore de compte ? Cliquez ici{" "}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
-    </ImageBackground>
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <View style={styles.view}>
+            <Text style={styles.txt}>
+              {" "}
+              Veuillez compléter tous les champs pour continuer{" "}
+            </Text>
+            <TextInput
+              onChangeText={(value) => setUserName(value)}
+              placeholder="Username"
+              style={styles.input}
+              placeholderTextColor={"white"}
+              returnKeyType={"next"}
+              onSubmitEditing={() => ref_input2.current.focus()}
+            />
+            <TextInput
+              onChangeText={(value) => setPassword(value)}
+              secureTextEntry={true}
+              placeholder="Mot de passe"
+              style={styles.input}
+              placeholderTextColor={"white"}
+              ref={ref_input2}
+            />
+            <TouchableOpacity style={styles.btn} onPress={() => handleSubmit()}>
+              <Text style={styles.btntxt}> Valider</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigate()}>
+              <Text style={styles.redirection}>
+                {" "}
+                Vous n'avez pas encore de compte ? Cliquez ici{" "}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      </ImageBackground>
     </View>
-
   );
 }
 
 const styles = StyleSheet.create({
-  containerUn:{
+  containerUn: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor:'black',
+    backgroundColor: "black",
   },
   container: {
-    top:300,
+    top: 300,
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
     alignItems: "center",
     justifyContent: "flex-end",
   },
-  image:{
-    blurRadius:5,
-    height:850,
-    width:'100%',
-    justifyContent: 'flex-start',
-    alignItems:'flex-end',
+  image: {
+    blurRadius: 5,
+    height: 850,
+    width: "100%",
+    justifyContent: "flex-start",
+    alignItems: "flex-end",
   },
-  title:{
-    top:100,
-    color:'white',
-    fontSize:65,
-    fontWeight:'bold',
+  title: {
+    top: 100,
+    color: "white",
+    fontSize: 65,
+    fontWeight: "bold",
   },
-  titleDeux:{
-    top:100,
-    marginRight:60,  
-    color:'white',
-    fontSize:15,
-    fontWeight:'bold',
-    fontStyle:'italic',
-    textAlign:'left',
+  titleDeux: {
+    top: 100,
+    marginRight: 60,
+    color: "white",
+    fontSize: 15,
+    fontWeight: "bold",
+    fontStyle: "italic",
+    textAlign: "left",
   },
   view: {
     width: "100%",
@@ -168,10 +172,10 @@ const styles = StyleSheet.create({
   },
   btntxt: {
     color: "white",
-    fontWeight:'bold'
+    fontWeight: "bold",
   },
   redirection: {
-    marginTop:20,
+    marginTop: 20,
     color: "#00bcf0",
     textDecorationLine: "underline",
   },

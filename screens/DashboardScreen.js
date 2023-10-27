@@ -7,7 +7,7 @@ import {
   Alert,
   Image,
   ScrollView,
-  SafeAreaView
+  SafeAreaView,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useEffect, useState } from "react";
@@ -19,8 +19,8 @@ import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
 import { addpatientToStore } from "../reducers/patient";
 import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
-import {LinearGradient} from 'expo-linear-gradient'
-
+import { LinearGradient } from "expo-linear-gradient";
+import CarouselDashboard from "../components/CarouselDashboard";
 
 export default function DashboardScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -36,20 +36,7 @@ export default function DashboardScreen({ navigation }) {
   const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
   const imagesData = { Gros: GVuri, Moyen: MVuri, VSL: VSLuri };
 
-  // A l'initialisation du dashboard, dispatch de l'ensemble des véhicules correspondant au SIREN dans le reducer user
-  useEffect(() => {
-    fetch(`${BACKEND_ADRESS}/vehicules/${SIREN}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.result) {
-          dispatch(defineListVehicules(data.vehicules));
-          dispatch(defineListVehiculesDispo(
-            data.vehicules.filter((e) => e.etat === "En ligne")
-          ));
-        }
-      });
-  }, []);
-
+  const vehiculesDispo = useSelector((state) => state.vehiculesDispo.value);
   const vehiculesDispoDisplay = vehiculesDispo.map((data, i) => {
     return (
       <VehiculeDashBoard
@@ -59,6 +46,25 @@ export default function DashboardScreen({ navigation }) {
       />
     );
   });
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
+  const SIREN = useSelector((state) => state.user.value.SIREN);
+
+
+  // A l'initialisation du dashboard, dispatch de l'ensemble des véhicules correspondant au SIREN dans le reducer user
+  useEffect(() => {
+    fetch(`${BACKEND_ADRESS}/vehicules/${SIREN}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          dispatch(defineListVehicules(data.vehicules));
+          dispatch(
+            defineListVehiculesDispo(
+              data.vehicules.filter((e) => e.etat === "En ligne")
+            )
+          );
+        }
+      });
+  }, []);
 
   function next() {
     Alert.alert("Oups !", "Aucun véhicule a afficher pour le moment !");
@@ -70,24 +76,40 @@ export default function DashboardScreen({ navigation }) {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-            const mappedPatients = data.data.map((item) => ({
-              firstName: item.firstName,
-              lastName: item.lastName,
-              interventions: item.interventions,
-            }));
-            console.log(mappedPatients)
-            dispatch(addpatientToStore(mappedPatients));
-            navigation.navigate("SearchInput");
+          const mappedPatients = data.data.map((item) => ({
+            firstName: item.firstName,
+            lastName: item.lastName,
+            interventions: item.interventions,
+          }));
+          console.log(mappedPatients);
+          dispatch(addpatientToStore(mappedPatients));
+          navigation.navigate("SearchInput");
         }
-      })
-      };
+      });
+  };
   return (
-    <LinearGradient style={styles.container}
-    colors={["#1a2755","#9b84ad"]}
-    start={{x:0.5,y:0}}
-    end={{x:0.5,y:1}}>
+    <LinearGradient
+      style={styles.container}
+      colors={["#1a2755", "#9b84ad"]}
+      start={{ x: 0.5, y: 0 }}
+      end={{ x: 0.5, y: 1 }}
+    >
       <View style={styles.maintitle}>
         <Text style={styles.h1}> Véhicules disponibles </Text>
+        <CarouselDashboard/>
+
+        {/* <SafeAreaView style={styles.safearea}>
+        <ScrollView
+          style={styles.vehicles}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          endFillColor="#000"
+        >
+          {vehiculesDispoDisplay}
+        </ScrollView>
+        </SafeAreaView> */}
+      </View>
+      <View>
         {/* <Text style={styles.h1}> Votre activité </Text>
       </View>
       <View style={styles.box}>
@@ -149,20 +171,19 @@ export default function DashboardScreen({ navigation }) {
       </View> */}
       {/* BARRE DE RECHERCHE */}
       <View styles={styles.search}>
-        <TextInput style={styles.inputplaceholder}></TextInput>
-        {/* <TextInput
+        <TextInput
           style={styles.inputplaceholder}
           placeholder="Recherche..."
-          placeholderTextColor="black"
+          placeholderTextColor="#575757"
           onChangeText={(value) => setRecherche(value)}
           value={recherche}
-        /> */}
-        {/* <TouchableOpacity
+        />
+        <TouchableOpacity
           onPress={() => handleSearch()}
           style={styles.verifyButton}
         >
           <Text>🔍</Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
     </LinearGradient>
   );
@@ -174,7 +195,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: "black",
-    alignItems:'center'
+    alignItems: "center",
   },
   box: {
     width: "100%",
@@ -186,21 +207,13 @@ const styles = StyleSheet.create({
   maintitle: {
     fontSize: 55,
     fontWeight: "bold",
-    borderBottomLeftRadius:200,
-    borderBottomRightRadius:200,
+    borderBottomLeftRadius: 200,
+    borderBottomRightRadius: 200,
     width: "100%",
-    backgroundColor:'white',
+    backgroundColor: "white",
     height: 450,
-    alignItems:'center',
-    justifyContent:'center',
-  },
-  h1: {
-    top:-100,
-    fontSize: 25,
-    fontWeight: "bold",
-    fontStyle:'italic',
-    color: "black",
-    textDecorationLine: 'underline',
+    alignItems: "center",
+    justifyContent: "center",
   },
   title: {
     flexDirection: "row",
@@ -232,13 +245,18 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
   },
-  vehicles: {
-    width: "100%",
-    flexDirection: "row",
-    top: 100,
-    height: 120,
-    borderWidth: 1,
-    flexDirection: "row",
+  h1: {
+    top: -30,
+    fontSize: 25,
+    fontWeight: "bold",
+    fontStyle: "italic",
+    color: "black",
+    textDecorationLine: "underline",
+  },
+  safearea:{
+    alignItems:'center',
+    justifyContent:'center',
+    width:240,
   },
   onevehicle: {
     width: "100%",
@@ -246,6 +264,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginLeft: 10,
     borderRadius: 20,
+  },
+  vehicles:{
+    padding:10,
   },
   lecteur: {
     flexDirection: "row",
@@ -267,14 +288,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     right: 0,
   },
-  search:{
-    borderWidth:3,
-    borderColor:'green',
+  search: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 3,
+    borderColor: "green",
     width: "100%",
     zIndex: 2,
   },
   inputplaceholder: {
-    width:300,
+    width: 300,
     paddingLeft: 10,
     borderRadius: 10,
     backgroundColor: "#a19999",
@@ -286,7 +309,7 @@ const styles = StyleSheet.create({
     borderColor: "white",
   },
   verifyButton: {
-    width:'100%',
+    width: "100%",
     top: 70,
     position: "absolute",
     alignSelf: "center",

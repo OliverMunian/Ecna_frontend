@@ -17,16 +17,16 @@ import VSLsrc from "../assets/VSL.png";
 import { defineListVehicules } from "../reducers/vehicules";
 import { useDispatch } from "react-redux";
 
-export default function FicheAddVehicule ({screenName}) {
-const navigation = useNavigation()
-const dispatch = useDispatch()
-// Import des images des assets et création de l'objet permettant de les dispatch
-const GVuri = Image.resolveAssetSource(GV).uri
-const MVuri = Image.resolveAssetSource(MV).uri
-const VSLuri = Image.resolveAssetSource(VSLsrc).uri
-const imagesData = {Gros:GVuri,Moyen:MVuri,VSL:VSLuri}
+export default function FicheAddVehicule({ screenName }) {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  // Import des images des assets et création de l'objet permettant de les dispatch
+  const GVuri = Image.resolveAssetSource(GV).uri;
+  const MVuri = Image.resolveAssetSource(MV).uri;
+  const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
+  const imagesData = { Gros: GVuri, Moyen: MVuri, VSL: VSLuri };
 
-const BACKEND_ADRESS = 'http://10.3.0.13:3000'
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
 
   // Definition des possibilités des menus déroulants
   const types = ["Gros", "Moyen", "VSL"];

@@ -14,7 +14,8 @@ import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
 import { addInterPlaque } from "../reducers/interVehicules";
 import { useDispatch } from "react-redux";
-import {LinearGradient} from 'expo-linear-gradient'
+import { LinearGradient } from "expo-linear-gradient";
+
 const GVuri = Image.resolveAssetSource(GV).uri;
 const MVuri = Image.resolveAssetSource(MV).uri;
 const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
@@ -37,8 +38,7 @@ const getColorByEtat = (etat) => {
 export default function VehiculeScreen({ navigation }) {
   const dispatch = useDispatch();
   const vehicules = useSelector((state) => state.vehicules.value);
-  console.log(vehicules)  
-  const BACKEND_ADRESS = "http://10.3.0.13:3000";
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
   const SIREN = useSelector((state) => state.user.value.SIREN);
 
   // Update du reducer lorsqu'on clique sur un composant véhicule afin de stocker la liste des interventions dans le reducer
@@ -90,8 +90,7 @@ export default function VehiculeScreen({ navigation }) {
         ))}
       </View>
       <View style={styles.trait} />
-      </ScrollView>
-    </LinearGradient>
+    </View>
   );
 }
 
@@ -104,14 +103,14 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 34,
     marginLeft: 20,
-    fontWeight:'bold',
-    fontStyle:'italic',
+    fontWeight: "bold",
+    fontStyle: "italic",
   },
   titreBox: {
-    marginTop:130,
+    marginTop: 130,
     marginBottom: 20,
-    borderBottomColor: 'grey',
-    borderWidth:1,
+    borderBottomColor: "grey",
+    borderWidth: 1,
   },
   btn: {
     width: 130,

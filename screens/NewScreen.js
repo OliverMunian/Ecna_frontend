@@ -1,13 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native'
-import Formulaire_intervention from '../components/Formulaire_intervention';
+import { StyleSheet, Text, View } from "react-native";
+import Formulaire_intervention from "../components/Formulaire_intervention";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function NewScreen() {
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      style={styles.container}
+      colors={["#1a2755", "#9b84ad"]}
+      start={{ x: 0.5, y: 0 }}
+      end={{ x: 0.5, y: 1 }}
+    >
       <View style={styles.box}>
         <Formulaire_intervention />
       </View>
-    </View>
+    </LinearGradient>
   );
 }
 

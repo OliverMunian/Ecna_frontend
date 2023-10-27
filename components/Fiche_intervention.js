@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 30,
         alignItems: 'center',
-        width: 300, // Adjust the width as needed
+        width: 300, 
         shadowColor: '#000',
         shadowOffset: {
             width: 0,

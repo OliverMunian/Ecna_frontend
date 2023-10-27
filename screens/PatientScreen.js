@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
 import Patient from "../components/Patient";
 import { addpatientToStore } from "../reducers/patient";
-
+import {LinearGradient} from 'expo-linear-gradient'
 import { useSelector } from "react-redux";
 
 
@@ -10,7 +10,10 @@ export default function OnePatient(){
 const patient = useSelector((state) => state.patient.value);
 console.log(patient)
 return (
-    <View style={styles.container}>
+  <LinearGradient style={styles.container}
+  colors={["#1a2755","#9b84ad"]}
+  start={{x:0.5,y:0}}
+  end={{x:0.5,y:1}}>
       <Text style={styles.title}>{patient.lastName} {patient.firstName}</Text>
       <View style={styles.line}/>
       <Text style={styles.info_patient}>Fiche patient</Text>
@@ -23,7 +26,7 @@ return (
       <Text style={styles.info_titre}>informations complémentaires</Text>
       <Text style={styles.info_com}>Patient: {patient.valide}</Text>
       <Text style={styles.info_com}>Mutuelle: {patient.mutuelle}</Text>
-    </View>
+    </LinearGradient>
   );
 };
 

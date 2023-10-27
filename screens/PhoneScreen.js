@@ -1,35 +1,14 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { useEffect } from "react";
 import Patient from "../components/Patient";
 import { addpatientToStore } from "../reducers/patient";
 import { useDispatch, useSelector } from "react-redux";
-import { defineListPatients } from "../reducers/listPatients";
+
+import {LinearGradient} from 'expo-linear-gradient'
 
 export default function PhoneScreen({ navigation }) {
-  const BACKEND_ADRESS = "http://10.3.0.23:3000";
+  const BACKEND_ADRESS = "http://10.3.0.43:3000";
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
-
-  // A l'initialisation du composant récupération de la liste de tous les patients associés au user connecté
-  useEffect(() => {
-    fetch(`${BACKEND_ADRESS}/patients/all/${user.token}`)
-      .then((response) => response.json())
-      .then((patientData) => {
-        // Fonction qui permet de trier les patients par ordre alphabétique
-        function sortPatients(a, b) {
-          if (a.lastName < b.lastName) {
-            return -1;
-          } else if (a.lastName > b.lastName) {
-            return 1;
-          }
-          return 0;
-        }
-        const sorted = patientData.patients.sort(sortPatients);
-        // Dispatch dans le reducer
-        dispatch(defineListPatients(sorted));
-      });
-  }, []);
-
   const patients = useSelector((state) => state.listPatients.value);
 
   // Fonction qui permet de récuperer les informations du patient et de naviguer vers la page qui affiche les informations
@@ -54,12 +33,16 @@ export default function PhoneScreen({ navigation }) {
   });
 
   return (
-    <View style={styles.container}>
+    <LinearGradient style={styles.container}
+    colors={["#1a2755","#9b84ad"]}
+    start={{x:0.5,y:0}}
+    end={{x:0.5,y:1}}>
       <View style={styles.box}>
         <Text style={styles.title}> Répertoire </Text>
+        <View style={styles.line} />
       </View>
       {patientsDisplay}
-    </View>
+    </LinearGradient>
   );
 }
 
@@ -76,5 +59,13 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: "bold",
     fontStyle: "italic",
+  },
+  line: {
+    borderBottomColor: "grey",
+    borderBottomWidth: 1.4,
+  },
+  line: {
+    borderBottomColor: "grey",
+    borderBottomWidth: 1.4,
   },
 });

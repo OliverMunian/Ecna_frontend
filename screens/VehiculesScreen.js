@@ -23,7 +23,7 @@ const imagesData = { Gros: GVuri, Moyen: MVuri, VSL: VSLuri };
 export default function VehiculeScreen({ navigation }) {
   const dispatch = useDispatch();
   const vehicules = useSelector((state) => state.vehicules.value);
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
   const SIREN = useSelector((state) => state.user.value.SIREN);
 
   // Update du reducer lorsqu'on clique sur un composant véhicule afin de stocker la liste des interventions dans le reducer
@@ -97,14 +97,10 @@ export default function VehiculeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.titreBox}>
-      <Text style={styles.titre}>
-         Véhicules
-      </Text>
-      <TouchableOpacity style={styles.btn} onPress={() => handleAdd()}>
-        <Text>
-          Ajouter
-        </Text>
-      </TouchableOpacity>
+        <Text style={styles.titre}>Véhicules</Text>
+        <TouchableOpacity style={styles.btn} onPress={() => handleAdd()}>
+          <Text>Ajouter</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.box}>{vehiculesDisplay}</View>
       <View style={styles.trait} />
@@ -121,14 +117,14 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 34,
     marginLeft: 20,
-    fontWeight:'bold',
-    fontStyle:'italic',
+    fontWeight: "bold",
+    fontStyle: "italic",
   },
   titreBox: {
-    marginTop:130,
+    marginTop: 130,
     marginBottom: 20,
-    borderBottomColor: 'grey',
-    borderWidth:1,
+    borderBottomColor: "grey",
+    borderWidth: 1,
   },
   btn: {
     width: 130,

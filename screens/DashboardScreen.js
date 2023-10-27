@@ -7,7 +7,7 @@ import {
   Alert,
   Image,
   ScrollView,
-  SafeAreaView
+  SafeAreaView,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useEffect, useState } from "react";
@@ -19,17 +19,15 @@ import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
 import { addpatientToStore } from "../reducers/patient";
 import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
-import {LinearGradient} from 'expo-linear-gradient'
-
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function DashboardScreen({ navigation }) {
   const dispatch = useDispatch();
   const [recherche, setRecherche] = useState("");
 
   const vehiculesDispo = useSelector((state) => state.vehiculesDispo.value);
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
   const SIREN = useSelector((state) => state.user.value.SIREN);
-
 
   const GVuri = Image.resolveAssetSource(GV).uri;
   const MVuri = Image.resolveAssetSource(MV).uri;
@@ -43,9 +41,11 @@ export default function DashboardScreen({ navigation }) {
       .then((data) => {
         if (data.result) {
           dispatch(defineListVehicules(data.vehicules));
-          dispatch(defineListVehiculesDispo(
-            data.vehicules.filter((e) => e.etat === "En ligne")
-          ));
+          dispatch(
+            defineListVehiculesDispo(
+              data.vehicules.filter((e) => e.etat === "En ligne")
+            )
+          );
         }
       });
   }, []);
@@ -70,22 +70,24 @@ export default function DashboardScreen({ navigation }) {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-            const mappedPatients = data.data.map((item) => ({
-              firstName: item.firstName,
-              lastName: item.lastName,
-              interventions: item.interventions,
-            }));
-            console.log(mappedPatients)
-            dispatch(addpatientToStore(mappedPatients));
-            navigation.navigate("SearchInput");
+          const mappedPatients = data.data.map((item) => ({
+            firstName: item.firstName,
+            lastName: item.lastName,
+            interventions: item.interventions,
+          }));
+          console.log(mappedPatients);
+          dispatch(addpatientToStore(mappedPatients));
+          navigation.navigate("SearchInput");
         }
-      })
-      };
+      });
+  };
   return (
-    <LinearGradient style={styles.container}
-    colors={["#1a2755","#9b84ad"]}
-    start={{x:0.5,y:0}}
-    end={{x:0.5,y:1}}>
+    <LinearGradient
+      style={styles.container}
+      colors={["#1a2755", "#9b84ad"]}
+      start={{ x: 0.5, y: 0 }}
+      end={{ x: 0.5, y: 1 }}
+    >
       <View style={styles.maintitle}>
         <Text style={styles.h1}> Véhicules disponibles </Text>
       </View>
@@ -151,10 +153,13 @@ export default function DashboardScreen({ navigation }) {
       </View> */}
       {/* BARRE DE RECHERCHE */}
       <View styles={styles.search}>
-        <TextInput style={styles.inputplaceholder} placeholder="Recherche..." 
-        placeholderTextColor="#575757"
-        onChangeText={(value) => setRecherche(value)}
-          value={recherche}/>
+        <TextInput
+          style={styles.inputplaceholder}
+          placeholder="Recherche..."
+          placeholderTextColor="#575757"
+          onChangeText={(value) => setRecherche(value)}
+          value={recherche}
+        />
         <TouchableOpacity
           onPress={() => handleSearch()}
           style={styles.verifyButton}
@@ -172,7 +177,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: "black",
-    alignItems:'center'
+    alignItems: "center",
   },
   box: {
     width: "100%",
@@ -184,21 +189,21 @@ const styles = StyleSheet.create({
   maintitle: {
     fontSize: 55,
     fontWeight: "bold",
-    borderBottomLeftRadius:200,
-    borderBottomRightRadius:200,
+    borderBottomLeftRadius: 200,
+    borderBottomRightRadius: 200,
     width: "100%",
-    backgroundColor:'white',
+    backgroundColor: "white",
     height: 450,
-    alignItems:'center',
-    justifyContent:'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   h1: {
-    top:-100,
+    top: -100,
     fontSize: 25,
     fontWeight: "bold",
-    fontStyle:'italic',
+    fontStyle: "italic",
     color: "black",
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
   },
   title: {
     flexDirection: "row",
@@ -265,16 +270,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     right: 0,
   },
-  search:{
-    alignItems:'center',
-    justifyContent:'center',
-    borderWidth:3,
-    borderColor:'green',
+  search: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 3,
+    borderColor: "green",
     width: "100%",
     zIndex: 2,
   },
   inputplaceholder: {
-    width:300,
+    width: 300,
     paddingLeft: 10,
     borderRadius: 10,
     backgroundColor: "#a19999",
@@ -286,7 +291,7 @@ const styles = StyleSheet.create({
     borderColor: "white",
   },
   verifyButton: {
-    width:'100%',
+    width: "100%",
     top: 70,
     position: "absolute",
     alignSelf: "center",

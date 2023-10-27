@@ -6,17 +6,16 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { useDispatch , useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { defineListInter } from "../reducers/interventions";
 import { defineListPatients } from "../reducers/listPatients";
 
-
-export default function Formulaire_interventions({navigation}) {
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
-  const dispatch = useDispatch()
+export default function Formulaire_interventions({ navigation }) {
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
+  const dispatch = useDispatch();
   // Recuperation des informations du user du reducer
-  const user = useSelector((state) => state.user.value)
-  
+  const user = useSelector((state) => state.user.value);
+
   // Etats relatif aux inputs du formulaire
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
@@ -29,12 +28,10 @@ export default function Formulaire_interventions({navigation}) {
   const [Departure, setDeparture] = useState(null);
   const [Arrival, setArrival] = useState(null);
   const [error, setError] = useState(null);
-  const [errorStyle,setErrorStyle] = useState({})
+  const [errorStyle, setErrorStyle] = useState({});
 
-
-  
-// Fonction qui se declenche lors du clique sur Search pour permettre de vérifier s'il existe un patient avec ce numero de securité 
-// sociale dans la BDD, si oui préremplir les champs dédiés aux informations patients, si non renvoyer un message d'erreur
+  // Fonction qui se declenche lors du clique sur Search pour permettre de vérifier s'il existe un patient avec ce numero de securité
+  // sociale dans la BDD, si oui préremplir les champs dédiés aux informations patients, si non renvoyer un message d'erreur
   const handlesearch = (SSnumber) => {
     fetch(`${BACKEND_ADRESS}/patients/verify`, {
       method: "POST",
@@ -52,10 +49,10 @@ export default function Formulaire_interventions({navigation}) {
           setMutuelle(patientData.patient.mutuelle);
           setValide(patientData.patient.valide);
           setExiste(true);
-          navigation.navigate('TabNavigator')
+          navigation.navigate("TabNavigator");
         } else {
-          setError(patientData.error)
-          setErrorStyle({color:'white',fontSize:10})
+          setError(patientData.error);
+          setErrorStyle({ color: "white", fontSize: 10 });
         }
       });
   };
@@ -78,34 +75,32 @@ export default function Formulaire_interventions({navigation}) {
         phone: phone,
         departure: Departure,
         arrival: Arrival,
-        SIREN : user.SIREN,
-        token:user.token
+        SIREN: user.SIREN,
+        token: user.token,
       }),
     })
       .then((response) => response.json())
       .then(() => {
-    // mise à jour du reducer interventions
-    fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
-    .then(response => response.json())
-    .then(interData => {
-      if(interData.result){
-        dispatch(defineListInter(interData.interventions))
-      }
-    // mise à jour du reducer patients
-    })
-    .then(()=>{
-    fetch(`${BACKEND_ADRESS}/patients/all/${user.token}`)
-    .then(response => response.json())
-    .then(patientData => {
-      if(patientData.result){
-        dispatch(defineListPatients(patientData.patients))
-        }
-      }) 
-    })
-    });
+        // mise à jour du reducer interventions
+        fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
+          .then((response) => response.json())
+          .then((interData) => {
+            if (interData.result) {
+              dispatch(defineListInter(interData.interventions));
+            }
+            // mise à jour du reducer patients
+          })
+          .then(() => {
+            fetch(`${BACKEND_ADRESS}/patients/all/${user.token}`)
+              .then((response) => response.json())
+              .then((patientData) => {
+                if (patientData.result) {
+                  dispatch(defineListPatients(patientData.patients));
+                }
+              });
+          });
+      });
   };
-
-
 
   return (
     <View style={styles.container}>
@@ -151,15 +146,13 @@ export default function Formulaire_interventions({navigation}) {
             value={SSnumber}
           />
           <View>
-          <TouchableOpacity
-            onPress={() => handlesearch(SSnumber)}
-            style={styles.search}
-          >
-            <Text style={styles.txt}>Search</Text>
-          </TouchableOpacity>
-          <Text style={errorStyle}>
-            {error}
-          </Text>
+            <TouchableOpacity
+              onPress={() => handlesearch(SSnumber)}
+              style={styles.search}
+            >
+              <Text style={styles.txt}>Search</Text>
+            </TouchableOpacity>
+            <Text style={errorStyle}>{error}</Text>
           </View>
         </View>
       </View>

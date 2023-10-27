@@ -1,6 +1,7 @@
 import {Modal, StyleSheet, Text, View, ScrollView, TouchableOpacity,Image } from 'react-native';
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import { BlurView } from 'expo-blur';
 export default function Fiche_intervention(props) {
     
     const vehicules = useSelector((state) => state.vehicules.value);
@@ -17,7 +18,7 @@ export default function Fiche_intervention(props) {
         setModalVisible(false);
       };
     return (
-        <View style={styles.intervention}>
+        <BlurView intensity={50} style={styles.intervention}>
             <View>
                 <Text style={styles.patient}>{props.lastName} {props.firstName}</Text>
                 <Text style={styles.depart_position}>📍 {props.departure}</Text>
@@ -50,7 +51,7 @@ export default function Fiche_intervention(props) {
                     </View>
                 </View>
             </Modal>
-        </View>
+    </BlurView>
     );
 }
 
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     intervention: {
         borderRadius: 8,
         width: 390,
-        backgroundColor: 'white',
+        backgroundColor: 'transparent',
         marginTop: 20,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -74,19 +75,24 @@ const styles = StyleSheet.create({
     },
     patient: {
         fontSize: 30,
+        color:'white',
+        fontWeight:'bold',
     },
     depart_position: {
         fontSize: 20,
         fontStyle: 'italic',
+        color:'white',
     },
     arriver_position: {
         fontSize: 20,
         fontStyle: 'italic',
+        color:'white',
     },
     jour: {
         fontSize: 20,
         marginBottom: 5,
         marginTop: 5,
+        color:'white',
     },
     dispatch: {
         alignSelf: 'flex-end',
@@ -117,7 +123,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 30,
         alignItems: 'center',
-        width: 300, // Adjust the width as needed
+        width: 300, 
         shadowColor: '#000',
         shadowOffset: {
             width: 0,

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 
 const initialState = {
- value: [],
+ value: [{plaque:null,etat:null}],
 };
 
 export const vehicules = createSlice({
@@ -11,9 +11,12 @@ export const vehicules = createSlice({
     reducers: {
     defineListVehicules : (state,action) => {
       state.value = action.payload
+    },
+    updateEtatVehicule : (state,action) => {
+      state.value.filter(e => e.plaque === action.payload.plaque).etat = action.payload.etat
     }
  },
 });
 
-export const { defineListVehicules } = vehicules.actions;
+export const { defineListVehicules , updateEtatVehicule } = vehicules.actions;
 export default vehicules.reducer;

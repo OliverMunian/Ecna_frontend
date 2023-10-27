@@ -2,7 +2,6 @@ import { StyleSheet, Text, View , Image,TouchableOpacity} from 'react-native'
 import { useSelector , useDispatch } from "react-redux";
 import { useState } from 'react';
 import { updateSearchResults } from '../reducers/searchResult';
-import { updateSearchQuery } from '../reducers/searchQuery';
 import Fiche_intervention from "../components/Fiche_intervention";
 import SearchBar from '../components/SearchBar';
 import GV from "../assets/grosVolume.png";

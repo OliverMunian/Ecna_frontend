@@ -23,6 +23,7 @@ import { defineListPatients } from "../reducers/listPatients";
 import { defineListInter } from "../reducers/interventions";
 import { updateSearchResults } from "../reducers/searchResult";
 import { LinearGradient } from "expo-linear-gradient";
+import CarouselDashboard from "../components/CarouselDashboard";
 
 export default function DashboardScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -37,6 +38,17 @@ export default function DashboardScreen({ navigation }) {
   const MVuri = Image.resolveAssetSource(MV).uri;
   const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
   const imagesData = { Gros: GVuri, Moyen: MVuri, VSL: VSLuri };
+
+
+  const vehiculesDispoDisplay = vehiculesDispo.map((data, i) => {
+    return (
+      <VehiculeDashBoard
+        key={i}
+        type={imagesData[data.type]}
+        plaque={data.plaque}
+      />
+    );
+  });
 
   // A l'initialisation du dashboard, dispatch de toutes les info
   useEffect(() => {
@@ -78,16 +90,6 @@ export default function DashboardScreen({ navigation }) {
       })
   }, []);
 
-  const vehiculesDispoDisplay = vehiculesDispo.map((data, i) => {
-    return (
-      <VehiculeDashBoard
-        key={i}
-        type={imagesData[data.type]}
-        plaque={data.plaque}
-      />
-    );
-  });
-
   function next() {
     Alert.alert("Oups !", "Aucun véhicule a afficher pour le moment !");
     // alert('Aucun véhicule poour le moment')
@@ -111,6 +113,18 @@ export default function DashboardScreen({ navigation }) {
     >
       <View style={styles.maintitle}>
         <Text style={styles.h1}> Véhicules disponibles </Text>
+        <CarouselDashboard/>
+
+        {/* <SafeAreaView style={styles.safearea}>
+        <ScrollView
+          style={styles.vehicles}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          endFillColor="#000"
+        >
+          {vehiculesDispoDisplay}
+        </ScrollView>
+        </SafeAreaView> */}
       </View>
       <View>
         {/* <Text style={styles.h1}> Votre activité </Text>
@@ -210,14 +224,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  h1: {
-    top: -100,
-    fontSize: 25,
-    fontWeight: "bold",
-    fontStyle: "italic",
-    color: "black",
-    textDecorationLine: "underline",
-  },
   title: {
     flexDirection: "row",
     width: "90%",
@@ -248,13 +254,18 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
   },
-  vehicles: {
-    width: "100%",
-    flexDirection: "row",
-    top: 100,
-    height: 120,
-    borderWidth: 1,
-    flexDirection: "row",
+  h1: {
+    top: -30,
+    fontSize: 25,
+    fontWeight: "bold",
+    fontStyle: "italic",
+    color: "black",
+    textDecorationLine: "underline",
+  },
+  safearea:{
+    alignItems:'center',
+    justifyContent:'center',
+    width:240,
   },
   onevehicle: {
     width: "100%",
@@ -262,6 +273,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginLeft: 10,
     borderRadius: 20,
+  },
+  vehicles:{
+    padding:10,
   },
   lecteur: {
     flexDirection: "row",

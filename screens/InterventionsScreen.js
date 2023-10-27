@@ -6,6 +6,7 @@ import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
 import { defineListInter } from "../reducers/interventions";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function InterventionsScreen() {
   const dispatch = useDispatch();
@@ -68,7 +69,12 @@ export default function InterventionsScreen() {
   });
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+    style={styles.container}
+    colors={["#1a2755", "#9b84ad"]}
+    start={{ x: 0.5, y: 0 }}
+    end={{ x: 0.5, y: 1 }}
+  >
       <Text style={styles.title}>Interventions</Text>
       <View style={styles.line} />
       <ScrollView
@@ -79,7 +85,7 @@ export default function InterventionsScreen() {
       >
         {displayInterventions}
       </ScrollView>
-    </View>
+   </LinearGradient>
   );
 }
 const styles = StyleSheet.create({

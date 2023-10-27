@@ -13,7 +13,6 @@ export default function Patient(props) {
       <View style={styles.box}>
           <Text style={styles.txt}>
             {props.lastName} {props.firstName}
-            {props.SSnumber}
           </Text>
       </View>
     </View>
@@ -28,15 +27,20 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   box: {
-    width: "100%",
+    width: "90%",
     top: 40,
     marginBottom: 25,
-    borderBottomColor: "grey",
+    borderRadius:10,
+    borderWidth:1,
+    borderColor:'grey',
     borderWidth: 1,
+    paddingTop:5,
+    paddingBottom:5,
   },
   txt: {
     color: "white",
     fontSize: 25,
     fontWeight: "bold",
+    marginLeft:10,
   },
 });

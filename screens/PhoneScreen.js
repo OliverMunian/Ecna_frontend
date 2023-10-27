@@ -3,6 +3,7 @@ import Patient from "../components/Patient";
 import { addpatientToStore } from "../reducers/patient";
 import { useDispatch, useSelector } from "react-redux";
 
+import {LinearGradient} from 'expo-linear-gradient'
 
 export default function PhoneScreen({ navigation }) {
   const BACKEND_ADRESS = "http://10.3.0.43:3000";
@@ -32,12 +33,16 @@ export default function PhoneScreen({ navigation }) {
   });
 
   return (
-    <View style={styles.container}>
+    <LinearGradient style={styles.container}
+    colors={["#1a2755","#9b84ad"]}
+    start={{x:0.5,y:0}}
+    end={{x:0.5,y:1}}>
       <View style={styles.box}>
         <Text style={styles.title}> Répertoire </Text>
+        <View style={styles.line} />
       </View>
       {patientsDisplay}
-    </View>
+    </LinearGradient>
   );
 }
 
@@ -54,5 +59,13 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: "bold",
     fontStyle: "italic",
+  },
+  line: {
+    borderBottomColor: "grey",
+    borderBottomWidth: 1.4,
+  },
+  line: {
+    borderBottomColor: "grey",
+    borderBottomWidth: 1.4,
   },
 });

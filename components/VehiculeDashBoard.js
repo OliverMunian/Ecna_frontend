@@ -3,15 +3,15 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 
 
-export default function VehiculeDashBoard (props) {
+export default function VehiculeDashBoard (item) {
 
     return (
         <View style={styles.container}>
-            <Image style={styles.image} source={{uri : props.type}}/>
+            <Image style={styles.image} source={{uri : item.type}}/>
             <View style={styles.bottom}>
             <FontAwesome name='circle' size={(fontSize=10)} color='green' />
             <Text style={styles.txt}>
-                {props.plaque}
+                {item.plaque}
             </Text>
             </View>
         </View>
@@ -21,20 +21,19 @@ export default function VehiculeDashBoard (props) {
 const styles = StyleSheet.create({
     container : {
         flex:1,
-        flexDirection:'column',
         justifyContent:'space-around',
         alignContent:'center',
         alignItems:'center',
         backgroundColor:'white',
-        height:'100%',
-        width:150,
+        height:200,
+        width:200,
         borderRadius:20,
         marginRight:10,
         marginLeft:10,
     },
     image : {
-        height:'80%',
-        width:'80%',
+        height:'70%',
+        width:'100%',
         alignItems:'center',
     },
     bottom : {

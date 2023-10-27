@@ -14,6 +14,7 @@ import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
 import { addInterPlaque } from "../reducers/interVehicules";
 import { useDispatch } from "react-redux";
+import { LinearGradient } from "expo-linear-gradient";
 
 const GVuri = Image.resolveAssetSource(GV).uri;
 const MVuri = Image.resolveAssetSource(MV).uri;
@@ -95,7 +96,12 @@ export default function VehiculeScreen({ navigation }) {
   });
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      style={styles.container}
+      colors={["#1a2755", "#9b84ad"]}
+      start={{ x: 0.5, y: 0 }}
+      end={{ x: 0.5, y: 1 }}
+    >
       <View style={styles.titreBox}>
         <Text style={styles.titre}>Véhicules</Text>
         <TouchableOpacity style={styles.btn} onPress={() => handleAdd()}>
@@ -104,7 +110,7 @@ export default function VehiculeScreen({ navigation }) {
       </View>
       <View style={styles.box}>{vehiculesDisplay}</View>
       <View style={styles.trait} />
-    </View>
+    </LinearGradient>
   );
 }
 

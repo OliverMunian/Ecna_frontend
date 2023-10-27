@@ -163,9 +163,9 @@ const styles = StyleSheet.create({
   div: {
     borderTopLeftRadius: 200,
     width: "100%",
-    height: "80%",
+    height: "90%",
     backgroundColor: "white",
-    top: 350,
+    top: 370,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: "20%",
     alignItems: "center",
-    padding: 10,
+    padding: 5,
     marginTop: 20,
   },
   btntxt: {

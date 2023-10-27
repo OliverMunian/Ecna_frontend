@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, Image} from "react-native";
+import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
 import { useEffect, useState } from "react";
 import { useSelector , useDispatch} from "react-redux";
 import Fiche_intervention from "../components/Fiche_intervention";
@@ -10,6 +10,7 @@ import { defineListInter } from "../reducers/interventions";
 export default function InterventionsScreen() {
   const dispatch = useDispatch()
   const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const [dispatchedVehicules , setDispatchedVehicules] = useState ([])
   
   const user = useSelector((state) => state.user.value)
   const interventions = useSelector((state) => state.interventions.value)
@@ -20,11 +21,6 @@ export default function InterventionsScreen() {
   const MVuri = Image.resolveAssetSource(MV).uri;
   const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
   const imagesData = { Gros: GVuri, Moyen: MVuri, VSL: VSLuri };
-
-
-  const selectDispatch = (etat_vehicule) => {
-        console.log(etat_vehicule)
-    }
     
   // Récupération des interventions du back et dispatch dans le reducer
   useEffect(() => {
@@ -34,7 +30,11 @@ export default function InterventionsScreen() {
         dispatch(defineListInter(interData.interventions));
       });
   }, []);
-  
+
+  const selectDispatch = (dispatchedVehicule) => {
+    setDispatchedVehicules((prevDispatchedVehicules) => [...prevDispatchedVehicules, dispatchedVehicule]);
+  };
+  console.log(dispatchedVehicules)
   const displayInterventions = interventions.map((inter, i) => {
   // Mise en format de la date
     const day = new Date(inter.date).getDate();
@@ -55,25 +55,23 @@ export default function InterventionsScreen() {
         selectDispatch={selectDispatch}
       />
       )
-    } else 
-    {
+    } else {
       return (
         <Fiche_intervention
-        key={i}
-        lastName={inter.patient.lastName}
-        firstName={inter.patient.firstName}
-        departure={inter.departure}
-        arrival={inter.arrival}
-        date={date}
-        dispatched = {inter.vehicule}
-        plaque = {inter.vehicule.plaque}
-        type={imagesData[inter.vehicule.type]}
-      />
-    );
-  }});
+          key={i}
+          lastName={inter.patient.lastName}
+          firstName={inter.patient.firstName}
+          departure={inter.departure}
+          arrival={inter.arrival}
+          date={date}
+          dispatched={inter.vehicule}
+          plaque={inter.vehicule.plaque}
+          type={imagesData[inter.vehicule.type]}
+        />
+      );
+    }
+  });
 
-
-    
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Interventions</Text>
@@ -100,7 +98,7 @@ const styles = StyleSheet.create({
     marginTop: 130,
     marginLeft: 10,
     fontWeight: "bold",
-    fontStyle:'italic',
+    fontStyle: "italic",
   },
   line: {
     borderBottomColor: "grey",

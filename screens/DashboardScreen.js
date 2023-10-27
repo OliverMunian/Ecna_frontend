@@ -7,7 +7,7 @@ import {
   Alert,
   Image,
   ScrollView,
-  SafeAreaView,
+  SafeAreaView
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useEffect, useState } from "react";
@@ -19,6 +19,8 @@ import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
 import { addpatientToStore } from "../reducers/patient";
 import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
+import {LinearGradient} from 'expo-linear-gradient'
+
 
 export default function DashboardScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -68,23 +70,25 @@ export default function DashboardScreen({ navigation }) {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          const filteredPatients = data.data.filter((item) => item.interventions !== undefined);
-          if (filteredPatients.length > 0) {
-            const mappedPatients = filteredPatients.map((item) => ({
+            const mappedPatients = data.data.map((item) => ({
               firstName: item.firstName,
               lastName: item.lastName,
               interventions: item.interventions,
             }));
+            console.log(mappedPatients)
             dispatch(addpatientToStore(mappedPatients));
-            navigation.navigate("SearchInput");on.navigate("SearchInput");
+            navigation.navigate("SearchInput");
         }
-      }
-      });
-  };
+      })
+      };
   return (
-    <View style={styles.container}>
+    <LinearGradient style={styles.container}
+    colors={["#1a2755","#9b84ad"]}
+    start={{x:0.5,y:0}}
+    end={{x:0.5,y:1}}>
       <View style={styles.maintitle}>
-        <Text style={styles.h1}> Votre activité </Text>
+        <Text style={styles.h1}> Véhicules disponibles </Text>
+        {/* <Text style={styles.h1}> Votre activité </Text>
       </View>
       <View style={styles.box}>
         <View style={styles.title}>
@@ -119,11 +123,11 @@ export default function DashboardScreen({ navigation }) {
       <View style={styles.available}>
         <View style={styles.secondtitle}>
           <Text style={styles.h2}> Véhicules disponibles </Text>
-        </View>
+        </View> */}
       </View>
 
       {/* SCROLL HORIZONTAL */}
-      <SafeAreaView>
+      {/* <SafeAreaView>
         <ScrollView
           style={styles.vehicles}
           horizontal={true}
@@ -132,34 +136,35 @@ export default function DashboardScreen({ navigation }) {
         >
           {vehiculesDispoDisplay}
         </ScrollView>
-      </SafeAreaView>
+      </SafeAreaView> */}
 
       {/* LECTEUR CAROUSEL */}
-      <View style={styles.lecteur}>
+      {/* <View style={styles.lecteur}>
         <View style={styles.encours}></View>
         <View style={styles.suivant}>
           <TouchableOpacity onPress={() => next()}>
             <FontAwesome name="forward" size={(fontSize = 25)} color="black" />
           </TouchableOpacity>
         </View>
-      </View>
+      </View> */}
       {/* BARRE DE RECHERCHE */}
-      <View>
-        <TextInput
+      <View styles={styles.search}>
+        <TextInput style={styles.inputplaceholder}></TextInput>
+        {/* <TextInput
           style={styles.inputplaceholder}
           placeholder="Recherche..."
           placeholderTextColor="black"
           onChangeText={(value) => setRecherche(value)}
           value={recherche}
-        />
-        <TouchableOpacity
+        /> */}
+        {/* <TouchableOpacity
           onPress={() => handleSearch()}
           style={styles.verifyButton}
         >
           <Text>🔍</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
-    </View>
+    </LinearGradient>
   );
 }
 
@@ -169,6 +174,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: "black",
+    alignItems:'center'
   },
   box: {
     width: "100%",
@@ -178,17 +184,23 @@ const styles = StyleSheet.create({
     height: 300,
   },
   maintitle: {
-    top: 100,
     fontSize: 55,
     fontWeight: "bold",
-    left: 10,
-    width: "90%",
+    borderBottomLeftRadius:200,
+    borderBottomRightRadius:200,
+    width: "100%",
+    backgroundColor:'white',
+    height: 450,
+    alignItems:'center',
+    justifyContent:'center',
   },
   h1: {
-    fontSize: 40,
+    top:-100,
+    fontSize: 25,
     fontWeight: "bold",
     fontStyle:'italic',
-    color: "white",
+    color: "black",
+    textDecorationLine: 'underline',
   },
   title: {
     flexDirection: "row",
@@ -255,20 +267,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     right: 0,
   },
+  search:{
+    borderWidth:3,
+    borderColor:'green',
+    width: "100%",
+    zIndex: 2,
+  },
   inputplaceholder: {
+    width:300,
     paddingLeft: 10,
     borderRadius: 10,
     backgroundColor: "#a19999",
     color: "black",
-    width: "95%",
     borderColor: "white",
     height: 40,
     top: 60,
-    marginLeft: 10,
     borderWidth: 1,
     borderColor: "white",
   },
   verifyButton: {
+    width:'100%',
     top: 70,
     position: "absolute",
     alignSelf: "center",

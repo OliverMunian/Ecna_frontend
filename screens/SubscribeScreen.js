@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ImageBackground } from "react-native";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addtokenToSotre , addSirenToSotre } from "../reducers/user";
+import background from '../assets/ambulance.jpg'
 
 export default function SubscribeScreen({ navigation }) {
   const BACKEND_ADRESS = "http://10.3.0.43:3000";
@@ -42,6 +43,10 @@ export default function SubscribeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <ImageBackground source={background} resizeMode="cover" style={styles.image} blurRadius={1}>
+      <View style={styles.title}>
+          <Text style={styles.maintitle}>Inscription</Text>
+        </View>
       <View style={styles.titleprevious}>
         <TouchableOpacity
           onPress={() => {
@@ -51,13 +56,14 @@ export default function SubscribeScreen({ navigation }) {
           <Text style={styles.previous}>Accueil</Text>
         </TouchableOpacity>
       </View>
+
+
+
       <View style={styles.div}>
-        <View style={styles.title}>
-          <Text style={styles.maintitle}>Inscription</Text>
-        </View>
+      <Text style={styles.titleform}>Bienvenue sur Ecna</Text>
+      <Text style={styles.titleformun}>Veuillez compléter le formulaire pour continuer</Text>
         <View style={styles.formulaire}>
           <View style={styles.divinput}>
-            <Text style={styles.txt}>Nom d'utilisateur</Text>
             <TextInput
               style={styles.input}
               placeholder="Nom d'utilisateur"
@@ -67,7 +73,6 @@ export default function SubscribeScreen({ navigation }) {
             />
           </View>
           <View style={styles.divinput}>
-            <Text style={styles.txt}>Adresse mail</Text>
             <TextInput
               style={styles.input}
               placeholder="Adresse mail"
@@ -77,7 +82,6 @@ export default function SubscribeScreen({ navigation }) {
             />
           </View>
           <View style={styles.divinput}>
-            <Text style={styles.txt}>Mot de passe</Text>
             <TextInput
               style={styles.input}
               placeholder="Mot de passe"
@@ -89,7 +93,6 @@ export default function SubscribeScreen({ navigation }) {
           </View>
           <View style={styles.line}></View>
           <View style={styles.divinput}>
-            <Text style={styles.txt}>Nom de l'entreprise</Text>
             <TextInput
               style={styles.input}
               placeholder="Nom de l'entreprise"
@@ -99,7 +102,6 @@ export default function SubscribeScreen({ navigation }) {
             />
           </View>
           <View style={styles.divinput}>
-            <Text style={styles.txt}>N° de SIREN</Text>
             <TextInput
               style={styles.input}
               placeholder="N° de SIREN"
@@ -113,6 +115,7 @@ export default function SubscribeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </View>
+      </ImageBackground>
     </View>
   );
 }
@@ -122,75 +125,72 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "black",
     justifyContent: "center",
+    alignItems:'center',
     width: "100%",
   },
-  titleprevious: {
-    top: -55,
-    left: 20,
+  image:{
+    width:"100%",
+    height: '85%',
+    top:-250,
   },
-  previous: {
-    left: 0,
-    color: "white",
-    fontWeight: "bold",
+  title:{
+    alignItems:'center',
+    justifyContent:'center',
   },
-  div: {
-    width: "100%",
+  maintitle:{
+    top:300,
+    color:'white',
+    fontSize:55,
+    fontWeight:'bold',
   },
-  title: {
-    left: 20,
-    width: "100%",
-    alignItems: "flex-start",
+  div:{
+    borderTopLeftRadius:200,
+    width:'100%',
+    height:'80%',
+    backgroundColor:'white',
+    top:350,
+    justifyContent:'center',
+    alignItems:'center',
   },
-  maintitle: {
-    color: "white",
-    fontSize: 45,
-    fontWeight: "bold",
-  },
-  formulaire: {
-    width: "100%",
-    top: 40,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  divinput: {
-    color: "white",
-    width: "80%",
-    borderColor: "white",
-    height: 20,
-    marginBottom: 60,
-  },
-  txt: {
-    color: "white",
-    fontWeight: "bold",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "white",
-    width: "100%",
+  titleform: {
     color: "black",
-    height: 40,
-    borderRadius: 10,
-    backgroundColor: "#a19999",
-    marginTop: 5,
+    fontWeight: "bold",
+    fontSize:30,
   },
-  btn: {
-    width: 130,
-    height: 60,
-    backgroundColor: "blue",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: "white",
+  titleformun:{
+    color: "black",
+    fontStyle: "italic",
+    fontSize:10,
+    marginBottom:20,
   },
-  btntxt: {
-    color: "white",
+  formulaire:{
+    width:'100%',
+    alignItems:'center',
+    justifyContent:'center',
   },
-  line: {
-    borderWidth: 0.5,
-    borderColor: "#a19999",
-    height: 0.5,
-    width: "85%",
-    marginBottom: 10,
+  divinput:{
+    width: '70%',
+    height:40,
+    borderRadius:20,
+    margin:10,
   },
+  input:{
+    backgroundColor:'#3f6b9d',
+    height:40,
+    borderRadius:20,
+    placeholderTextColor:'white',
+    textAlign:'left',
+    paddingLeft:10,
+  },
+  btn:{
+    borderWidth:2,
+    borderRadius:20,
+    width:'20%',
+    alignItems:'center',
+    padding:10,
+    marginTop:20,
+  },
+  btntxt:{
+    fontWeight:'bold',
+  }
 });

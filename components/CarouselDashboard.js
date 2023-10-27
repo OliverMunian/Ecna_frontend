@@ -16,18 +16,13 @@ export default function carouselDashboard() {
 
   const vehiculesDispo = useSelector((state) => state.vehiculesDispo.value);
   console.log(vehiculesDispo)
-  // const vehiculesDispoDisplay = vehiculesDispo.map((data, i) => {
-  //   return (
-  //     <VehiculeDashBoard
-  //       key={i}
-  //       type={imagesData[data.type]}
-  //       plaque={data.plaque}
-  //     />
-  //   );
-  // });
   return (
-    <View>
-        <FlatList data={vehiculesDispo} renderItem={({item}) => <VehiculeDashBoard item={item} type={imagesData[item.type]} plaque={item.plaque}  />}/>
+    <View style={styles.container}>
+        <FlatList data={vehiculesDispo} 
+        renderItem={({item}) => <VehiculeDashBoard item={item} type={imagesData[item.type]} plaque={item.plaque}/>}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        boucnes={false}/>
     </View>
   );
 }
@@ -35,7 +30,8 @@ export default function carouselDashboard() {
 const styles = StyleSheet.create({
   container: {
     flexDirection:'row',
-    width: 100,
-    height: 100,
+    top:30,
+    width:'50%',
+    height: 200,
   },
 });

@@ -1,20 +1,27 @@
-import { StyleSheet, Text, View, TextInput, Button, ImageBackground } from "react-native";
-import AddVehiculesScreen from "./AddVehiculesScreen";
-import { TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ImageBackground } from "react-native";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addtokenToSotre , addSirenToSotre } from "../reducers/user";
 import background from '../assets/ambulance.jpg'
 
 export default function SubscribeScreen({ navigation }) {
-  const [username, setUserName] = useState('')
-  const [password, setPassword] = useState('')
-  const [email, setEmail] = useState('')
-  const BACKEND_ADRESS = "http://10.3.0.13:3000";
+  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const dispatch = useDispatch()
+
+  // Mise en place états liés aux input
+  const [username,setUserName] = useState(null)
+  const [password,setPassWord] = useState(null)
+  const [email,setEmail] = useState(null)
+  const [name,setName] = useState(null)
+  const [SIREN,setSIREN] = useState(null)
+
+ // Fonction à déclencher lors de l'appui sur le bouton valider afin de créer un document user et un document entreprise + les lier
   function Subscribe() {
     navigation.navigate("AddVehicule");
     fetch(`${BACKEND_ADRESS}/users/signup`, {
       method:'POST',
       headers:{'Content-type' : 'application/json'},
-      body : JSON.stringify({username:username,password:password, email:email})
+      body : JSON.stringify({username:username,password:password, email:email, name : name , SIREN : SIREN})
     })
     .then(response => response.json())
     .then(data => {
@@ -28,9 +35,11 @@ export default function SubscribeScreen({ navigation }) {
     })
   }
 
+// Fonction qui permet de revenir vers l'ecran d'acceuil 
   const navigate = () => {
     navigation.navigate("Home");
   };
+
 
   return (
     <View style={styles.container}>
@@ -60,7 +69,7 @@ export default function SubscribeScreen({ navigation }) {
               placeholder="Nom d'utilisateur"
               placeholderTextColor="black"
               onChangeText={(value) => setUserName(value)}
-              value={username}
+              value = {username}
             />
           </View>
           <View style={styles.divinput}>
@@ -68,8 +77,8 @@ export default function SubscribeScreen({ navigation }) {
               style={styles.input}
               placeholder="Adresse mail"
               placeholderTextColor="black"
-              onChangeText={(value) => setEmail(value)}
-              value={email}
+              onChangeText={(value)=> setEmail(value)}
+              value = {email}
             />
           </View>
           <View style={styles.divinput}>
@@ -78,8 +87,8 @@ export default function SubscribeScreen({ navigation }) {
               placeholder="Mot de passe"
               secureTextEntry={true}
               placeholderTextColor="black"
-              onChangeText={(value) => setPassword(value)}
-              value={password}
+              onChangeText={(value) => setPassWord(value)}
+              value = {password}
             />
           </View>
           <View style={styles.line}></View>
@@ -87,14 +96,18 @@ export default function SubscribeScreen({ navigation }) {
             <TextInput
               style={styles.input}
               placeholder="Nom de l'entreprise"
-              placeholderTextColor="white"
+              placeholderTextColor="black"
+              onChangeText={(value)=>setName(value)}
+              value = {name}
             />
           </View>
           <View style={styles.divinput}>
             <TextInput
               style={styles.input}
               placeholder="N° de SIREN"
-              placeholderTextColor="white"
+              placeholderTextColor="black"
+              onChangeText={(value)=>setSIREN(value)}
+              value = {SIREN}
             />
           </View>
           <TouchableOpacity style={styles.btn} onPress={() => Subscribe()}>

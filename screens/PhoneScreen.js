@@ -1,21 +1,22 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { useState, useEffect } from "react";
-import Patient from "../components/Patient";
+import { useEffect } from "react";
+import Patient from '../components/Patient'
 import { addpatientToStore } from "../reducers/patient";
 import { useDispatch , useSelector } from "react-redux";
+import { defineListPatients } from "../reducers/listPatients";
 
 export default function PhoneScreen({navigation}) {
-  const dispatch = useDispatch()
-  const [patients, setPatients] = useState([]);
-  const patient = useSelector((state) => state.patient.value)
-  console.log(patient)
 
-  const BACKEND_ADRESS = "http://10.3.0.13:3000";
+const BACKEND_ADRESS = "http://10.3.0.43:3000";
+const dispatch = useDispatch()
+const user = useSelector((state) => state.user.value)
 
-  useEffect(() => {
-    fetch(`${BACKEND_ADRESS}/patients/all`)
+// A l'initialisation du composant récupération de la liste de tous les patients associés au user connecté
+useEffect(() => {
+    fetch(`${BACKEND_ADRESS}/patients/all/${user.token}`)
       .then((response) => response.json())
       .then((patientData) => {
+       // Fonction qui permet de trier les patients par ordre alphabétique
         function sortPatients (a,b) {
           if(a.lastName<b.lastName){
             return -1
@@ -24,24 +25,23 @@ export default function PhoneScreen({navigation}) {
           }
           return 0
         }
-        const sorted = patientData.data.sort(sortPatients)
-        setPatients(sorted)
+        const sorted = patientData.patients.sort(sortPatients)
+      // Dispatch dans le reducer
+        dispatch(defineListPatients(sorted))
       });
   }, []);
+  
+const patients = useSelector((state) => state.listPatients.value)
 
+// Fonction qui permet de récuperer les informations du patient et de naviguer vers la page qui affiche les informations
+// patients en fonction de son numero de securité sociale
   const handleClick = (SSnumber) => {
-    fetch(`${BACKEND_ADRESS}/patients/unique/${SSnumber}`)
-    .then(response => response.json())
-    .then(patientData => {
-      if(patientData.result){
-        dispatch(addpatientToStore(patientData.data))
-        navigation.navigate('Infosdupatient')
-      }
-    })
+  const infoPatient = patients.filter((e) => e.SSnumber === SSnumber)
+  dispatch(addpatientToStore(infoPatient[0]))
+   navigation.navigate('Infosdupatient')
   }
  
-  const all = patients.map((patient, i) => {
-    patients.sort((a, b) => b.lastName - a.lastName);
+const patientsDisplay = patients.map((patient, i) => {
     patient.lastName = patient.lastName.toUpperCase();
     return (
       <TouchableOpacity key={i} onPress={() => handleClick(patient.SSnumber)}>
@@ -59,7 +59,7 @@ export default function PhoneScreen({navigation}) {
       <View style={styles.box}>
         <Text style={styles.title}> Répertoire </Text>
       </View>
-      {all}
+      {patientsDisplay}
     </View>
   );
 }

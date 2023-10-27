@@ -2,6 +2,7 @@ import {Modal, StyleSheet, Text, View, ScrollView, TouchableOpacity,Image } from
 import { useSelector } from "react-redux";
 import { useState } from "react";
 export default function Fiche_intervention(props) {
+    
     const vehicules = useSelector((state) => state.vehicules.value);
     const [modalVisible, setModalVisible] = useState(false);
     const handledispatch = () => {

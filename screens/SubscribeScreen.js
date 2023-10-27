@@ -1,31 +1,45 @@
-import { StyleSheet, Text, View, TextInput, Button } from "react-native";
-import AddVehiculesScreen from "./AddVehiculesScreen";
-import { TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from "react-native";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addtokenToSotre , addSirenToSotre } from "../reducers/user";
 
 export default function SubscribeScreen({ navigation }) {
-  const BACKEND_ADRESS = "http://10.3.0.13:3000";
+  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const dispatch = useDispatch()
+
+  // Mise en place états liés aux input
+  const [username,setUserName] = useState(null)
+  const [password,setPassWord] = useState(null)
+  const [email,setEmail] = useState(null)
+  const [name,setName] = useState(null)
+  const [SIREN,setSIREN] = useState(null)
+
+ // Fonction à déclencher lors de l'appui sur le bouton valider afin de créer un document user et un document entreprise + les lier
   function Subscribe() {
     navigation.navigate("AddVehicule");
-    // fetch(`${BACKEND_ADRESS}/users/signup`, {
-    //   method:'POST',
-    //   headers:{'Content-type' : 'application/json'},
-    //   body : JSON.stringify({username:username,password:password, email:email})
-    // })
-    // .then(response => response.json())
-    // .then(data => {
-    //   if(data.result){
-    //     dispatch(addtokenToSotre(data.token))
-    //     dispatch(addSirenToSotre(data.SIREN))
-    //     navigation.navigate('AddVehicule');
-    //   } else {
-    //     setErrorMessage(data.error)
-    //   }
-    // })
+    fetch(`${BACKEND_ADRESS}/users/signup`, {
+      method:'POST',
+      headers:{'Content-type' : 'application/json'},
+      body : JSON.stringify({username:username,password:password, email:email, name : name , SIREN : SIREN})
+    })
+    .then(response => response.json())
+    .then(data => {
+      if(data.result){
+        dispatch(addtokenToSotre(data.token))
+        dispatch(addSirenToSotre(data.SIREN))
+        navigation.navigate('AddVehicule');
+      } else {
+        setErrorMessage(data.error)
+      }
+    })
   }
 
+// Fonction qui permet de revenir vers l'ecran d'acceuil 
   const navigate = () => {
     navigation.navigate("Home");
   };
+
+
   return (
     <View style={styles.container}>
       <View style={styles.titleprevious}>
@@ -48,6 +62,8 @@ export default function SubscribeScreen({ navigation }) {
               style={styles.input}
               placeholder="Nom d'utilisateur"
               placeholderTextColor="black"
+              onChangeText={(value) => setUserName(value)}
+              value = {username}
             />
           </View>
           <View style={styles.divinput}>
@@ -56,6 +72,8 @@ export default function SubscribeScreen({ navigation }) {
               style={styles.input}
               placeholder="Adresse mail"
               placeholderTextColor="black"
+              onChangeText={(value)=> setEmail(value)}
+              value = {email}
             />
           </View>
           <View style={styles.divinput}>
@@ -65,6 +83,8 @@ export default function SubscribeScreen({ navigation }) {
               placeholder="Mot de passe"
               secureTextEntry={true}
               placeholderTextColor="black"
+              onChangeText={(value) => setPassWord(value)}
+              value = {password}
             />
           </View>
           <View style={styles.line}></View>
@@ -74,6 +94,8 @@ export default function SubscribeScreen({ navigation }) {
               style={styles.input}
               placeholder="Nom de l'entreprise"
               placeholderTextColor="black"
+              onChangeText={(value)=>setName(value)}
+              value = {name}
             />
           </View>
           <View style={styles.divinput}>
@@ -82,6 +104,8 @@ export default function SubscribeScreen({ navigation }) {
               style={styles.input}
               placeholder="N° de SIREN"
               placeholderTextColor="black"
+              onChangeText={(value)=>setSIREN(value)}
+              value = {SIREN}
             />
           </View>
           <TouchableOpacity style={styles.btn} onPress={() => Subscribe()}>

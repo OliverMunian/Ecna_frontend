@@ -17,15 +17,16 @@ import user from "./reducers/user";
 import vehicules from "./reducers/vehicules";
 import patient from "./reducers/patient";
 import interVehicules from "./reducers/interVehicules";
-
-
+import interventions from "./reducers/interventions";
+import listPatients from "./reducers/listPatients";
+import vehiculesDispo from "./reducers/vehiculesDispo";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import FicheAddVehicule from "./components/Fiche_AddVehicule";
 import AddVehiculesScreenBis from "./screens/AddVehiculesScreenBis";
 
 const store = configureStore({
-  reducer: { user, vehicules, patient, interVehicules},
+  reducer: { user, vehicules, patient, interVehicules, interventions, listPatients, vehiculesDispo},
 });
 
 const Stack = createNativeStackNavigator();

@@ -6,8 +6,18 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import { useDispatch , useSelector } from 'react-redux';
+import { defineListInter } from "../reducers/interventions";
+import { defineListPatients } from "../reducers/listPatients";
 
-export default function Formulaire_interventions() {
+
+export default function Formulaire_interventions({navigation}) {
+  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const dispatch = useDispatch()
+  // Recuperation des informations du user du reducer
+  const user = useSelector((state) => state.user.value)
+  
+  // Etats relatif aux inputs du formulaire
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
   const [adress, setAdress] = useState(null);
@@ -19,9 +29,12 @@ export default function Formulaire_interventions() {
   const [Departure, setDeparture] = useState(null);
   const [Arrival, setArrival] = useState(null);
   const [error, setError] = useState(null);
+  const [errorStyle,setErrorStyle] = useState({})
 
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
 
+  
+// Fonction qui se declenche lors du clique sur Search pour permettre de vérifier s'il existe un patient avec ce numero de securité 
+// sociale dans la BDD, si oui préremplir les champs dédiés aux informations patients, si non renvoyer un message d'erreur
   const handlesearch = (SSnumber) => {
     fetch(`${BACKEND_ADRESS}/patients/verify`, {
       method: "POST",
@@ -31,7 +44,6 @@ export default function Formulaire_interventions() {
       .then((response) => response.json())
       .then((patientData) => {
         if (patientData.result) {
-          console.log(setValide(patientData.patient.valide));
           setFirstName(patientData.patient.firstName);
           setLastName(patientData.patient.lastName);
           setAdress(patientData.patient.adress);
@@ -40,12 +52,18 @@ export default function Formulaire_interventions() {
           setMutuelle(patientData.patient.mutuelle);
           setValide(patientData.patient.valide);
           setExiste(true);
+          navigation.navigate('TabNavigator')
         } else {
-          setError(patientData.error);
+          setError(patientData.error)
+          setErrorStyle({color:'white',fontSize:10})
         }
       });
   };
+
+  // Fonction qui se declenche lors du clique sur le bouton submit qui ajoute si necessaire le patient dans la BDD, et l'intervention quoi
+  // qu'il arrive. Permet également de récuperer la liste des interventions/patients et de mettre à jour le reducer
   const handleSubmit = () => {
+    // add inter/patient
     fetch(`${BACKEND_ADRESS}/interventions/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -60,13 +78,35 @@ export default function Formulaire_interventions() {
         phone: phone,
         departure: Departure,
         arrival: Arrival,
+        SIREN : user.SIREN,
+        token:user.token
       }),
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
+      .then(() => {
+    // mise à jour du reducer interventions
+    fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
+    .then(response => response.json())
+    .then(interData => {
+      if(interData.result){
+        dispatch(defineListInter(interData.interventions))
+      }
+    // mise à jour du reducer patients
+    })
+    .then(()=>{
+    fetch(`${BACKEND_ADRESS}/patients/all/${user.token}`)
+    .then(response => response.json())
+    .then(patientData => {
+      if(patientData.result){
+        dispatch(defineListPatients(patientData.patients))
+        }
+      }) 
+    })
+    });
   };
+
+
+
   return (
     <View style={styles.container}>
       <Text style={styles.titre}>Creation Intervention</Text>
@@ -110,12 +150,17 @@ export default function Formulaire_interventions() {
             onChangeText={(value) => setSSnumber(value)}
             value={SSnumber}
           />
+          <View>
           <TouchableOpacity
             onPress={() => handlesearch(SSnumber)}
             style={styles.search}
           >
             <Text style={styles.txt}>Search</Text>
           </TouchableOpacity>
+          <Text style={errorStyle}>
+            {error}
+          </Text>
+          </View>
         </View>
       </View>
       <View style={styles.divinput}>

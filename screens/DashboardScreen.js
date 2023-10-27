@@ -17,15 +17,18 @@ import VehiculeDashBoard from "../components/VehiculeDashBoard";
 import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
-import { addpatientToStore } from "../reducers/patients";
+import { addpatientToStore } from "../reducers/patient";
+import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
 
 export default function DashboardScreen({ navigation }) {
   const dispatch = useDispatch();
   const [recherche, setRecherche] = useState("");
-  const vehicules = useSelector((state) => state.vehicules.value);
-  const [vehiculesDispo, setVehiculesDispo] = useState([]);
+
+  const vehiculesDispo = useSelector((state) => state.vehiculesDispo.value);
   const BACKEND_ADRESS = "http://10.3.0.43:3000";
   const SIREN = useSelector((state) => state.user.value.SIREN);
+
+
   const GVuri = Image.resolveAssetSource(GV).uri;
   const MVuri = Image.resolveAssetSource(MV).uri;
   const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
@@ -38,9 +41,9 @@ export default function DashboardScreen({ navigation }) {
       .then((data) => {
         if (data.result) {
           dispatch(defineListVehicules(data.vehicules));
-          setVehiculesDispo(
+          dispatch(defineListVehiculesDispo(
             data.vehicules.filter((e) => e.etat === "En ligne")
-          );
+          ));
         }
       });
   }, []);

@@ -89,7 +89,7 @@ export default function Formulaire_interventions({ navigation }) {
             if (interData.result) {
               dispatch(defineListInter(interData.interventions));
             }
-        // mise à jour du reducer patients
+            // mise à jour du reducer patients
           })
           .then(() => {
             fetch(`${BACKEND_ADRESS}/patients/all/${user.token}`)
@@ -249,8 +249,8 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 25,
     fontStyle: "italic",
-    fontWeight:'bold',
-    paddingLeft:10,
+    fontWeight: "bold",
+    paddingLeft: 10,
   },
   search: {
     width: 100,
@@ -280,31 +280,31 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
   },
-  nomprenom:{
-    flexDirection:'row',
-    width:'90%',
-    justifyContent:'center',
+  nomprenom: {
+    flexDirection: "row",
+    width: "90%",
+    justifyContent: "center",
     height: 20,
     marginBottom: 25,
   },
-  nom:{
+  nom: {
     width: "40%",
     borderColor: "white",
     color: "white",
-    borderWidth:1,
+    borderWidth: 1,
     height: 35,
-    borderRadius:10,
-    paddingLeft:10,
+    borderRadius: 10,
+    paddingLeft: 10,
   },
-  prenom:{
+  prenom: {
     width: "45%",
     borderColor: "white",
     color: "white",
-    borderWidth:1,
+    borderWidth: 1,
     height: 35,
-    marginRight:'5%',
-    borderRadius:10,
-    paddingLeft:10,
+    marginRight: "5%",
+    borderRadius: 10,
+    paddingLeft: 10,
   },
   divinput: {
     color: "white",
@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     flexDirection: "row",
     width: "80%",
-    marginBottom:10,
+    marginBottom: 10,
   },
   telephone: {
     borderWidth: 1,

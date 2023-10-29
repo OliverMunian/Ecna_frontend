@@ -2,11 +2,10 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import Patient from "../components/Patient";
 import { addpatientToStore } from "../reducers/patient";
 import { useDispatch, useSelector } from "react-redux";
-
-import {LinearGradient} from 'expo-linear-gradient'
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function PhoneScreen({ navigation }) {
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://192.168.1.14:3000";
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
   const patients = useSelector((state) => state.listPatients.value);
@@ -33,10 +32,12 @@ export default function PhoneScreen({ navigation }) {
   });
 
   return (
-    <LinearGradient style={styles.container}
-    colors={["#1a2755","#9b84ad"]}
-    start={{x:0.5,y:0}}
-    end={{x:0.5,y:1}}>
+    <LinearGradient
+      style={styles.container}
+      colors={["#1a2755", "#9b84ad"]}
+      start={{ x: 0.5, y: 0 }}
+      end={{ x: 0.5, y: 1 }}
+    >
       <View style={styles.box}>
         <Text style={styles.title}> Répertoire </Text>
         <View style={styles.line} />

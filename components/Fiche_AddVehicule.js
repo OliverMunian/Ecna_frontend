@@ -26,10 +26,10 @@ export default function FicheAddVehicule({ screenName }) {
   const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
   const imagesData = { Gros: GVuri, Moyen: MVuri, VSL: VSLuri };
 
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://192.168.1.14 :3000";
 
   // Definition des possibilités des menus déroulants
-  const types = ["Gros", "Moyen", "VSL"];
+  const types = ["Gros volume", "Classique", "VSL"];
   const etats = ["En ligne", "Hors ligne", "Indisponible"];
 
   // Setup des etats qui stockeront la data recuperée des champs input/menus
@@ -96,7 +96,7 @@ export default function FicheAddVehicule({ screenName }) {
           plaque={data.plaque}
           etat={data.etat}
           type={imagesData[data.type]}
-          color="orange"
+          color="red"
         />
       );
     } else if (data.etat === "Indisponible") {
@@ -106,53 +106,72 @@ export default function FicheAddVehicule({ screenName }) {
           plaque={data.plaque}
           etat={data.etat}
           type={imagesData[data.type]}
-          color="red"
+          color="black"
         />
       );
     }
   });
+
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Nouveau véhicule </Text>
+      <Text style={styles.subtitle}>
+        Veuillez compléter les champs suivants pour ajouter un nouveau véhicule
+        à votre flotte{" "}
+      </Text>
       <View style={styles.vehicules}>{vehiculesDisplay}</View>
-      <View style={styles.formulaire}>
-        <Text style={styles.txt}>Plaque</Text>
+      <View style={styles.form}>
         <TextInput
           style={styles.input}
+          placeholder="Saissez la plaque d'immatriculation"
+          placeholderTextColor="white"
           onChangeText={(value) => setPlaque(value)}
           value={plaque}
         />
-        <Text style={styles.txt}>Type</Text>
-        <SelectDropdown
-          data={types}
-          onSelect={(selectedItem, index) => {
-            setType(selectedItem);
-          }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item, index) => {
-            return item;
-          }}
-        />
-        <Text style={styles.txt}>Etat par défault</Text>
-        <SelectDropdown
-          data={etats}
-          onSelect={(selectedItem, index) => {
-            setEtat(selectedItem);
-          }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item, index) => {
-            return item;
-          }}
-        />
-        <TouchableOpacity onPress={() => handleAdd()} style={styles.btn}>
-          <Text>Ajouter</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.btn} onPress={() => handleNext()}>
-          <Text>Suite</Text>
-        </TouchableOpacity>
+        <View style={styles.menuselect}>
+          <View style={styles.box}>
+            <Text style={styles.txt}>Type de véhicule</Text>
+            <SelectDropdown
+              style={styles.dropdown}
+              placeholderStyle={styles.placeholderStyle}
+              data={types}
+              onSelect={(selectedItem, index) => {
+                setType(selectedItem);
+              }}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                return selectedItem;
+              }}
+              rowTextForSelection={(item, index) => {
+                return item;
+              }}
+            />
+          </View>
+          <View style={styles.box}>
+            <Text style={styles.txt}>Etat par défault</Text>
+            <SelectDropdown
+              style={styles.dropdown}
+              searchPlaceholder="Select item..."
+              data={etats}
+              onSelect={(selectedItem, index) => {
+                setEtat(selectedItem);
+              }}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                return selectedItem;
+              }}
+              rowTextForSelection={(item, index) => {
+                return item;
+              }}
+            />
+          </View>
+        </View>
+        <View style={styles.btns}>
+          <TouchableOpacity onPress={() => handleAdd()} style={styles.btn}>
+            <Text style={styles.txt}>Ajouter</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btn} onPress={() => handleNext()}>
+            <Text style={styles.txt}>Suivant</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -161,35 +180,73 @@ export default function FicheAddVehicule({ screenName }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    width: "100%",
+  },
+  title: {
+    color: "white",
+    fontSize: 35,
+    fontWeight: "bold",
+    marginLeft: 10,
+  },
+  subtitle: {
+    fontSize: 13,
+    fontStyle: "italic",
+    color: "white",
+    marginLeft: 10,
+  },
+  vehicules: {
+    width: "100%",
+    height: 100,
+  },
+  form: {
+    width: "100%",
+    alignItems: "center",
+    height: 300,
+    justifyContent: "space-between",
   },
   input: {
+    width: "80%",
     borderWidth: 1,
+    paddingLeft: 10,
     borderColor: "white",
-    width: "100%",
-    color: "black",
+    color: "white",
     height: 40,
     borderRadius: 10,
-    backgroundColor: "#a19999",
-    marginTop: 5,
+    backgroundColor: "transparent",
+  },
+  menuselect: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  box: {
+    alignItems: "center",
   },
   txt: {
     color: "white",
   },
+  dropdown: {
+    width: "60%",
+  },
+  placeholderStyle: {
+    backgroundColor: "transparent",
+  },
+  btns: {
+    justifyContent: "space-between",
+    flexDirection: "row",
+    width: "70%",
+  },
   btn: {
-    width: 130,
+    width: "45%",
     height: 60,
-    backgroundColor: "blue",
+    backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 20,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: "white",
-  },
-  formulaire: {
-    width: "100%",
-    top: 40,
-    alignItems: "center",
-    justifyContent: "center",
+    color: "white",
   },
 });

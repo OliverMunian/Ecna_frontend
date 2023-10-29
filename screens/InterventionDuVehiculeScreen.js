@@ -8,6 +8,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { removeInterPlaque } from "../reducers/interVehicules";
 import Fiche_intervention from "../components/Fiche_intervention";
+import { LinearGradient } from "expo-linear-gradient";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export default function Interventions({ navigation }) {
   const dispatch = useDispatch();
@@ -40,9 +42,21 @@ export default function Interventions({ navigation }) {
     console.log("retour la page précédente", interventions);
   }
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      style={styles.container}
+      colors={["#1a2755", "#9b84ad"]}
+      start={{ x: 0.5, y: 0 }}
+      end={{ x: 0.5, y: 1 }}
+    >
       <TouchableOpacity onPress={() => back()}>
-        <Text style={styles.plaque}>{plaque}</Text>
+        <View style={styles.previous}>
+          <MaterialIcons
+            name="arrow-back-ios"
+            size={(fontSize = 25)}
+            color="white"
+          />
+          <Text style={styles.plaque}>{plaque}</Text>
+        </View>
       </TouchableOpacity>
       <View style={styles.box}>
         <Text style={styles.txt}> Interventions </Text>
@@ -50,20 +64,22 @@ export default function Interventions({ navigation }) {
       <View style={styles.input}>
         <Text style={styles.inter}>{interventionsDisplay}</Text>
       </View>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
     width: "100%",
-    backgroundColor: "black",
   },
-  plaque: {
+  previous:{
+    flexDirection:'row',
     top: 100,
     marginLeft: 20,
+  },
+  plaque: {
+    marginLeft: 5,
     color: "white",
     fontSize: 20,
   },
@@ -71,12 +87,10 @@ const styles = StyleSheet.create({
     top: 150,
     width: "100%",
     marginBottom: 25,
-    borderBottomColor: "grey",
-    borderWidth: 1,
   },
   txt: {
     color: "white",
-    fontSize: 25,
+    fontSize: 35,
     fontWeight: "bold",
   },
   input: {

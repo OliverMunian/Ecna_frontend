@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList, useWindowDimensions, Image } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import CarouselItem from './CarouselItem'
 import VehiculeDashBoard from './VehiculeDashBoard'
 import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";

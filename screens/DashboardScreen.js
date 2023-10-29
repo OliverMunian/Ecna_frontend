@@ -4,6 +4,8 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
   Alert,
   Image,
   ScrollView,
@@ -14,7 +16,6 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { defineListVehicules } from "../reducers/vehicules";
 import VehiculeDashBoard from "../components/VehiculeDashBoard";
-import SearchBar from "../components/SearchBar";
 import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
@@ -24,21 +25,25 @@ import { defineListInter } from "../reducers/interventions";
 import { updateSearchResults } from "../reducers/searchResult";
 import { LinearGradient } from "expo-linear-gradient";
 import CarouselDashboard from "../components/CarouselDashboard";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import BottomSheet from "../components/BottomSheet";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import SearchBar from "../components/SearchBar";
 
 export default function DashboardScreen({ navigation }) {
   const dispatch = useDispatch();
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://192.168.1.14:3000";
 
   const vehiculesDispo = useSelector((state) => state.vehiculesDispo.value);
   const user = useSelector((state) => state.user.value);
-  const interventions = useSelector((state) => state.interventions.value)
-  const recherche = useSelector((state) => state.searchQuery.value)
+  // const interventions = useSelector((state) => state.interventions.value);
+  // const recherche = useSelector((state) => state.searchQuery.value);
 
   const GVuri = Image.resolveAssetSource(GV).uri;
   const MVuri = Image.resolveAssetSource(MV).uri;
   const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
   const imagesData = { Gros: GVuri, Moyen: MVuri, VSL: VSLuri };
-
 
   const vehiculesDispoDisplay = vehiculesDispo.map((data, i) => {
     return (
@@ -50,9 +55,9 @@ export default function DashboardScreen({ navigation }) {
     );
   });
 
-  // A l'initialisation du dashboard, dispatch de toutes les info
+  // A l'initialisation du dashboard, dispatch de toutes les informations
   useEffect(() => {
-  // Fetch des vehicules correspondant au siren
+    // Fetch des vehicules correspondant au siren
     fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
       .then((response) => response.json())
       .then((data) => {
@@ -65,7 +70,7 @@ export default function DashboardScreen({ navigation }) {
           );
         }
       });
-// Fetch des patients correspondant au token      
+    // Fetch des patients correspondant au token
     fetch(`${BACKEND_ADRESS}/patients/all/${user.token}`)
       .then((response) => response.json())
       .then((patientData) => {
@@ -82,27 +87,24 @@ export default function DashboardScreen({ navigation }) {
         // Dispatch dans le reducer
         dispatch(defineListPatients(sorted));
       });
-// Fetch des vehicules correspondant au SIREN
-     fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
+    // Fetch des vehicules correspondant au SIREN
+    fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
       .then((response) => response.json())
       .then((interData) => {
         dispatch(defineListInter(interData.interventions));
-      })
+      });
   }, []);
 
-  function next() {
-    Alert.alert("Oups !", "Aucun véhicule a afficher pour le moment !");
-    // alert('Aucun véhicule poour le moment')
-  }
-
-  const handleSearch = () => {
-    const pattern = new RegExp(recherche,'i')
-    const searchQuery = interventions.filter(inter => inter.patient.lastName.match(pattern) || inter.patient.firstName.match(pattern))
-    dispatch(updateSearchResults(searchQuery))
-    navigation.navigate('SearchResults')
-  };
-
-
+  // const handleSearch = () => {
+  //   const pattern = new RegExp(recherche, "i");
+  //   const searchQuery = interventions.filter(
+  //     (inter) =>
+  //       inter.patient.lastName.match(pattern) ||
+  //       inter.patient.firstName.match(pattern)
+  //   );
+  //   dispatch(updateSearchResults(searchQuery));
+  //   navigation.navigate("SearchResults");
+  // };
 
   return (
     <LinearGradient
@@ -113,87 +115,48 @@ export default function DashboardScreen({ navigation }) {
     >
       <View style={styles.maintitle}>
         <Text style={styles.h1}> Véhicules disponibles </Text>
-        <CarouselDashboard/>
-
-        {/* <SafeAreaView style={styles.safearea}>
-        <ScrollView
-          style={styles.vehicles}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          endFillColor="#000"
-        >
-          {vehiculesDispoDisplay}
-        </ScrollView>
-        </SafeAreaView> */}
+        <CarouselDashboard></CarouselDashboard>
       </View>
-      <View>
-        {/* <Text style={styles.h1}> Votre activité </Text>
-      </View>
-      <View style={styles.box}>
+      <View style={styles.icons}>
         <View style={styles.title}>
-          <FontAwesome name="spinner" size={(fontSize = 25)} color="#0c2ce7" />
-          <View style={styles.divtxt}>
-            <Text style={styles.txt}>En cours </Text>
-            <FontAwesome name="" size={(fontSize = 25)} color="grey" />
-          </View>
+          <FontAwesome name="spinner" size={(fontSize = 25)} color="white" />
+          <Text style={styles.txt}>En cours </Text>
         </View>
         <View style={styles.title}>
-          <FontAwesome name="" size={(fontSize = 25)} color="#0c2ce7" />
-          <View style={styles.divtxt}>
-            <Text style={styles.txt}> Anomalies </Text>
-            <FontAwesome name="" size={(fontSize = 25)} color="grey" />
-          </View>
+          <MaterialCommunityIcons
+            name="alarm-light-outline"
+            size={(fontSize = 25)}
+            color="white"
+          />
+          <Text style={styles.txt}>SAMU</Text>
         </View>
         <View style={styles.title}>
-          <FontAwesome name="forward" size={(fontSize = 25)} color="#0c2ce7" />
-          <View style={styles.divtxt}>
-            <Text style={styles.txt}> Ultérieures</Text>
-            <FontAwesome name="" size={(fontSize = 25)} color="grey" />
-          </View>
+          <MaterialCommunityIcons
+            name="skip-next"
+            size={(fontSize = 25)}
+            color="white"
+          />
+          <Text style={styles.txt}>Ultérieures</Text>
         </View>
         <View style={styles.title}>
-          <FontAwesome name="" size={(fontSize = 25)} color="#0c2ce7" />
-          <View style={styles.divtxt}>
-            <Text style={styles.txt}> SAMU</Text>
-            <FontAwesome name="" size={(fontSize = 25)} color="grey" />
-          </View>
+          <MaterialIcons
+            name="dangerous"
+            size={(fontSize = 25)}
+            color="white"
+          />
+          <Text style={styles.txt}>Anomalies</Text>
         </View>
       </View>
-      <View style={styles.available}>
-        <View style={styles.secondtitle}>
-          <Text style={styles.h2}> Véhicules disponibles </Text>
-        </View> */}
-      </View>
-
-      {/* SCROLL HORIZONTAL */}
-      {/* <SafeAreaView>
-        <ScrollView
-          style={styles.vehicles}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          endFillColor="#000"
-        >
-          {vehiculesDispoDisplay}
-        </ScrollView>
-      </SafeAreaView> */}
-
-      {/* LECTEUR CAROUSEL */}
-      {/* <View style={styles.lecteur}>
-        <View style={styles.encours}></View>
-        <View style={styles.suivant}>
-          <TouchableOpacity onPress={() => next()}>
-            <FontAwesome name="forward" size={(fontSize = 25)} color="black" />
-          </TouchableOpacity>
-        </View>
-      </View> */}
       {/* BARRE DE RECHERCHE */}
-      <SearchBar/>
-        <TouchableOpacity
-          onPress={() => handleSearch()}
-          style={styles.verifyButton}
+      <View>
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={200}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          <Text>🔍</Text>
-        </TouchableOpacity>
+          <SearchBar />
+        </KeyboardAvoidingView>
+      </View>
+      {/* <BottomSheet /> */}
     </LinearGradient>
   );
 }
@@ -206,13 +169,6 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     alignItems: "center",
   },
-  box: {
-    width: "100%",
-    height: "100%",
-    left: 15,
-    top: 110,
-    height: 300,
-  },
   maintitle: {
     fontSize: 55,
     fontWeight: "bold",
@@ -224,36 +180,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  title: {
-    flexDirection: "row",
-    width: "90%",
-    paddingTop: 20,
-  },
-  divtxt: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "90%",
-    borderBottomColor: "grey",
-    borderWidth: 1,
-    marginLeft: 15,
-  },
-  txt: {
-    fontWeight: "bold",
-    fontSize: 25,
-    color: "white",
-    marginBottom: 5,
-  },
-  available: {
-    width: "100%",
-    left: 15,
-    top: 80,
-    borderWidth: 1,
-  },
-  h2: {
-    fontSize: 25,
-    color: "white",
-    fontWeight: "bold",
-  },
   h1: {
     top: -30,
     fontSize: 25,
@@ -262,20 +188,28 @@ const styles = StyleSheet.create({
     color: "black",
     textDecorationLine: "underline",
   },
-  safearea:{
-    alignItems:'center',
-    justifyContent:'center',
-    width:240,
-  },
-  onevehicle: {
+  // LISTE ICONES
+  icons: {
     width: "100%",
-    height: 140,
-    backgroundColor: "white",
-    marginLeft: 10,
-    borderRadius: 20,
+    height: 100,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
   },
-  vehicles:{
-    padding:10,
+  //ICONES
+  title: {
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+    width: "20%",
+    marginTop: 50,
+  },
+  //TITRES DES ICONES
+  txt: {
+    marginTop: 5,
+    fontSize: 13,
+    color: "white",
+    marginBottom: 5,
   },
   lecteur: {
     flexDirection: "row",
@@ -285,24 +219,5 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: 50,
     marginLeft: "2.5%",
-  },
-  encours: {
-    justifyContent: "center",
-    width: "80%",
-    height: "100%",
-  },
-  suivant: {
-    width: "20%",
-    justifyContent: "center",
-    alignItems: "center",
-    right: 0,
-  },
-  verifyButton: {
-    width: "100%",
-    top: 70,
-    alignSelf: "center",
-    right: 0,
-    marginRight: 0,
-    marginLeft : 500
   },
 });

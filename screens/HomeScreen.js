@@ -23,7 +23,7 @@ export default function HomeScreen({ navigation }) {
   const [password, setPassword] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const user = useSelector((state) => state.user.value);
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://192.168.1.14:3000";
 
   const handleSubmit = () => {
     fetch(`${BACKEND_ADRESS}/users/signin`, {
@@ -58,12 +58,16 @@ export default function HomeScreen({ navigation }) {
         style={styles.image}
         blurRadius={2}
       >
-        <Text style={styles.title}> ECNA </Text>
-        <Text style={styles.titleDeux}> Time is now your </Text>
+        {/* <Text style={styles.title}> ECNA </Text>
+        <Text style={styles.titleDeux}> Time is now your </Text> */}
         <KeyboardAvoidingView
           style={styles.container}
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
+          <View style={styles.bigtitle}>
+            <Text style={styles.title}> ECNA </Text>
+            <Text style={styles.titleDeux}> Time is now your </Text>
+          </View>
           <View style={styles.view}>
             <Text style={styles.txt}>
               {" "}
@@ -123,14 +127,16 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "flex-end",
   },
+  bigtitle: {
+    width: "90%",
+    alignItems: "flex-end",
+  },
   title: {
-    top: 100,
     color: "white",
     fontSize: 65,
     fontWeight: "bold",
   },
   titleDeux: {
-    top: 100,
     marginRight: 60,
     color: "white",
     fontSize: 15,
@@ -139,9 +145,10 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   view: {
+    marginTop: 35,
     width: "100%",
     alignItems: "center",
-    marginBottom: 50,
+    marginBottom: 10,
   },
   txt: {
     marginBottom: 20,

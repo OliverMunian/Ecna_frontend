@@ -26,6 +26,8 @@ import searchResult from "./reducers/searchResult";
 import searchQuery from "./reducers/searchQuery";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 
 const store = configureStore({
@@ -43,24 +45,26 @@ const TabNavigator = () => {
           let iconName = "";
 
           if (route.name === "Véhicules") {
-            iconName = "ambulance";
+            return <MaterialCommunityIcons name='car-emergency' size={31} color={color} />;
           } else if (route.name === "New") {
-            iconName = "plus";
+            iconName = "plus-circle";
           } else if (route.name === "Interventions") {
-            iconName = "flag-checkered";
+            return <MaterialCommunityIcons name='heart-pulse' size={31} color={color} />;
           } else if (route.name === "Repertoire") {
             iconName = "phone";
           } else if (route.name === "Accueil") {
             iconName = "home";
+            return <AntDesign name="home" size={30} color={color} />;
           }
 
-          return <FontAwesome name={iconName} size={size} color={color} />;
+          return <FontAwesome name={iconName} size={30} color={color} />;
         },
         tabBarActiveTintColor: "black",
         tabBarInactiveTintColor: "#FFFF",
         tabBarStyle: {
           backgroundColor: "#9b84ad",
-          
+          justifyContent:'center',
+          alignItems:'center',
           borderTopWidth: 0
         },
         headerShown: false,

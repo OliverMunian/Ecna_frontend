@@ -15,6 +15,7 @@ import VSLsrc from "../assets/VSL.png";
 import { addInterPlaque } from "../reducers/interVehicules";
 import { useDispatch } from "react-redux";
 import { LinearGradient } from "expo-linear-gradient";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const GVuri = Image.resolveAssetSource(GV).uri;
 const MVuri = Image.resolveAssetSource(MV).uri;
@@ -34,11 +35,11 @@ const getColorByEtat = (etat) => {
     default:
       return "black";
   }
-}
+};
 export default function VehiculeScreen({ navigation }) {
   const dispatch = useDispatch();
   const vehicules = useSelector((state) => state.vehicules.value);
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://192.168.1.14:3000";
   const SIREN = useSelector((state) => state.user.value.SIREN);
 
   // Update du reducer lorsqu'on clique sur un composant véhicule afin de stocker la liste des interventions dans le reducer
@@ -59,16 +60,22 @@ export default function VehiculeScreen({ navigation }) {
   const handleAdd = () => {
     navigation.navigate("AddVehiculeBis");
   };
-  
+
   return (
-    <LinearGradient style={styles.container}
-    colors={["#1a2755","#9b84ad"]}
-    start={{x:0.5,y:0}}
-    end={{x:0.5,y:1}}>
+    <LinearGradient
+      style={styles.container}
+      colors={["#1a2755", "#9b84ad"]}
+      start={{ x: 0.5, y: 0 }}
+      end={{ x: 0.5, y: 1 }}
+    >
       <View style={styles.titreBox}>
         <Text style={styles.titre}>Véhicules</Text>
         <TouchableOpacity style={styles.btn} onPress={() => handleAdd()}>
-          <Text>Ajouter</Text>
+          <MaterialCommunityIcons
+            name="plus-circle"
+            size={(fontSize = 40)}
+            color="white"
+          />
         </TouchableOpacity>
       </View>
       <ScrollView
@@ -77,18 +84,18 @@ export default function VehiculeScreen({ navigation }) {
         endFillColor="#000"
         overScrollMode="never"
       >
-      <View style={styles.box}>
-        {vehicules.map((data, i) => (
-          <FicheVehicule
-            key={i}
-            plaque={data.plaque}
-            etat={data.etat}
-            color={getColorByEtat(data.etat)}
-            type={imagesData[data.type]}
-            onDispatch={(plaque) => handlePress(plaque)}
-          />
-        ))}
-      </View>
+        <View style={styles.box}>
+          {vehicules.map((data, i) => (
+            <FicheVehicule
+              key={i}
+              plaque={data.plaque}
+              etat={data.etat}
+              color={getColorByEtat(data.etat)}
+              type={imagesData[data.type]}
+              onDispatch={(plaque) => handlePress(plaque)}
+            />
+          ))}
+        </View>
       </ScrollView>
       <View style={styles.trait} />
     </LinearGradient>
@@ -108,19 +115,22 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
   titreBox: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
     marginTop: 130,
     marginBottom: 20,
-    borderBottomColor: "grey",
-    borderWidth: 1,
   },
   btn: {
-    width: 130,
-    height: 60,
-    backgroundColor: "blue",
+    width: 50,
+    height: 50,
+    marginRight: 20,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: "white",
+  },
+  icone: {
+    color: "black",
+    fontSize: 30,
+    fontWeight: "bold",
   },
 });

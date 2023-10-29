@@ -10,9 +10,10 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addtokenToSotre, addSirenToSotre } from "../reducers/user";
 import background from "../assets/ambulance.jpg";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function SubscribeScreen({ navigation }) {
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://192.168.1.14:3000";
   const dispatch = useDispatch();
 
   // Mise en place états liés aux input
@@ -74,7 +75,12 @@ export default function SubscribeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.div}>
+        <LinearGradient
+          style={styles.div}
+          colors={["#1a2755", "#9b84ad"]}
+          start={{ x: 0.5, y: 0 }}
+          end={{ x: 0.5, y: 1 }}
+        >
           <Text style={styles.titleform}>Bienvenue sur Ecna</Text>
           <Text style={styles.titleformun}>
             Veuillez compléter le formulaire pour continuer
@@ -84,7 +90,7 @@ export default function SubscribeScreen({ navigation }) {
               <TextInput
                 style={styles.input}
                 placeholder="Nom d'utilisateur"
-                placeholderTextColor="black"
+                placeholderTextColor="white"
                 onChangeText={(value) => setUserName(value)}
                 value={username}
               />
@@ -93,7 +99,7 @@ export default function SubscribeScreen({ navigation }) {
               <TextInput
                 style={styles.input}
                 placeholder="Adresse mail"
-                placeholderTextColor="black"
+                placeholderTextColor="white"
                 onChangeText={(value) => setEmail(value)}
                 value={email}
               />
@@ -103,7 +109,7 @@ export default function SubscribeScreen({ navigation }) {
                 style={styles.input}
                 placeholder="Mot de passe"
                 secureTextEntry={true}
-                placeholderTextColor="black"
+                placeholderTextColor="white"
                 onChangeText={(value) => setPassWord(value)}
                 value={password}
               />
@@ -113,7 +119,7 @@ export default function SubscribeScreen({ navigation }) {
               <TextInput
                 style={styles.input}
                 placeholder="Nom de l'entreprise"
-                placeholderTextColor="black"
+                placeholderTextColor="white"
                 onChangeText={(value) => setName(value)}
                 value={name}
               />
@@ -122,7 +128,7 @@ export default function SubscribeScreen({ navigation }) {
               <TextInput
                 style={styles.input}
                 placeholder="N° de SIREN"
-                placeholderTextColor="black"
+                placeholderTextColor="white"
                 onChangeText={(value) => setSIREN(value)}
                 value={SIREN}
               />
@@ -131,7 +137,7 @@ export default function SubscribeScreen({ navigation }) {
               <Text style={styles.btntxt}> Valider </Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </LinearGradient>
       </ImageBackground>
     </View>
   );
@@ -170,12 +176,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   titleform: {
-    color: "black",
+    color: "white",
     fontWeight: "bold",
     fontSize: 30,
   },
   titleformun: {
-    color: "black",
+    color: "white",
     fontStyle: "italic",
     fontSize: 10,
     marginBottom: 20,
@@ -192,22 +198,25 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   input: {
-    backgroundColor: "#3f6b9d",
+    backgroundColor: "transparent",
     height: 40,
     borderRadius: 20,
-    placeholderTextColor: "white",
     textAlign: "left",
     paddingLeft: 10,
+    borderColor: "white",
+    borderWidth: 1,
   },
-  btn:{
-    borderWidth:2,
-    borderRadius:20,
-    width:'20%',
-    alignItems:'center',
-    padding:10,
-    marginTop:20,
+  btn: {
+    borderColor: "white",
+    borderWidth: 2,
+    borderRadius: 20,
+    width: "30%",
+    alignItems: "center",
+    padding: 10,
+    marginTop: 20,
   },
   btntxt: {
     fontWeight: "bold",
+    color: "white",
   },
 });

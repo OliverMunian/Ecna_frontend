@@ -10,10 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { defineListInter } from "../reducers/interventions";
 import { defineListPatients } from "../reducers/listPatients";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Formulaire_interventions({ navigation }) {
   const BACKEND_ADRESS = "http://10.3.0.43:3000";
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   // Recuperation des informations du user du reducer
   const user = useSelector((state) => state.user.value);
 
@@ -50,7 +51,6 @@ export default function Formulaire_interventions({ navigation }) {
           setMutuelle(patientData.patient.mutuelle);
           setValide(patientData.patient.valide);
           setExiste(true);
-          navigation.navigate("TabNavigator");
         } else {
           setError(patientData.error);
           setErrorStyle({ color: "white", fontSize: 10 });
@@ -96,7 +96,8 @@ export default function Formulaire_interventions({ navigation }) {
               .then((response) => response.json())
               .then((patientData) => {
                 if (patientData.result) {
-                  dispatch(defineListPatients(patientData.patients));
+                  dispatch(defineListPatients(patientData.patients))
+                  navigation.navigate('TabNavigator' , {screen:'Acceuil',initial:false})
                 }
               });
           });

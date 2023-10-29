@@ -91,7 +91,6 @@ export default function InterventionsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
   },
   title: {
     color: "white",

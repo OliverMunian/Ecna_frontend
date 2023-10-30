@@ -11,7 +11,7 @@ const handleSet = () => {
     setUpdate({plaque:item.plaque,interToken:item.interToken})
 }
 console.log('update',update)
-console.log(item)
+
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.image} onPress={() => handleSet()}>

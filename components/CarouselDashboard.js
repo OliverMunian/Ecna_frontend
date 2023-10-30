@@ -7,7 +7,7 @@ import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
 
 
-export default function carouselDashboard() {
+export default function carouselDashboard(props) {
   const GVuri = Image.resolveAssetSource(GV).uri;
   const MVuri = Image.resolveAssetSource(MV).uri;
   const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
@@ -25,7 +25,7 @@ export default function carouselDashboard() {
   return (
     <View style={styles.container}>
         <FlatList data={vehiculesDispo} 
-        renderItem={({item}) => <VehiculeDashBoard item={item} interToken={item.interToken} type={imagesData[item.type]} plaque={item.plaque}/>}
+        renderItem={({item}) => <VehiculeDashBoard item={item} interToken={props.interToken} type={imagesData[item.type]} plaque={item.plaque}/>}
         horizontal
         showsHorizontalScrollIndicator={false}
         boucnes={false}

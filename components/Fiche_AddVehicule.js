@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  ScrollView,
 } from "react-native";
 import { useState } from "react";
 import FicheVehicule from "./Fiche_Vehicule";
@@ -127,12 +128,23 @@ export default function FicheAddVehicule(props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Nouveau véhicule </Text>
-      <Text style={styles.subtitle}>
-        Veuillez compléter les champs suivants pour ajouter un nouveau véhicule
-        à votre flotte
-      </Text>
-      <View style={styles.vehicules}>{vehiculesDisplay}</View>
+      <View style={styles.tiles}>
+        <Text style={styles.title}>Nouveau véhicule </Text>
+        <Text style={styles.subtitle}>
+          Veuillez compléter les champs suivants pour ajouter un nouveau véhicule
+          à votre flotte
+        </Text>
+      </View>
+      <View  style={styles.vehicules}>
+      <ScrollView
+        horizontal={false}
+        showsHorizontalScrollIndicator={false}
+        endFillColor="#000"
+        overScrollMode="never"
+      >
+        {vehiculesDisplay}
+      </ScrollView>
+      </View>
       <View style={styles.form}>
         <Text style={styles.subtitle}>Ex : AA-123-AA</Text>
         <TextInput
@@ -149,7 +161,10 @@ export default function FicheAddVehicule(props) {
           <View style={styles.box}>
             <Text style={styles.txt}>Type de véhicule</Text>
             <SelectDropdown
-              style={styles.dropdown}
+              buttonStyle={styles.dropdown}
+              buttonTextStyle={styles.dropText}
+              dropdownStyle={styles.card_drop}
+              defaultButtonText="Option"
               placeholderStyle={styles.placeholderStyle}
               data={types}
               onSelect={(selectedItem, index) => {
@@ -166,7 +181,10 @@ export default function FicheAddVehicule(props) {
           <View style={styles.box}>
             <Text style={styles.txt}>Etat par défault</Text>
             <SelectDropdown
-              style={styles.dropdown}
+              defaultButtonText="Option"
+              buttonStyle={styles.dropdown}
+              buttonTextStyle={styles.dropText}
+              dropdownStyle={styles.card_drop}
               searchPlaceholder="Select item..."
               data={etats}
               onSelect={(selectedItem, index) => {
@@ -213,15 +231,20 @@ const styles = StyleSheet.create({
     color: "white",
     marginLeft: 10,
   },
+  tiles:{
+    top: 10,
+  },
   vehicules: {
+    top:20,
     width: "100%",
-    height: 100,
+    height: 260,
   },
   form: {
+    top:20,
     width: "100%",
     alignItems: "center",
     height: 300,
-    justifyContent: "space-between",
+    justifyContent: "space-around",
   },
   input: {
     width: "80%",
@@ -237,23 +260,39 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     justifyContent: "center",
+    alignContent:'center',
   },
   box: {
-    alignItems: "center",
+    alignItems: 'center',
+    marginLeft:20,
+    marginRight:20,
   },
   txt: {
     color: "white",
   },
   dropdown: {
-    width: "60%",
+    marginTop:10,
+    width:'100%',
+    backgroundColor:'transparent',
+    borderWidth:2,
+    borderColor:'white',
+    borderRadius:10,
+  },
+  dropText:{
+    color:'white'
+  },
+  card_drop:{
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    borderRadius:20,
   },
   placeholderStyle: {
     backgroundColor: "transparent",
   },
   btns: {
+    alignContent:'center',
     justifyContent: "space-between",
     flexDirection: "row",
-    width: "70%",
+    width:'60%'
   },
   btn: {
     width: "45%",

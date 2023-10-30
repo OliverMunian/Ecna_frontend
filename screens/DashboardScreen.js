@@ -258,6 +258,6 @@ const styles = StyleSheet.create({
   },
   txtmodal: {
     color: "white",
-    fontSize: "35",
+    fontSize: 35,
   },
 });

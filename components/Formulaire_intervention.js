@@ -99,7 +99,7 @@ export default function Formulaire_interventions(props) {
               .then((patientData) => {
                 if (patientData.result) {
                   dispatch(defineListPatients(patientData.patients))
-                  navigation.navigate(props.screenName)
+                  navigation.navigate(props.screenName,{screen:'Interventions'})
                 }
               });
           });

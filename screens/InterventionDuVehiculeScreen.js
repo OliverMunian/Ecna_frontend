@@ -16,25 +16,26 @@ export default function Interventions({ navigation }) {
   const interventions = useSelector(
     (state) => state.interVehicules.value.interventions
   );
+  console.log(interventions) 
   const plaque = useSelector((state) => state.interVehicules.value.plaque);
-  const interventionsDisplay = interventions.map((data, i) => {
-    const day = new Date(data.date).getDate();
-    const month = new Date(data.date).getMonth();
-    const year = new Date(data.date).getFullYear();
-    let date = month + "/" + day + "/" + year;
-    console.log("ici la data : ", data);
-    return (
-      <Fiche_intervention
-        key={i}
-        lastName={data.patient.lastName}
-        firstName={data.patient.firstName}
-        departure={data.departure}
-        arrival={data.arrival}
-        date={date}
-      />
-    );
-  });
-  console.log(interventions.vehicule);
+  
+  // const interventionsDisplay = interventions.map((data, i) => {
+  //   const day = new Date(data.date).getDate();
+  //   const month = new Date(data.date).getMonth();
+  //   const year = new Date(data.date).getFullYear();
+  //   let date = month + "/" + day + "/" + year;
+  //   console.log("ici la data : ", data);
+  //   return (
+  //     <Fiche_intervention
+  //       key={i}
+  //       lastName={data.patient.lastName}
+  //       firstName={data.patient.firstName}
+  //       departure={data.departure}
+  //       arrival={data.arrival}
+  //       date={date}
+  //     />
+  //   );
+  // });
 
   function back() {
     navigation.navigate("Véhicules");
@@ -62,7 +63,7 @@ export default function Interventions({ navigation }) {
         <Text style={styles.txt}> Interventions </Text>
       </View>
       <View style={styles.input}>
-        <Text style={styles.inter}>{interventionsDisplay}</Text>
+        <Text style={styles.inter}></Text>
       </View>
     </LinearGradient>
   );

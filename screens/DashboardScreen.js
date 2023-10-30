@@ -98,17 +98,17 @@ export default function DashboardScreen({ navigation }) {
       });
   }, []);
 
-  // Fonction qui se declenche lors du search
-  const handleSearch = () => {
-    const pattern = new RegExp(recherche, "i");
-    const searchQuery = interventions.filter(
-      (inter) =>
-        inter.patient.lastName.match(pattern) ||
-        inter.patient.firstName.match(pattern)
-    );
-    dispatch(updateSearchResults(searchQuery));
-    navigation.navigate("SearchResults");
-  };
+// Fonction qui se declenche lors du search
+// const handleSearch = () => {
+//   const pattern = new RegExp(recherche, "i");
+//   const searchQuery = interventions.filter(
+//     (inter) =>
+//         inter.patient.lastName.match(pattern) ||
+//         inter.patient.firstName.match(pattern)
+//     );
+//   dispatch(updateSearchResults(searchQuery));
+//   navigation.navigate("SearchResults");
+//   };
 
   return (
     <LinearGradient
@@ -161,7 +161,7 @@ export default function DashboardScreen({ navigation }) {
           keyboardVerticalOffset={200}
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          <SearchBar />
+          <SearchBar screenName={'SearchResults'} />
         </KeyboardAvoidingView>
       </View>
       <BottomSheetModalProvider>

@@ -7,15 +7,11 @@ export default function Fiche_intervention(props) {
     
     const vehicules = useSelector((state) => state.vehicules.value);
     const [modalVisible, setModalVisible] = useState(false);
-    
-    const handledispatch = () => {
-        vehicules.map((etat_vehicule)=>{
-            if(etat_vehicule.etat === "En ligne"){
-                props.selectDispatch(etat_vehicule)
-                setModalVisible(true)
-            }
-        })
+
+    const handleDispatch = () => {
+        setModalVisible(true)
     }
+    
     const handleClose = () => {
         setModalVisible(false);
       };
@@ -36,7 +32,7 @@ export default function Fiche_intervention(props) {
             </View>
         )}
             {!props.dispatched && (
-                <TouchableOpacity style={styles.dispatch} onPress={()=> handledispatch()}>
+                <TouchableOpacity style={styles.dispatch} onPress={()=> handleDispatch()}>
                     <Text>Dispatch</Text>
                 </TouchableOpacity>
             )}

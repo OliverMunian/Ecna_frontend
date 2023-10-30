@@ -9,11 +9,13 @@ import {
   Alert,
   SafeAreaView,
 } from "react-native";
-import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import { updateSearchQuery } from "../reducers/searchQuery";
+import { updateSearchResults } from "../reducers/searchResult";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function SearchBar() {
+export default function SearchBar(props) {
+  const navigation = useNavigation()
   const dispatch = useDispatch();
   const recherche = useSelector((state) => state.searchQuery.value);
   const interventions = useSelector((state) => state.interventions.value);
@@ -25,9 +27,9 @@ export default function SearchBar() {
         inter.patient.lastName.match(pattern) ||
         inter.patient.firstName.match(pattern)
     );
-    dispatch(updateSearchResults(searchQuery));
-    navigation.navigate("SearchResults");
-    if (value == "") {
+  dispatch(updateSearchResults(searchQuery));
+    navigation.navigate(props.screenName);
+    if (recherche == "") {
       Alert.alert(
         "Stop ✋!",
         "Complétez les champs pour effectuer la recherche"
@@ -50,12 +52,12 @@ export default function SearchBar() {
           onChangeText={(value) => dispatch(updateSearchQuery(value))}
           value={recherche}
         />
-        {/* <TouchableOpacity
+         <TouchableOpacity
           onPress={() => handleSearch()}
           style={styles.verifyButton}
         >
           <Text>🔍</Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity> 
       </View>
     </View>
   );

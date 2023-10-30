@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View , Image,TouchableOpacity} from 'react-native'
+import { StyleSheet, Text, View , Image,TouchableOpacity, ScrollView, VirtualizedList} from 'react-native'
 import { useSelector , useDispatch } from "react-redux";
 import { useState } from 'react';
 import Fiche_intervention from "../components/Fiche_intervention";
@@ -6,7 +6,7 @@ import SearchBar from '../components/SearchBar';
 import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
-
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function SearchResults({navigation}) {
     const dispatch = useDispatch()
@@ -53,12 +53,28 @@ export default function SearchResults({navigation}) {
     })
 
     return (
-      <View style={styles.container}>
-        <View >
-          {searchResultDisplay}
-        </View> 
-        <SearchBar screenName={'SearchResults'} />
+      <LinearGradient
+      style={styles.container}
+      colors={["#1a2755", "#1D94AE"]}
+      start={{ x:0.5, y: 0.5 }}
+      end={{ x: 0.5, y: 1 }}
+    >
+     <View style={styles.search_bar}>
+      <SearchBar screenName={'SearchResults'} />
       </View>
+   
+        <View style={styles.search}>
+        <ScrollView
+        horizontal={false}
+        showsHorizontalScrollIndicator={false}
+        endFillColor="#000"
+        overScrollMode="never"
+      >
+          {searchResultDisplay}
+          </ScrollView>
+        </View> 
+      
+      </LinearGradient>
     );
 }
 
@@ -69,17 +85,10 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "black",
   },
-  box: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    backGroundColor: "#000000",
+  search:{
+    marginTop:70,
   },
-  txt: {
-    color:'white',
-    fontWeight: "bold",
-    fontSize: 20,
-  },
+  search_bar:{
+    alignItems:'center',
+  }
 });

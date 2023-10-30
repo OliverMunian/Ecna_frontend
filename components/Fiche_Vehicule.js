@@ -22,18 +22,22 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 export default function FicheVehicule(props) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const BACKEND_ADRESS = "http://10.3.0.13:3000";
+  const BACKEND_ADRESS = "http://10.3.0.43:3000";
   const user = useSelector((state) => state.user.value);
   const etats = ["En ligne", "Hors ligne", "Indisponible"];
   const interventions = useSelector((state) => state.interventions.value)
-  const vehicules = useSelector((state) => state.vehicules.value)
   const [etat, setEtat] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
 // Update du reducer lorsqu'on clique sur un composant véhicule afin de stocker la liste des interventions dans le reducer
-function handlePress(plaque) {
-const interVehicule = interventions.filter(inter => inter.vehicule.plaque === plaque)
-dispatch(addInterPlaque({plaque:plaque,interventions:interVehicule}))
+function handlePress() {
+  const interVehicule = []
+if(interventions.vehicule){
+  interVehicule = interventions.filter(inter => inter.vehicule.plaque === props.plaque)
+}
+console.log('plaque',props.plaque)
+console.log('inter', interVehicule)
+dispatch(addInterPlaque({plaque:props.plaque,interventions:interVehicule}))
 navigation.navigate(props.screenName)
     }
 
@@ -70,7 +74,7 @@ const modalview = () => {
   return (
     <BlurView intensity={50} style={styles.view}>
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => handlePress(props.plaque)}>
+        <TouchableOpacity onPress={() => handlePress()}>
           <View style={styles.left}>
             <Text style={styles.plaque}>{props.plaque}</Text>
             <View style={styles.grpEtat}>

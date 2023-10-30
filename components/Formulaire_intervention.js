@@ -15,10 +15,9 @@ import SelectDropdown from "react-native-select-dropdown";
 
 export default function Formulaire_interventions(props) {
   const navigation = useNavigation()
-  const BACKEND_ADRESS = "http://10.3.0.13:3000";
+  const BACKEND_ADRESS = "http://10.3.0.43:3000";
   const dispatch = useDispatch()
   const etats = ['Valide' , 'Invalide']
-  const [etat,SetEtat] = useState()
 
   // Recuperation des informations du user du reducer
   const user = useSelector((state) => state.user.value);
@@ -194,7 +193,7 @@ export default function Formulaire_interventions(props) {
               placeholderStyle={styles.placeholderStyle}
               data={etats}
               onSelect={(selectedItem, index) => {
-                SetEtat(selectedItem);
+                setValide(selectedItem);
               }}
               buttonTextAfterSelection={(selectedItem, index) => {
                 return selectedItem;

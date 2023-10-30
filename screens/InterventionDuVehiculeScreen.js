@@ -6,41 +6,49 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { removeInterPlaque } from "../reducers/interVehicules";
 import Fiche_intervention from "../components/Fiche_intervention";
 import { LinearGradient } from "expo-linear-gradient";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { useNavigation } from "@react-navigation/native";
 
-export default function Interventions({ navigation }) {
-  const dispatch = useDispatch();
+export default function Interventions() {
+  const navigation = useNavigation()
   const interventions = useSelector(
     (state) => state.interVehicules.value.interventions
-  );
-  console.log(interventions) 
+  ); 
   const plaque = useSelector((state) => state.interVehicules.value.plaque);
-  
-  // const interventionsDisplay = interventions.map((data, i) => {
-  //   const day = new Date(data.date).getDate();
-  //   const month = new Date(data.date).getMonth();
-  //   const year = new Date(data.date).getFullYear();
-  //   let date = month + "/" + day + "/" + year;
-  //   console.log("ici la data : ", data);
-  //   return (
-  //     <Fiche_intervention
-  //       key={i}
-  //       lastName={data.patient.lastName}
-  //       firstName={data.patient.firstName}
-  //       departure={data.departure}
-  //       arrival={data.arrival}
-  //       date={date}
-  //     />
-  //   );
-  // });
+  let interventionsDisplay = []
 
-  function back() {
-    navigation.navigate("Véhicules");
-    dispatch(removeInterPlaque());
-    console.log("retour la page précédente", interventions);
+  if(interventions.length > 0){
+      interventionsDisplay = interventions.map((data, i) => {
+      const day = new Date(data.date).getDate();
+      const month = new Date(data.date).getMonth();
+      const year = new Date(data.date).getFullYear();
+      let date = month + "/" + day + "/" + year;
+      console.log("ici la data : ", data);
+      return (
+        <Fiche_intervention
+          key={i}
+          lastName={data.patient.lastName}
+          firstName={data.patient.firstName}
+          departure={data.departure}
+          arrival={data.arrival}
+          date={date}
+        />
+      );
+    });
+  } else {
+    interventionsDisplay = 
+    <View>
+      <Text style={{color:'white', fontSize : 20, marginLeft : 30}}>
+        Aucune intervention associée à ce véhicule
+      </Text>
+    </View>
+  }
+
+
+  const back = () => {
+    navigation.navigate('TabNavigator',{screen:'Véhicules'});
   }
   return (
     <LinearGradient
@@ -61,6 +69,7 @@ export default function Interventions({ navigation }) {
       </TouchableOpacity>
       <View style={styles.box}>
         <Text style={styles.txt}> Interventions </Text>
+        {interventionsDisplay}
       </View>
       <View style={styles.input}>
         <Text style={styles.inter}></Text>

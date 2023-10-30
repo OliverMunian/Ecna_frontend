@@ -38,21 +38,30 @@ const getColorByEtat = (etat) => {
 
 export default function VehiculeScreen({ navigation }) {
   const vehicules = useSelector((state) => state.vehicules.value);
+  let vehiculesDisplay = []
 
   const handleAdd = () => {
     navigation.navigate("AddVehiculeBis");
   };
 
-  const vehiculesDisplay = vehicules.map((data, i) => (
-    <FicheVehicule
-        key={i}
-        plaque={data.plaque}
-        etat={data.etat}
-        color={getColorByEtat(data.etat)}
-        type={imagesData[data.type]}
-        screenName={'Interventionduvehicule'}
-      />
-    ))
+  if(vehicules.length>0){
+     vehiculesDisplay = vehicules.map((data, i) => (
+      <FicheVehicule
+         key={i}
+         plaque={data.plaque}
+         etat={data.etat}
+         color={getColorByEtat(data.etat)}
+         type={imagesData[data.type]}
+         screenName={'Interventionduvehicule'}
+       />
+     ))
+  } else {
+    vehiculesDisplay = 
+    <Text style={{color:'white',fontSize:25}}>
+      Pas de véhicules associés à ce compte
+    </Text>
+  }
+
 
 return (
     <LinearGradient

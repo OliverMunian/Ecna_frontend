@@ -11,11 +11,14 @@ import { defineListInter } from "../reducers/interventions";
 import { defineListPatients } from "../reducers/listPatients";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
+import SelectDropdown from "react-native-select-dropdown";
 
 export default function Formulaire_interventions(props) {
   const navigation = useNavigation()
   const BACKEND_ADRESS = "http://10.3.0.13:3000";
   const dispatch = useDispatch()
+  const etats = ['Valide' , 'Invalide']
+  const [etat,SetEtat] = useState()
 
   // Recuperation des informations du user du reducer
   const user = useSelector((state) => state.user.value);
@@ -108,8 +111,10 @@ export default function Formulaire_interventions(props) {
               .then((response) => response.json())
               .then((patientData) => {
                 if (patientData.result) {
-                  dispatch(defineListPatients(patientData.patients))
-                  navigation.navigate(props.screenName,{screen:'Interventions'})
+                  dispatch(defineListPatients(patientData.patients));
+                  navigation.navigate(props.screenName, {
+                    screen: "Interventions",
+                  });
                 }
               });
           });
@@ -120,7 +125,7 @@ export default function Formulaire_interventions(props) {
     <LinearGradient
       style={styles.container}
       colors={["#1a2755", "#1D94AE"]}
-      start={{ x:0.5, y: 0.5 }}
+      start={{ x: 0.5, y: 0.5 }}
       end={{ x: 0.5, y: 1 }}
     >
       <Text style={styles.titre}>Nouvelle intervention</Text>
@@ -132,17 +137,17 @@ export default function Formulaire_interventions(props) {
         <View style={styles.nomprenom}>
           <TextInput
             style={styles.prenom}
-            placeholder="Prénom"
-            placeholderTextColor="white"
-            onChangeText={(value) => setFirstName(value)}
-            value={firstName}
-          />
-          <TextInput
-            style={styles.nom}
             placeholder="Nom"
             placeholderTextColor="white"
             onChangeText={(value) => setLastName(value)}
             value={lastName}
+          />
+          <TextInput
+            style={styles.nom}
+            placeholder="Prénom"
+            placeholderTextColor="white"
+            onChangeText={(value) => setFirstName(value)}
+            value={firstName}
           />
         </View>
         <View style={styles.divinput}>
@@ -163,7 +168,7 @@ export default function Formulaire_interventions(props) {
               onChangeText={(value) => setSSnumber(value)}
               value={SSnumber}
             />
-            <View>
+          <View>
               <TouchableOpacity
                 onPress={() => handlesearch(SSnumber)}
                 style={styles.search}
@@ -184,12 +189,19 @@ export default function Formulaire_interventions(props) {
             onChangeText={(value) => setPhone(value)}
             value={phone}
           />
-          <TextInput
-            style={styles.valide}
-            placeholder="Valide"
-            placeholderTextColor="white"
-            onChangeText={(value) => setValide(value)}
-            value={valide}
+          <SelectDropdown
+              style={styles.dropdown}
+              placeholderStyle={styles.placeholderStyle}
+              data={etats}
+              onSelect={(selectedItem, index) => {
+                SetEtat(selectedItem);
+              }}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                return selectedItem;
+              }}
+              rowTextForSelection={(item, index) => {
+                return item;
+              }}
           />
         </View>
 

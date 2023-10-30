@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function PhoneScreen({ navigation }) {
-  const BACKEND_ADRESS = "http://10.3.0.13:3000";
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
   const patients = useSelector((state) => state.listPatients.value);
@@ -35,7 +35,7 @@ export default function PhoneScreen({ navigation }) {
     <LinearGradient
       style={styles.container}
       colors={["#1a2755", "#1D94AE"]}
-      start={{ x:0.5, y: 0.5 }}
+      start={{ x: 0.5, y: 0.5 }}
       end={{ x: 0.5, y: 1 }}
     >
       <View style={styles.box}>

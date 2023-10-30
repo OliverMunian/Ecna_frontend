@@ -13,10 +13,10 @@ import background from "../assets/ambulance.jpg";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function SubscribeScreen({ navigation }) {
-  const BACKEND_ADRESS = "http://10.3.0.13:3000";
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
   const dispatch = useDispatch();
 
-// Mise en place états liés aux input
+  // Mise en place états liés aux input
   const [username, setUserName] = useState(null);
   const [password, setPassWord] = useState(null);
   const [email, setEmail] = useState(null);
@@ -24,9 +24,8 @@ export default function SubscribeScreen({ navigation }) {
   const [SIREN, setSIREN] = useState(null);
   const [errorMessage,setErrorMessage] = useState(null)
 
-// Fonction à déclencher lors de l'appui sur le bouton valider afin de créer un document user et un document entreprise + les lier
+  // Fonction à déclencher lors de l'appui sur le bouton valider afin de créer un document user et un document entreprise + les lier
   function Subscribe() {
-    navigation.navigate("AddVehicule");
     fetch(`${BACKEND_ADRESS}/users/signup`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -63,19 +62,19 @@ export default function SubscribeScreen({ navigation }) {
         style={styles.image}
         blurRadius={1}
       >
+      <TouchableOpacity>
+        <Text style={{top: 250,
+    color: "white",
+    fontSize: 25,
+    fontWeight: "bold"}} onPress={() => navigate()}>
+          RETOUR
+        </Text>
+      </TouchableOpacity>
         <View style={styles.title}>
           <Text style={styles.maintitle}>Inscription</Text>
         </View>
         <View style={styles.titleprevious}>
-          <TouchableOpacity
-            onPress={() => {
-              navigate();
-            }}
-          >
-            <Text style={styles.previous}>Accueil</Text>
-          </TouchableOpacity>
         </View>
-
         <LinearGradient
           style={styles.div}
           colors={["#1a2755", "#1D94AE"]}
@@ -85,6 +84,9 @@ export default function SubscribeScreen({ navigation }) {
           <Text style={styles.titleform}>Bienvenue sur Ecna</Text>
           <Text style={styles.titleformun}>
             Veuillez compléter le formulaire pour continuer
+          </Text>
+          <Text style={styles.txtError}>
+          {errorMessage}
           </Text>
           <View style={styles.formulaire}>
             <View style={styles.divinput}>
@@ -220,4 +222,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
   },
+  txtError : {
+    color : 'red'
+  }
 });

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 
 const initialState = {
- value: [{plaque:null,etat:null}],
+ value: [],
 };
 
 export const vehicules = createSlice({

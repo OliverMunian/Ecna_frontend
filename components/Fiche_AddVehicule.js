@@ -27,7 +27,7 @@ export default function FicheAddVehicule(props) {
   const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
   const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
 
-  const BACKEND_ADRESS = "http://10.3.0.13:3000";
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
 
   // Definition des possibilités des menus déroulants
   const types = ["Gros", "Classique", "VSL"];
@@ -38,33 +38,40 @@ export default function FicheAddVehicule(props) {
   const [plaque, setPlaque] = useState(null);
   const [type, setType] = useState(null);
   const [etat, setEtat] = useState(null);
+  const [errorMessage,setErrorMessage] = useState(null)
 
   const user = useSelector((state) => state.user.value);
   const SIREN = useSelector((state) => state.user.value.SIREN);
+  const regex = /^[A-Z]{2}[-][0-9]{3}[-][A-Z]{2}$/i 
 
   // Fonction qui se declenche lors du clique sur le bouton 'Ajouter' afin de sauvegarder le vehicule en BDD et l'afficher sur la page
   // grace à l'etat vehicules + reset des champs/etats dans le cas ou la sauvegarde est réussie en back
   const handleAdd = () => {
-    fetch(`${BACKEND_ADRESS}/vehicules/add`, {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-        plaque: plaque,
-        type: type,
-        etat: etat,
-        SIREN: user.SIREN,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.result) {
-          setVehicules([
-            ...vehicules,
-            { plaque: plaque, type: type, etat: etat },
-          ]);
-          setPlaque("");
-        }
-      });
+    const testPlaque = regex.test(plaque)
+    if(testPlaque){
+      fetch(`${BACKEND_ADRESS}/vehicules/add`, {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({
+          plaque: plaque.toUpperCase(),
+          type: type,
+          etat: etat,
+          SIREN: user.SIREN,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.result) {
+            setVehicules([
+              ...vehicules,
+              { plaque: plaque.toUpperCase(), type: type, etat: etat },
+            ]);
+            setPlaque("");
+          }
+        });
+    } else {
+      setErrorMessage('La plaque ne correspond pas au format attendu')
+    }
   };
 
   const handleNext = () => {
@@ -72,12 +79,12 @@ export default function FicheAddVehicule(props) {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          dispatch(defineListVehicules(data.vehicules))
+          dispatch(defineListVehicules(data.vehicules));
           dispatch(
             defineListVehiculesDispo(
               data.vehicules.filter((e) => e.etat === "En ligne")
-              )
-            );
+            )
+          );
         }
       });
     navigation.navigate(props.screenName);
@@ -127,9 +134,7 @@ export default function FicheAddVehicule(props) {
       </Text>
       <View style={styles.vehicules}>{vehiculesDisplay}</View>
       <View style={styles.form}>
-        <Text style={styles.subtitle}>
-          Ex : AA-123-AA
-        </Text>
+        <Text style={styles.subtitle}>Ex : AA-123-AA</Text>
         <TextInput
           style={styles.input}
           placeholder="Saissez la plaque d'immatriculation"
@@ -137,6 +142,9 @@ export default function FicheAddVehicule(props) {
           onChangeText={(value) => setPlaque(value)}
           value={plaque}
         />
+        <Text style={styles.txtError}>
+          {errorMessage}
+        </Text>
         <View style={styles.menuselect}>
           <View style={styles.box}>
             <Text style={styles.txt}>Type de véhicule</Text>
@@ -258,4 +266,7 @@ const styles = StyleSheet.create({
     borderColor: "white",
     color: "white",
   },
+  txtError : {
+    color : 'red'
+  }
 });

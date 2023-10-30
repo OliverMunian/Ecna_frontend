@@ -28,7 +28,7 @@ export default function SearchBar(props) {
         inter.patient.firstName.match(pattern)
     );
   dispatch(updateSearchResults(searchQuery));
-    ;
+   ;
     if (recherche == "") {
       Alert.alert(
         "Stop ✋!",
@@ -38,8 +38,7 @@ export default function SearchBar(props) {
       navigation.navigate(props.screenName)
     }
   };
-
-  return (
+return (
     <View style={styles.containerUn}>
       <View
         style={styles.containerdeux}

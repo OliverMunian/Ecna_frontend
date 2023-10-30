@@ -10,7 +10,8 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useState } from "react";
-import { updateSearchQuery } from "../reducers/searchQuery";
+import { updateSearchQuery, } from "../reducers/searchQuery";
+import { updateSearchResults } from "../reducers/searchResult";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function SearchBar() {
@@ -27,7 +28,7 @@ export default function SearchBar() {
     );
     dispatch(updateSearchResults(searchQuery));
     navigation.navigate("SearchResults");
-    if (value == "") {
+    if (recherche == "") {
       Alert.alert(
         "Stop ✋!",
         "Complétez les champs pour effectuer la recherche"
@@ -50,12 +51,12 @@ export default function SearchBar() {
           onChangeText={(value) => dispatch(updateSearchQuery(value))}
           value={recherche}
         />
-        {/* <TouchableOpacity
+        <TouchableOpacity
           onPress={() => handleSearch()}
           style={styles.verifyButton}
         >
           <Text>🔍</Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
     </View>
   );

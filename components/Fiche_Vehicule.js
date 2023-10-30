@@ -5,7 +5,7 @@ import {
   Image,
   StyleSheet,
   Modal,
-  Alert
+  Alert,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useState } from "react";
@@ -18,10 +18,11 @@ import { addInterPlaque } from "../reducers/interVehicules";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
+
 export default function FicheVehicule(props) {
   const dispatch = useDispatch();
-  const navigation = useNavigation()
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const navigation = useNavigation();
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
   const user = useSelector((state) => state.user.value);
   const etats = ["En ligne", "Hors ligne", "Indisponible"];
   const interventions = useSelector((state) => state.interventions.value)
@@ -39,11 +40,11 @@ navigation.navigate(props.screenName)
 const modalview = () => {
     setModalVisible(true);
   };
-const handleClose = () => {
+  const handleClose = () => {
     setModalVisible(false);
   };
-// Fonction qui modifie l'état du vehicule dans la BDD et refetch la liste de vehicules pour update le reducer et recharger le composant
-const handleUpdate = () => {
+  // Fonction qui modifie l'état du vehicule dans la BDD et refetch la liste de vehicules pour update le reducer et recharger le composant
+  const handleUpdate = () => {
     fetch(`${BACKEND_ADRESS}/vehicules/update/${props.plaque}`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -56,25 +57,25 @@ const handleUpdate = () => {
         fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
           .then((response) => response.json())
           .then((vehiculesData) => {
-            if(etat==null){
-              Alert.alert('Oup!','Vous navez pass choisi le statut')
+            if (etat == null) {
+              Alert.alert("Oup!", "Vous navez pass choisi le statut");
             }
             dispatch(defineListVehicules(vehiculesData.vehicules));
             dispatch(defineListVehiculesDispo(vehiculesData.vehicules.filter(e=>e.etat === 'En ligne')))
           });
       });
-    setModalVisible(false)
+    setModalVisible(false);
   };
 
-return (
+  return (
     <BlurView intensity={50} style={styles.view}>
       <View style={styles.container}>
-        <TouchableOpacity onPress={()=>handlePress(props.plaque)}>
+        <TouchableOpacity onPress={() => handlePress(props.plaque)}>
           <View style={styles.left}>
             <Text style={styles.plaque}>{props.plaque}</Text>
             <View style={styles.grpEtat}>
               <FontAwesome
-              name="circle"
+                name="circle"
                 size={(fontSize = 10)}
                 color={props.color}
               />
@@ -190,10 +191,10 @@ const styles = StyleSheet.create({
     opacity: "10%",
     overflow: "hidden",
   },
-  centeredViewtwo:{
+  centeredViewtwo: {
     overflow: "hidden",
     borderRadius: 30,
-    borderWidth:2,
+    borderWidth: 2,
     borderColor: "white",
     width: "65%",
   },

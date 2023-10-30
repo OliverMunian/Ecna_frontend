@@ -28,7 +28,8 @@ export default function carouselDashboard() {
         renderItem={({item}) => <VehiculeDashBoard item={item} type={imagesData[item.type]} plaque={item.plaque}/>}
         horizontal
         showsHorizontalScrollIndicator={false}
-        boucnes={false}/>
+        boucnes={false}
+        style={styles.flatList}/>
     </View>
   );
 }
@@ -36,8 +37,7 @@ export default function carouselDashboard() {
 const styles = StyleSheet.create({
   container: {
     flexDirection:'row',
-    top:30,
-    width:'50%',
+    width:200,
     height: 200,
   },
 });

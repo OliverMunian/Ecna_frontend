@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View , Image,TouchableOpacity} from 'react-native'
 import { useSelector , useDispatch } from "react-redux";
 import { useState } from 'react';
-import { updateSearchResults } from '../reducers/searchResult';
 import Fiche_intervention from "../components/Fiche_intervention";
 import SearchBar from '../components/SearchBar';
 import GV from "../assets/grosVolume.png";
@@ -15,16 +14,6 @@ export default function SearchResults({navigation}) {
     const MVuri = Image.resolveAssetSource(MV).uri;
     const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
     const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
-    const [dispatchedVehicules, setDispatchedVehicules] = useState([]);
-    const interventions = useSelector((state) => state.interventions.value)
-    const recherche = useSelector((state) => state.searchQuery.value)
-
-    const selectDispatch = (dispatchedVehicule) => {
-      setDispatchedVehicules((prevDispatchedVehicules) => [
-        ...prevDispatchedVehicules,
-        dispatchedVehicule,
-      ]);
-    };
     
     const searchResult = useSelector((state) => state.searchResult.value)
     const searchResultDisplay = searchResult.map((inter,i) => {
@@ -44,7 +33,6 @@ export default function SearchResults({navigation}) {
           arrival={inter.arrival}
           date={date}
           dispatched={inter.vehicule}
-          selectDispatch={selectDispatch}
         />
       );
     } else {
@@ -64,25 +52,12 @@ export default function SearchResults({navigation}) {
     }
     })
 
-    const handleSearch = () => {
-      const pattern = new RegExp(recherche,'i')
-      const searchQuery = interventions.filter(inter => inter.patient.lastName.match(pattern) || inter.patient.firstName.match(pattern))
-      dispatch(updateSearchResults(searchQuery))
-    };
-  
-
     return (
       <View style={styles.container}>
         <View >
           {searchResultDisplay}
         </View> 
-        <SearchBar />
-        <TouchableOpacity
-          onPress={() => handleSearch()}
-          style={styles.verifyButton}
-        >
-          <Text>🔍</Text>
-        </TouchableOpacity>
+        <SearchBar screenName={'SearchResults'} />
       </View>
     );
 }

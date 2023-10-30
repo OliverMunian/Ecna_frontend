@@ -98,16 +98,16 @@ fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
   }, []);
 
 // Fonction qui se declenche lors du search
-const handleSearch = () => {
-  const pattern = new RegExp(recherche, "i");
-  const searchQuery = interventions.filter(
-    (inter) =>
-        inter.patient.lastName.match(pattern) ||
-        inter.patient.firstName.match(pattern)
-    );
-  dispatch(updateSearchResults(searchQuery));
-  navigation.navigate("SearchResults");
-  };
+// const handleSearch = () => {
+//   const pattern = new RegExp(recherche, "i");
+//   const searchQuery = interventions.filter(
+//     (inter) =>
+//         inter.patient.lastName.match(pattern) ||
+//         inter.patient.firstName.match(pattern)
+//     );
+//   dispatch(updateSearchResults(searchQuery));
+//   navigation.navigate("SearchResults");
+//   };
 
 return (
   <LinearGradient
@@ -156,7 +156,7 @@ return (
           keyboardVerticalOffset={200}
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          <SearchBar />
+          <SearchBar screenName={'SearchResults'} />
         </KeyboardAvoidingView>
       </View>
       <BottomSheetModalProvider>

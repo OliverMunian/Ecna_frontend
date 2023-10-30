@@ -39,93 +39,98 @@ import {
 export default function DashboardScreen({ navigation }) {
   // Bottom Sheet
   const BottomSheetModalRef = useRef(null);
-  const snapPoints = ["25%","85%"];
+  const snapPoints = ["25%", "85%"];
   const [modalVisible, setModalVisible] = useState(false);
-  const [value, setValue] =useState('')
+  const [value, setValue] = useState("");
 
   function handlePressModal() {
-    BottomSheetModalRef.current?.present()
-    setValue(value)
+    BottomSheetModalRef.current?.present();
+    setValue(value);
   }
 
   const dispatch = useDispatch();
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
   const user = useSelector((state) => state.user.value);
   const interventions = useSelector((state) => state.interventions.value);
   const recherche = useSelector((state) => state.searchQuery.value);
 
-// A l'initialisation du dashboard, dispatch de toutes les informations
-useEffect(() => {
-// Fetch des vehicules correspondant au siren
-fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
-  .then((response) => response.json())
-    .then((data) => {
-      if (data.result) {
-        dispatch(defineListVehicules(data.vehicules));
-        dispatch(
-          defineListVehiculesDispo(
-            data.vehicules.filter((e) => e.etat === "En ligne")
+  // A l'initialisation du dashboard, dispatch de toutes les informations
+  useEffect(() => {
+    // Fetch des vehicules correspondant au siren
+    fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          dispatch(defineListVehicules(data.vehicules));
+          dispatch(
+            defineListVehiculesDispo(
+              data.vehicules.filter((e) => e.etat === "En ligne")
             )
           );
         }
       });
-// Fetch des patients correspondant au token
-fetch(`${BACKEND_ADRESS}/patients/all/${user.token}`)
-  .then((response) => response.json())
-    .then((patientData) => {
-      if(patientData.result){
-// Fonction qui permet de trier les patients par ordre alphabétique
-        function sortPatients(a, b) {
-          if (a.lastName < b.lastName) {
-            return -1;
-          } else if (a.lastName > b.lastName) {
-            return 1;
+    // Fetch des patients correspondant au token
+    fetch(`${BACKEND_ADRESS}/patients/all/${user.token}`)
+      .then((response) => response.json())
+      .then((patientData) => {
+        if (patientData.result) {
+          // Fonction qui permet de trier les patients par ordre alphabétique
+          function sortPatients(a, b) {
+            if (a.lastName < b.lastName) {
+              return -1;
+            } else if (a.lastName > b.lastName) {
+              return 1;
+            }
+            return 0;
           }
-          return 0;
+          const sorted = patientData.patients.sort(sortPatients);
+          // Dispatch dans le reducer
+          dispatch(defineListPatients(sorted));
         }
-        const sorted = patientData.patients.sort(sortPatients);
- // Dispatch dans le reducer
-        dispatch(defineListPatients(sorted));
-  }});
-// Fetch des vehicules correspondant au SIREN
-fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
-  .then((response) => response.json())
-    .then((interData) => {
-      if(interData.result) {
-        dispatch(defineListInter(interData.interventions));
+      });
+    // Fetch des vehicules correspondant au SIREN
+    fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
+      .then((response) => response.json())
+      .then((interData) => {
+        if (interData.result) {
+          dispatch(defineListInter(interData.interventions));
         }
       });
   }, []);
 
-// Fonction qui se declenche lors du search
-const handleSearch = () => {
-  const pattern = new RegExp(recherche, "i");
-  const searchQuery = interventions.filter(
-    (inter) =>
+  // Fonction qui se declenche lors du search
+  const handleSearch = () => {
+    const pattern = new RegExp(recherche, "i");
+    const searchQuery = interventions.filter(
+      (inter) =>
         inter.patient.lastName.match(pattern) ||
         inter.patient.firstName.match(pattern)
     );
-  dispatch(updateSearchResults(searchQuery));
-  navigation.navigate("SearchResults");
+    dispatch(updateSearchResults(searchQuery));
+    navigation.navigate("SearchResults");
   };
 
-return (
-  <LinearGradient
+  return (
+    <LinearGradient
       style={styles.container}
       colors={["#1a2755", "#1D94AE"]}
-      start={{ x:0.5, y: 0.5 }}
+      start={{ x: 0.5, y: 0.5 }}
       end={{ x: 0.5, y: 1 }}
     >
-    <View style={styles.maintitle}>
-      <Text style={styles.h1}> Véhicules disponibles </Text>
-      <CarouselDashboard></CarouselDashboard>
-    </View>
+      <View style={styles.maintitle}>
+        <Text style={styles.h1}> Véhicules disponibles </Text>
+        <CarouselDashboard></CarouselDashboard>
+      </View>
       <View style={styles.icons}>
         <TouchableOpacity style={styles.title} onPress={handlePressModal}>
           <FontAwesome name="spinner" size={(fontSize = 25)} color="white" />
           <Text style={styles.txt}>En cours </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.title} onPress={handlePressModal}  value='samu'>
+        <TouchableOpacity
+          style={styles.title}
+          onPress={handlePressModal}
+          value="samu"
+        >
           <MaterialCommunityIcons
             name="alarm-light-outline"
             size={(fontSize = 25)}
@@ -173,7 +178,9 @@ return (
             }}
           >
             <View style={styles.modalcontain}>
-              <Text style={styles.txtmodal}>Faire appraitre les composants</Text>
+              <Text style={styles.txtmodal}>
+                Faire appraitre les composants
+              </Text>
             </View>
           </BottomSheetModal>
         </View>

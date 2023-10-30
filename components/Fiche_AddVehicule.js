@@ -27,7 +27,7 @@ export default function FicheAddVehicule(props) {
   const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
   const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
 
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
 
   // Definition des possibilités des menus déroulants
   const types = ["Gros", "Classique", "VSL"];
@@ -72,12 +72,12 @@ export default function FicheAddVehicule(props) {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          dispatch(defineListVehicules(data.vehicules))
+          dispatch(defineListVehicules(data.vehicules));
           dispatch(
             defineListVehiculesDispo(
               data.vehicules.filter((e) => e.etat === "En ligne")
-              )
-            );
+            )
+          );
         }
       });
     navigation.navigate(props.screenName);
@@ -127,9 +127,7 @@ export default function FicheAddVehicule(props) {
       </Text>
       <View style={styles.vehicules}>{vehiculesDisplay}</View>
       <View style={styles.form}>
-        <Text style={styles.subtitle}>
-          Ex : AA-123-AA
-        </Text>
+        <Text style={styles.subtitle}>Ex : AA-123-AA</Text>
         <TextInput
           style={styles.input}
           placeholder="Saissez la plaque d'immatriculation"

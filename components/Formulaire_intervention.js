@@ -13,9 +13,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Formulaire_interventions(props) {
-  const navigation = useNavigation()
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
-  const dispatch = useDispatch()
+  const navigation = useNavigation();
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
+  const dispatch = useDispatch();
 
   // Recuperation des informations du user du reducer
   const user = useSelector((state) => state.user.value);
@@ -98,8 +98,10 @@ export default function Formulaire_interventions(props) {
               .then((response) => response.json())
               .then((patientData) => {
                 if (patientData.result) {
-                  dispatch(defineListPatients(patientData.patients))
-                  navigation.navigate(props.screenName,{screen:'Interventions'})
+                  dispatch(defineListPatients(patientData.patients));
+                  navigation.navigate(props.screenName, {
+                    screen: "Interventions",
+                  });
                 }
               });
           });
@@ -110,7 +112,7 @@ export default function Formulaire_interventions(props) {
     <LinearGradient
       style={styles.container}
       colors={["#1a2755", "#1D94AE"]}
-      start={{ x:0.5, y: 0.5 }}
+      start={{ x: 0.5, y: 0.5 }}
       end={{ x: 0.5, y: 1 }}
     >
       <Text style={styles.titre}>Nouvelle intervention</Text>

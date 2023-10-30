@@ -13,17 +13,17 @@ import background from "../assets/ambulance.jpg";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function SubscribeScreen({ navigation }) {
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
   const dispatch = useDispatch();
 
-// Mise en place états liés aux input
+  // Mise en place états liés aux input
   const [username, setUserName] = useState(null);
   const [password, setPassWord] = useState(null);
   const [email, setEmail] = useState(null);
   const [name, setName] = useState(null);
   const [SIREN, setSIREN] = useState(null);
 
-// Fonction à déclencher lors de l'appui sur le bouton valider afin de créer un document user et un document entreprise + les lier
+  // Fonction à déclencher lors de l'appui sur le bouton valider afin de créer un document user et un document entreprise + les lier
   function Subscribe() {
     navigation.navigate("AddVehicule");
     fetch(`${BACKEND_ADRESS}/users/signup`, {

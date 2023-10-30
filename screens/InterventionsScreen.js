@@ -10,7 +10,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 export default function InterventionsScreen() {
   const dispatch = useDispatch();
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
   const [dispatchedVehicules, setDispatchedVehicules] = useState([]);
 
   const user = useSelector((state) => state.user.value);
@@ -71,7 +71,7 @@ export default function InterventionsScreen() {
     <LinearGradient
       style={styles.container}
       colors={["#1a2755", "#1D94AE"]}
-      start={{ x:0.5, y: 0.5}}
+      start={{ x: 0.5, y: 0.5 }}
       end={{ x: 0.5, y: 1 }}
     >
       <Text style={styles.title}>Interventions</Text>

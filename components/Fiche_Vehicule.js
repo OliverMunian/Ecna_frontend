@@ -20,7 +20,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 export default function FicheVehicule(props) {
   const dispatch = useDispatch();
   const navigation = useNavigation()
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://10.3.0.13:3000";
   const user = useSelector((state) => state.user.value);
   const etats = ["En ligne", "Hors ligne", "Indisponible"];
   const interventions = useSelector((state) => state.interventions.value)

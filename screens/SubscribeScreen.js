@@ -13,7 +13,7 @@ import background from "../assets/ambulance.jpg";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function SubscribeScreen({ navigation }) {
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://10.3.0.13:3000";
   const dispatch = useDispatch();
 
 // Mise en place états liés aux input

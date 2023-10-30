@@ -25,7 +25,7 @@ export default function carouselDashboard() {
   return (
     <View style={styles.container}>
         <FlatList data={vehiculesDispo} 
-        renderItem={({item}) => <VehiculeDashBoard item={item} type={imagesData[item.type]} plaque={item.plaque}/>}
+        renderItem={({item}) => <VehiculeDashBoard item={item} interToken={item.interToken} type={imagesData[item.type]} plaque={item.plaque}/>}
         horizontal
         showsHorizontalScrollIndicator={false}
         boucnes={false}

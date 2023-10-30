@@ -22,6 +22,7 @@ export default function SubscribeScreen({ navigation }) {
   const [email, setEmail] = useState(null);
   const [name, setName] = useState(null);
   const [SIREN, setSIREN] = useState(null);
+  const [errorMessage,setErrorMessage] = useState(null)
 
   // Fonction à déclencher lors de l'appui sur le bouton valider afin de créer un document user et un document entreprise + les lier
   function Subscribe() {

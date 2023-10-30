@@ -11,7 +11,8 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useState } from "react";
 import SelectDropdown from "react-native-select-dropdown";
 import { useSelector, useDispatch } from "react-redux";
-import { defineListVehicules, updateEtatVehicule } from "../reducers/vehicules";
+import { defineListVehicules } from "../reducers/vehicules";
+import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
 import { BlurView } from "expo-blur";
 import { addInterPlaque } from "../reducers/interVehicules";
 import { useNavigation } from "@react-navigation/native";
@@ -66,6 +67,7 @@ export default function FicheVehicule(props) {
               Alert.alert("Oup!", "Vous navez pass choisi le statut");
             }
             dispatch(defineListVehicules(vehiculesData.vehicules));
+            dispatch(defineListVehiculesDispo(vehiculesData.vehicules.filter(e=>e.etat === 'En ligne')))
           });
       });
     setModalVisible(false);

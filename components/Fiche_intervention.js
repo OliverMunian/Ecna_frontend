@@ -2,6 +2,7 @@ import {Modal, StyleSheet, Text, View, ScrollView, TouchableOpacity,Image } from
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { BlurView } from 'expo-blur';
+
 export default function Fiche_intervention(props) {
     
     const vehicules = useSelector((state) => state.vehicules.value);

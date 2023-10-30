@@ -40,7 +40,7 @@ export default function Formulaire_interventions(props) {
     fetch(`${BACKEND_ADRESS}/patients/verify`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ SSnumber: SSnumber }),
+      body: JSON.stringify({ SSnumber: SSnumber , token : user.token }),
     })
       .then((response) => response.json())
       .then((patientData) => {
@@ -84,6 +84,16 @@ export default function Formulaire_interventions(props) {
     })
       .then((response) => response.json())
       .then(() => {
+        setFirstName('');
+        setLastName('');
+        setAdress('');
+        setSSnumber('');
+        setPhone('');
+        setMutuelle('');
+        setValide('');
+        setExiste(false);
+        setDeparture('')
+        setArrival('')
         // mise à jour du reducer interventions
         fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
           .then((response) => response.json())

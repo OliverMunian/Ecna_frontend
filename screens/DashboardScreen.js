@@ -40,10 +40,19 @@ export default function DashboardScreen({ navigation }) {
   const snapPoints = ["20%", "50%", "85%"];
   const [modalVisible, setModalVisible] = useState(false);
   const [value, setValue] = useState("");
-  function handlePressModal() {
+  function handlePressModal(name) {
     BottomSheetModalRef.current?.present();
-    setValue(value);
+    setValue();
+    if(name = 'dangerous'){
+      return 
+    }
   }
+
+  //STATE DES ICONES
+  const [encours, setEnCours]= useState(false)
+  const [samu, setSamu]= useState(false)
+  const [ulterieures, setUlterieures]= useState(false)
+  const [anomalies, setAnomalies] = useState(false)
 
   const dispatch = useDispatch();
   const BACKEND_ADRESS = "http://10.3.0.43:3000";
@@ -125,13 +134,13 @@ export default function DashboardScreen({ navigation }) {
         </KeyboardAvoidingView>
       </View>
       <View style={styles.icons}>
-        <TouchableOpacity style={styles.title} onPress={handlePressModal}>
+        <TouchableOpacity style={styles.title} onPress={()=>handlePressModal("spinner")}>
           <FontAwesome name="spinner" size={(fontSize = 25)} color="white" />
           <Text style={styles.txt}>En cours </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.title}
-          onPress={handlePressModal}
+          onPress={()=>handlePressModal("alarm-light-outline")}
           value="samu"
         >
           <MaterialCommunityIcons
@@ -141,7 +150,7 @@ export default function DashboardScreen({ navigation }) {
           />
           <Text style={styles.txt}>SAMU</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.title} onPress={handlePressModal}>
+        <TouchableOpacity style={styles.title} onPress={()=>handlePressModal("skip-next")}>
           <MaterialCommunityIcons
             name="skip-next"
             size={(fontSize = 25)}
@@ -149,7 +158,7 @@ export default function DashboardScreen({ navigation }) {
           />
           <Text style={styles.txt}>Ultérieures</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.title} onPress={handlePressModal}>
+        <TouchableOpacity style={styles.title} onPress={()=>handlePressModal("dangerous")}>
           <MaterialIcons
             name="dangerous"
             size={(fontSize = 25)}
@@ -197,7 +206,7 @@ export default function DashboardScreen({ navigation }) {
           >
             <View style={styles.modalcontain}>
               <Text style={styles.txtmodal}>
-                Faire appraitre les composants
+               {value}
               </Text>
             </View>
           </BottomSheetModal>

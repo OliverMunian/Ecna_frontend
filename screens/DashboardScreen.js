@@ -19,14 +19,9 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import SearchBar from "../components/SearchBar";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import VehiculeDashBoard from "../components/VehiculeDashBoard";
-import GV from "../assets/grosVolume.png";
-import MV from "../assets/moyenVolume.png";
-import VSLsrc from "../assets/VSL.png";
 import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
 import { defineListPatients } from "../reducers/listPatients";
 import { defineListInter } from "../reducers/interventions";
-import { updateSearchResults } from "../reducers/searchResult";
 import { LinearGradient } from "expo-linear-gradient";
 // Bottom Sheet
 import { StatusBar } from "expo-status-bar";
@@ -35,6 +30,7 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
+import { addtokenToSotre, addSirenToSotre } from "../reducers/user";
 
 export default function DashboardScreen({ navigation }) {
   // Bottom Sheet
@@ -98,17 +94,12 @@ export default function DashboardScreen({ navigation }) {
       });
   }, []);
 
-// Fonction qui se declenche lors du search
-// const handleSearch = () => {
-//   const pattern = new RegExp(recherche, "i");
-//   const searchQuery = interventions.filter(
-//     (inter) =>
-//         inter.patient.lastName.match(pattern) ||
-//         inter.patient.firstName.match(pattern)
-//     );
-//   dispatch(updateSearchResults(searchQuery));
-//   navigation.navigate("SearchResults");
-//   };
+// Fonction logout
+const logHandle = () => {
+  dispatch(addSirenToSotre(null))
+  dispatch(addtokenToSotre(null))
+  navigation.navigate('Home')
+}
 
   return (
     <LinearGradient
@@ -164,6 +155,11 @@ export default function DashboardScreen({ navigation }) {
           <SearchBar screenName={'SearchResults'} />
         </KeyboardAvoidingView>
       </View>
+      <TouchableOpacity onPress={() => logHandle()}>
+      <Text>
+        LOGOUT
+      </Text>
+    </TouchableOpacity>
       <BottomSheetModalProvider>
         <View visible={modalVisible}>
           <StatusBar style={styles.statusbar} />

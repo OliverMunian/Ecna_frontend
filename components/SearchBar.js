@@ -36,8 +36,7 @@ export default function SearchBar(props) {
       );
     }
   };
-
-  return (
+return (
     <View style={styles.containerUn}>
       <View
         style={styles.containerdeux}

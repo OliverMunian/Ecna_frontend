@@ -12,7 +12,6 @@ import FicheVehicule from "../components/Fiche_Vehicule";
 import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
-import { addInterPlaque } from "../reducers/interVehicules";
 import { useDispatch } from "react-redux";
 import { LinearGradient } from "expo-linear-gradient";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -20,7 +19,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 const GVuri = Image.resolveAssetSource(GV).uri;
 const MVuri = Image.resolveAssetSource(MV).uri;
 const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
-const imagesData = { Gros: GVuri, Moyen: MVuri, VSL: VSLuri };
+const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
 
 const getColorByEtat = (etat) => {
   switch (etat) {
@@ -36,32 +35,26 @@ const getColorByEtat = (etat) => {
       return "black";
   }
 };
-export default function VehiculeScreen({ navigation }) {
-  const dispatch = useDispatch();
-  const vehicules = useSelector((state) => state.vehicules.value);
-  const BACKEND_ADRESS = "http://192.168.1.14:3000";
-  const SIREN = useSelector((state) => state.user.value.SIREN);
 
-  // Update du reducer lorsqu'on clique sur un composant véhicule afin de stocker la liste des interventions dans le reducer
-  function handlePress(plaque) {
-    fetch(`${BACKEND_ADRESS}/vehicules/interventions/${plaque}`)
-      .then((response) => response.json())
-      .then((interventionsData) => {
-        dispatch(
-          addInterPlaque({
-            plaque: plaque,
-            interventions: interventionsData.interventions,
-          })
-        );
-        navigation.navigate("Interventionduvehicule");
-      });
-  }
+export default function VehiculeScreen({ navigation }) {
+  const vehicules = useSelector((state) => state.vehicules.value);
 
   const handleAdd = () => {
     navigation.navigate("AddVehiculeBis");
   };
 
-  return (
+  const vehiculesDisplay = vehicules.map((data, i) => (
+    <FicheVehicule
+        key={i}
+        plaque={data.plaque}
+        etat={data.etat}
+        color={getColorByEtat(data.etat)}
+        type={imagesData[data.type]}
+        screenName={'Interventionduvehicule'}
+      />
+    ))
+
+return (
     <LinearGradient
       style={styles.container}
       colors={["#1a2755", "#9b84ad"]}
@@ -85,16 +78,7 @@ export default function VehiculeScreen({ navigation }) {
         overScrollMode="never"
       >
         <View style={styles.box}>
-          {vehicules.map((data, i) => (
-            <FicheVehicule
-              key={i}
-              plaque={data.plaque}
-              etat={data.etat}
-              color={getColorByEtat(data.etat)}
-              type={imagesData[data.type]}
-              onDispatch={(plaque) => handlePress(plaque)}
-            />
-          ))}
+            {vehiculesDisplay}
         </View>
       </ScrollView>
       <View style={styles.trait} />

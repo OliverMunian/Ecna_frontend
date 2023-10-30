@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, TextInput, Button } from "react-native";
 import FicheAddVehicule from "../components/Fiche_AddVehicule";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function AddVehiculesScreen () {
     return (
@@ -9,7 +10,7 @@ export default function AddVehiculesScreen () {
         start={{ x: 0.5, y: 0 }}
         end={{ x: 0.5, y: 1 }}
       >
-        <FicheAddVehicule screenName={'Véhicules'} />
+        <FicheAddVehicule screenName={'TabNavigator'} />
       </LinearGradient>
     )
 }

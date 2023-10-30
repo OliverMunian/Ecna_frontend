@@ -11,10 +11,10 @@ export default function carouselDashboard() {
   const GVuri = Image.resolveAssetSource(GV).uri;
   const MVuri = Image.resolveAssetSource(MV).uri;
   const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
-  const imagesData = { Gros: GVuri, Moyen: MVuri, VSL: VSLuri };
+  const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
 
   const vehiculesDispo = useSelector((state) => state.vehiculesDispo.value);
-  console.log(vehiculesDispo)
+  
   return (
     <View style={styles.container}>
         <FlatList data={vehiculesDispo} 

@@ -10,7 +10,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 export default function InterventionsScreen() {
   const dispatch = useDispatch();
-  const BACKEND_ADRESS = "http://192.168.1.14:3000";
+  const BACKEND_ADRESS = "http://192.168.0.27:3000";
   const [dispatchedVehicules, setDispatchedVehicules] = useState([]);
 
   const user = useSelector((state) => state.user.value);
@@ -21,7 +21,7 @@ export default function InterventionsScreen() {
   const GVuri = Image.resolveAssetSource(GV).uri;
   const MVuri = Image.resolveAssetSource(MV).uri;
   const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
-  const imagesData = { Gros: GVuri, Moyen: MVuri, VSL: VSLuri };
+  const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
 
   const selectDispatch = (dispatchedVehicule) => {
     setDispatchedVehicules((prevDispatchedVehicules) => [

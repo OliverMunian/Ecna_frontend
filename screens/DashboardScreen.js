@@ -15,10 +15,6 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { defineListVehicules } from "../reducers/vehicules";
-import VehiculeDashBoard from "../components/VehiculeDashBoard";
-import GV from "../assets/grosVolume.png";
-import MV from "../assets/moyenVolume.png";
-import VSLsrc from "../assets/VSL.png";
 import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
 import { defineListPatients } from "../reducers/listPatients";
 import { defineListInter } from "../reducers/interventions";
@@ -33,48 +29,32 @@ import SearchBar from "../components/SearchBar";
 
 export default function DashboardScreen({ navigation }) {
   const dispatch = useDispatch();
-  const BACKEND_ADRESS = "http://192.168.1.14:3000";
-
-  const vehiculesDispo = useSelector((state) => state.vehiculesDispo.value);
+  const BACKEND_ADRESS = "http://192.168.0.27:3000";
   const user = useSelector((state) => state.user.value);
-  // const interventions = useSelector((state) => state.interventions.value);
-  // const recherche = useSelector((state) => state.searchQuery.value);
+  const interventions = useSelector((state) => state.interventions.value);
+  const recherche = useSelector((state) => state.searchQuery.value);
 
-  const GVuri = Image.resolveAssetSource(GV).uri;
-  const MVuri = Image.resolveAssetSource(MV).uri;
-  const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
-  const imagesData = { Gros: GVuri, Moyen: MVuri, VSL: VSLuri };
-
-  const vehiculesDispoDisplay = vehiculesDispo.map((data, i) => {
-    return (
-      <VehiculeDashBoard
-        key={i}
-        type={imagesData[data.type]}
-        plaque={data.plaque}
-      />
-    );
-  });
-
-  // A l'initialisation du dashboard, dispatch de toutes les informations
-  useEffect(() => {
-    // Fetch des vehicules correspondant au siren
-    fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.result) {
-          dispatch(defineListVehicules(data.vehicules));
-          dispatch(
-            defineListVehiculesDispo(
-              data.vehicules.filter((e) => e.etat === "En ligne")
+// A l'initialisation du dashboard, dispatch de toutes les informations
+useEffect(() => {
+// Fetch des vehicules correspondant au siren
+fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
+  .then((response) => response.json())
+    .then((data) => {
+      if (data.result) {
+        dispatch(defineListVehicules(data.vehicules));
+        dispatch(
+          defineListVehiculesDispo(
+            data.vehicules.filter((e) => e.etat === "En ligne")
             )
           );
         }
       });
-    // Fetch des patients correspondant au token
-    fetch(`${BACKEND_ADRESS}/patients/all/${user.token}`)
-      .then((response) => response.json())
-      .then((patientData) => {
-        // Fonction qui permet de trier les patients par ordre alphabétique
+// Fetch des patients correspondant au token
+fetch(`${BACKEND_ADRESS}/patients/all/${user.token}`)
+  .then((response) => response.json())
+    .then((patientData) => {
+      if(patientData.result){
+// Fonction qui permet de trier les patients par ordre alphabétique
         function sortPatients(a, b) {
           if (a.lastName < b.lastName) {
             return -1;
@@ -84,39 +64,42 @@ export default function DashboardScreen({ navigation }) {
           return 0;
         }
         const sorted = patientData.patients.sort(sortPatients);
-        // Dispatch dans le reducer
+ // Dispatch dans le reducer
         dispatch(defineListPatients(sorted));
-      });
-    // Fetch des vehicules correspondant au SIREN
-    fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
-      .then((response) => response.json())
-      .then((interData) => {
+  }});
+// Fetch des vehicules correspondant au SIREN
+fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
+  .then((response) => response.json())
+    .then((interData) => {
+      if(interData.result) {
         dispatch(defineListInter(interData.interventions));
+        }
       });
   }, []);
 
-  // const handleSearch = () => {
-  //   const pattern = new RegExp(recherche, "i");
-  //   const searchQuery = interventions.filter(
-  //     (inter) =>
-  //       inter.patient.lastName.match(pattern) ||
-  //       inter.patient.firstName.match(pattern)
-  //   );
-  //   dispatch(updateSearchResults(searchQuery));
-  //   navigation.navigate("SearchResults");
-  // };
+// Fonction qui se declenche lors du search
+const handleSearch = () => {
+  const pattern = new RegExp(recherche, "i");
+  const searchQuery = interventions.filter(
+    (inter) =>
+        inter.patient.lastName.match(pattern) ||
+        inter.patient.firstName.match(pattern)
+    );
+  dispatch(updateSearchResults(searchQuery));
+  navigation.navigate("SearchResults");
+  };
 
-  return (
-    <LinearGradient
+return (
+  <LinearGradient
       style={styles.container}
       colors={["#1a2755", "#9b84ad"]}
       start={{ x: 0.5, y: 0 }}
       end={{ x: 0.5, y: 1 }}
     >
-      <View style={styles.maintitle}>
-        <Text style={styles.h1}> Véhicules disponibles </Text>
-        <CarouselDashboard></CarouselDashboard>
-      </View>
+    <View style={styles.maintitle}>
+      <Text style={styles.h1}> Véhicules disponibles </Text>
+      <CarouselDashboard></CarouselDashboard>
+    </View>
       <View style={styles.icons}>
         <View style={styles.title}>
           <FontAwesome name="spinner" size={(fontSize = 25)} color="white" />

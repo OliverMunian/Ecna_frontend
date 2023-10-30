@@ -14,7 +14,7 @@ export default function SearchResults({navigation}) {
     const GVuri = Image.resolveAssetSource(GV).uri;
     const MVuri = Image.resolveAssetSource(MV).uri;
     const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
-    const imagesData = { Gros: GVuri, Moyen: MVuri, VSL: VSLuri };
+    const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
     const [dispatchedVehicules, setDispatchedVehicules] = useState([]);
     const interventions = useSelector((state) => state.interventions.value)
     const recherche = useSelector((state) => state.searchQuery.value)

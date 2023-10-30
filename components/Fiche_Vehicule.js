@@ -12,26 +12,39 @@ import SelectDropdown from "react-native-select-dropdown";
 import { useSelector, useDispatch } from "react-redux";
 import { defineListVehicules, updateEtatVehicule } from "../reducers/vehicules";
 import { BlurView } from "expo-blur";
+import { addInterPlaque } from "../reducers/interVehicules";
+import { useNavigation } from "@react-navigation/native";
 
 export default function FicheVehicule(props) {
   const dispatch = useDispatch();
-  const BACKEND_ADRESS = "http://192.168.1.14 :3000";
+  const navigation = useNavigation()
+  const BACKEND_ADRESS = "http://192.168.0.27:3000";
   const user = useSelector((state) => state.user.value);
   const etats = ["En ligne", "Hors ligne", "Indisponible"];
+  const interventions = useSelector((state) => state.interventions.value)
   const [etat, setEtat] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const handleDispatch = () => {
-    if (props.onDispatch) {
-      props.onDispatch(props.plaque);
+
+// Update du reducer lorsqu'on clique sur un composant véhicule afin de stocker la liste des interventions dans le reducer
+function handlePress(plaque) {
+const interVehicule = interventions.filter(inter => inter.vehicule.plaque === plaque)
+dispatch(addInterPlaque(interVehicule))
+navigation.navigate(props.screenName)
     }
-  };
-  const modalview = () => {
+
+// const handleDispatch = () => {
+//     if (props.onDispatch) {
+//       props.onDispatch(props.plaque)
+//     }
+//   };
+const modalview = () => {
     setModalVisible(true);
   };
-  const handleClose = () => {
+const handleClose = () => {
     setModalVisible(false);
   };
-  const handleAdd = () => {
+// Fonction qui modifie l'état du vehicule dans la BDD et refetch la liste de vehicules pour update le reducer et recharger le composant
+const handleUpdate = () => {
     fetch(`${BACKEND_ADRESS}/vehicules/update/${props.plaque}`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -47,16 +60,18 @@ export default function FicheVehicule(props) {
             dispatch(defineListVehicules(vehiculesData.vehicules));
           });
       });
+    setModalVisible(false)
   };
-  return (
+
+return (
     <BlurView intensity={50} style={styles.view}>
       <View style={styles.container}>
-        <TouchableOpacity onPress={handleDispatch}>
+        <TouchableOpacity onPress={()=>handlePress(props.plaque)}>
           <View style={styles.left}>
             <Text style={styles.plaque}>{props.plaque}</Text>
             <View style={styles.grpEtat}>
               <FontAwesome
-                name="circle"
+              name="circle"
                 size={(fontSize = 10)}
                 color={props.color}
               />
@@ -87,7 +102,7 @@ export default function FicheVehicule(props) {
               }}
               buttonStyle={styles.option}
             />
-            <TouchableOpacity onPress={() => handleAdd()} style={styles.button}>
+            <TouchableOpacity onPress={() => handleUpdate()} style={styles.button}>
               <Text style={styles.txt}>Modifier</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={handleClose}>

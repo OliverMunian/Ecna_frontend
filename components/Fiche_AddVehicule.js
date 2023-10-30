@@ -15,21 +15,22 @@ import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
 import { defineListVehicules } from "../reducers/vehicules";
+import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
 import { useDispatch } from "react-redux";
 
-export default function FicheAddVehicule({ screenName }) {
+export default function FicheAddVehicule(props) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   // Import des images des assets et création de l'objet permettant de les dispatch
   const GVuri = Image.resolveAssetSource(GV).uri;
   const MVuri = Image.resolveAssetSource(MV).uri;
   const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
-  const imagesData = { Gros: GVuri, Moyen: MVuri, VSL: VSLuri };
+  const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
 
-  const BACKEND_ADRESS = "http://192.168.1.14 :3000";
+  const BACKEND_ADRESS = "http://192.168.0.27:3000";
 
   // Definition des possibilités des menus déroulants
-  const types = ["Gros volume", "Classique", "VSL"];
+  const types = ["Gros", "Classique", "VSL"];
   const etats = ["En ligne", "Hors ligne", "Indisponible"];
 
   // Setup des etats qui stockeront la data recuperée des champs input/menus
@@ -71,10 +72,15 @@ export default function FicheAddVehicule({ screenName }) {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          dispatch(defineListVehicules(data.vehicules));
+          dispatch(defineListVehicules(data.vehicules))
+          dispatch(
+            defineListVehiculesDispo(
+              data.vehicules.filter((e) => e.etat === "En ligne")
+              )
+            );
         }
       });
-    navigation.navigate(screenName);
+    navigation.navigate(props.screenName);
   };
 
   // Création des elements JSX à partir du composant Fichevehicule

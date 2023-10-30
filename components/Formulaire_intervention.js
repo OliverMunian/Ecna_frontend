@@ -12,9 +12,11 @@ import { defineListPatients } from "../reducers/listPatients";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 
-export default function Formulaire_interventions({ navigation }) {
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+export default function Formulaire_interventions(props) {
+  const navigation = useNavigation()
+  const BACKEND_ADRESS = "http://192.168.0.27:3000";
   const dispatch = useDispatch()
+  
   // Recuperation des informations du user du reducer
   const user = useSelector((state) => state.user.value);
 
@@ -97,7 +99,7 @@ export default function Formulaire_interventions({ navigation }) {
               .then((patientData) => {
                 if (patientData.result) {
                   dispatch(defineListPatients(patientData.patients))
-                  navigation.navigate('TabNavigator' , {screen:'Acceuil',initial:false})
+                  navigation.navigate(props.screenName)
                 }
               });
           });

@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View , Image,TouchableOpacity} from 'react-native'
 import { useSelector , useDispatch } from "react-redux";
-import { useState } from 'react';
 import Fiche_intervention from "../components/Fiche_intervention";
 import SearchBar from '../components/SearchBar';
 import GV from "../assets/grosVolume.png";
@@ -9,7 +8,6 @@ import VSLsrc from "../assets/VSL.png";
 
 
 export default function SearchResults({navigation}) {
-    const dispatch = useDispatch()
     const GVuri = Image.resolveAssetSource(GV).uri;
     const MVuri = Image.resolveAssetSource(MV).uri;
     const VSLuri = Image.resolveAssetSource(VSLsrc).uri;

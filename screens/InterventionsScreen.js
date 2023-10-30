@@ -23,13 +23,6 @@ export default function InterventionsScreen() {
   const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
   const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
 
-  const selectDispatch = (dispatchedVehicule) => {
-    setDispatchedVehicules((prevDispatchedVehicules) => [
-      ...prevDispatchedVehicules,
-      dispatchedVehicule,
-    ]);
-  };
-  console.log(dispatchedVehicules);
   const displayInterventions = interventions.map((inter, i) => {
     // Mise en format de la date
     const day = new Date(inter.date).getDate();
@@ -47,7 +40,6 @@ export default function InterventionsScreen() {
           arrival={inter.arrival}
           date={date}
           dispatched={inter.vehicule}
-          selectDispatch={selectDispatch}
         />
       );
     } else {

@@ -6,6 +6,7 @@ export default function Fiche_intervention(props) {
     
     const vehicules = useSelector((state) => state.vehicules.value);
     const [modalVisible, setModalVisible] = useState(false);
+    
     const handledispatch = () => {
         vehicules.map((etat_vehicule)=>{
             if(etat_vehicule.etat === "En ligne"){

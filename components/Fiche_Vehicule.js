@@ -5,6 +5,7 @@ import {
   Image,
   StyleSheet,
   Modal,
+  Alert
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useState } from "react";
@@ -12,6 +13,7 @@ import SelectDropdown from "react-native-select-dropdown";
 import { useSelector, useDispatch } from "react-redux";
 import { defineListVehicules, updateEtatVehicule } from "../reducers/vehicules";
 import { BlurView } from "expo-blur";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function FicheVehicule(props) {
   const dispatch = useDispatch();
@@ -44,6 +46,9 @@ export default function FicheVehicule(props) {
         fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
           .then((response) => response.json())
           .then((vehiculesData) => {
+            if(etat==null){
+              Alert.alert('Oup!','Vous navez pass choisi le statut')
+            }
             dispatch(defineListVehicules(vehiculesData.vehicules));
           });
       });
@@ -70,29 +75,47 @@ export default function FicheVehicule(props) {
           </View>
         </TouchableOpacity>
       </View>
-      <Modal visible={modalVisible} animationType="fade" transparent>
+
+      {/* Modal */}
+      <Modal
+        visible={modalVisible}
+        animationType="fade"
+        transparent
+        style={styles.modal}
+      >
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Modifier</Text>
-            <SelectDropdown
-              data={etats}
-              onSelect={(selectedItem, index) => {
-                setEtat(selectedItem);
-              }}
-              buttonTextAfterSelection={(selectedItem, index) => {
-                return selectedItem;
-              }}
-              rowTextForSelection={(item, index) => {
-                return item;
-              }}
-              buttonStyle={styles.option}
-            />
-            <TouchableOpacity onPress={() => handleAdd()} style={styles.button}>
-              <Text style={styles.txt}>Modifier</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={handleClose}>
-              <Text style={styles.txt}>X</Text>
-            </TouchableOpacity>
+          <View style={styles.centeredViewtwo}>
+            <BlurView intensity={50} style={styles.modalView}>
+              <View style={styles.close}>
+                <TouchableOpacity onPress={handleClose}>
+                  <Ionicons
+                    name="close-circle"
+                    size={(fontSize = 25)}
+                    color="white"
+                  />
+                </TouchableOpacity>
+              </View>
+              <Text style={styles.modalText}>Modifier le statut</Text>
+              <SelectDropdown
+                data={etats}
+                onSelect={(selectedItem, index) => {
+                  setEtat(selectedItem);
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem;
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item;
+                }}
+                buttonStyle={styles.option}
+              />
+              <TouchableOpacity
+                onPress={() => handleAdd()}
+                style={styles.button}
+              >
+                <Text style={styles.txt}>Ok</Text>
+              </TouchableOpacity>
+            </BlurView>
           </View>
         </View>
       </Modal>
@@ -145,29 +168,37 @@ const styles = StyleSheet.create({
   imageView: {
     paddingLeft: 70,
   },
+  //MODALE AU CLIC SUR LE VÉHICULE
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.55)",
+    opacity: "10%",
+    overflow: "hidden",
+  },
+  centeredViewtwo:{
+    overflow: "hidden",
+    borderRadius: 30,
+    borderWidth:2,
+    borderColor: "white",
+    width: "65%",
   },
   modalView: {
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 30,
+    backgroundColor: "transparent",
+    borderRadius: 30,
+    padding: 10,
     alignItems: "center",
-    width: 300,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+  },
+  close: {
+    width: "100%",
+    alignItems: "flex-end",
+    marginBottom: 10,
   },
   modalText: {
     fontSize: 20,
     marginBottom: 20,
+    color: "white",
   },
   button: {
     alignItems: "center",
@@ -176,8 +207,10 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingLeft: 20,
     paddingRight: 20,
-    backgroundColor: "blue",
+    backgroundColor: "transparent",
     borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "white",
   },
   txt: {
     color: "white",

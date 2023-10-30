@@ -106,8 +106,8 @@ export default function Formulaire_interventions({ navigation }) {
   return (
     <LinearGradient
       style={styles.container}
-      colors={["#1a2755", "#9b84ad"]}
-      start={{ x: 0.5, y: 0 }}
+      colors={["#1a2755", "#1D94AE"]}
+      start={{ x:0.5, y: 0.5 }}
       end={{ x: 0.5, y: 1 }}
     >
       <Text style={styles.titre}>Nouvelle intervention</Text>

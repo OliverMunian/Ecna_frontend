@@ -11,10 +11,14 @@ import {
   ScrollView,
   SafeAreaView,
 } from "react-native";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { defineListVehicules } from "../reducers/vehicules";
+import CarouselDashboard from "../components/CarouselDashboard";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import SearchBar from "../components/SearchBar";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import VehiculeDashBoard from "../components/VehiculeDashBoard";
 import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";
@@ -24,14 +28,26 @@ import { defineListPatients } from "../reducers/listPatients";
 import { defineListInter } from "../reducers/interventions";
 import { updateSearchResults } from "../reducers/searchResult";
 import { LinearGradient } from "expo-linear-gradient";
-import CarouselDashboard from "../components/CarouselDashboard";
+// Bottom Sheet
+import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import BottomSheet from "../components/BottomSheet";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import SearchBar from "../components/SearchBar";
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from "@gorhom/bottom-sheet";
 
 export default function DashboardScreen({ navigation }) {
+  // Bottom Sheet
+  const BottomSheetModalRef = useRef(null);
+  const snapPoints = ["25%","85%"];
+  const [modalVisible, setModalVisible] = useState(false);
+  const [value, setValue] =useState('')
+
+  function handlePressModal() {
+    BottomSheetModalRef.current?.present()
+    setValue(value)
+  }
+
   const dispatch = useDispatch();
   const BACKEND_ADRESS = "http://192.168.1.14:3000";
 
@@ -109,8 +125,8 @@ export default function DashboardScreen({ navigation }) {
   return (
     <LinearGradient
       style={styles.container}
-      colors={["#1a2755", "#9b84ad"]}
-      start={{ x: 0.5, y: 0 }}
+      colors={["#1a2755", "#1D94AE"]}
+      start={{ x:0.5, y: 0.5 }}
       end={{ x: 0.5, y: 1 }}
     >
       <View style={styles.maintitle}>
@@ -118,34 +134,34 @@ export default function DashboardScreen({ navigation }) {
         <CarouselDashboard></CarouselDashboard>
       </View>
       <View style={styles.icons}>
-        <View style={styles.title}>
+        <TouchableOpacity style={styles.title} onPress={handlePressModal}>
           <FontAwesome name="spinner" size={(fontSize = 25)} color="white" />
           <Text style={styles.txt}>En cours </Text>
-        </View>
-        <View style={styles.title}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.title} onPress={handlePressModal}  value='samu'>
           <MaterialCommunityIcons
             name="alarm-light-outline"
             size={(fontSize = 25)}
             color="white"
           />
           <Text style={styles.txt}>SAMU</Text>
-        </View>
-        <View style={styles.title}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.title} onPress={handlePressModal}>
           <MaterialCommunityIcons
             name="skip-next"
             size={(fontSize = 25)}
             color="white"
           />
           <Text style={styles.txt}>Ultérieures</Text>
-        </View>
-        <View style={styles.title}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.title} onPress={handlePressModal}>
           <MaterialIcons
             name="dangerous"
             size={(fontSize = 25)}
             color="white"
           />
           <Text style={styles.txt}>Anomalies</Text>
-        </View>
+        </TouchableOpacity>
       </View>
       {/* BARRE DE RECHERCHE */}
       <View>
@@ -156,7 +172,25 @@ export default function DashboardScreen({ navigation }) {
           <SearchBar />
         </KeyboardAvoidingView>
       </View>
-      {/* <BottomSheet /> */}
+      <BottomSheetModalProvider>
+        <View visible={modalVisible}>
+          <StatusBar style={styles.statusbar} />
+          <BottomSheetModal
+            ref={BottomSheetModalRef}
+            index={0}
+            snapPoints={snapPoints}
+            blurRadius={1}
+            backgroundStyle={{
+              borderRadius: 30,
+              backgroundColor: "rgba(0, 0, 0, 0.7)",
+            }}
+          >
+            <View style={styles.modalcontain}>
+              <Text style={styles.txtmodal}>Faire appraitre les composants</Text>
+            </View>
+          </BottomSheetModal>
+        </View>
+      </BottomSheetModalProvider>
     </LinearGradient>
   );
 }
@@ -219,5 +253,24 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: 50,
     marginLeft: "2.5%",
+  },
+  //BottomSheet Modal
+  statusbar: {
+    width: 30,
+  },
+  containermodal: {
+    flex: 1,
+    borderColor: "red",
+    borderWidth: 1,
+    height: 500,
+    width: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalcontain: {
+    alignItems: "center",
+  },
+  txtmodal: {
+    color: "white",
+    fontSize: "35",
   },
 });

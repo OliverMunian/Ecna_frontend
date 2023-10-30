@@ -117,10 +117,13 @@ export default function FicheAddVehicule({ screenName }) {
       <Text style={styles.title}>Nouveau véhicule </Text>
       <Text style={styles.subtitle}>
         Veuillez compléter les champs suivants pour ajouter un nouveau véhicule
-        à votre flotte{" "}
+        à votre flotte
       </Text>
       <View style={styles.vehicules}>{vehiculesDisplay}</View>
       <View style={styles.form}>
+        <Text style={styles.subtitle}>
+          Ex : AA-123-AA
+        </Text>
         <TextInput
           style={styles.input}
           placeholder="Saissez la plaque d'immatriculation"

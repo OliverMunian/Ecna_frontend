@@ -62,7 +62,7 @@ const TabNavigator = () => {
         tabBarActiveTintColor: "black",
         tabBarInactiveTintColor: "#FFFF",
         tabBarStyle: {
-          backgroundColor: "#9b84ad",
+          backgroundColor: "#1D94AE",
           justifyContent:'center',
           alignItems:'center',
           borderTopWidth: 0

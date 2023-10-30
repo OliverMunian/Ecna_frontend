@@ -44,8 +44,8 @@ export default function Interventions({ navigation }) {
   return (
     <LinearGradient
       style={styles.container}
-      colors={["#1a2755", "#9b84ad"]}
-      start={{ x: 0.5, y: 0 }}
+      colors={["#1a2755", "#1D94AE"]}
+      start={{ x: 0.6, y: 0.7 }}
       end={{ x: 0.5, y: 1 }}
     >
       <TouchableOpacity onPress={() => back()}>
@@ -73,8 +73,8 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
   },
-  previous:{
-    flexDirection:'row',
+  previous: {
+    flexDirection: "row",
     top: 100,
     marginLeft: 20,
   },

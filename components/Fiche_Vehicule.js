@@ -18,6 +18,7 @@ import { addInterPlaque } from "../reducers/interVehicules";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
+
 export default function FicheVehicule(props) {
   const dispatch = useDispatch();
   const navigation = useNavigation();

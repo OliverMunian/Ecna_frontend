@@ -29,6 +29,8 @@ export default function InterventionsScreen() {
     const month = new Date(inter.date).getMonth();
     const year = new Date(inter.date).getFullYear();
     let date = month + "/" + day + "/" + year;
+
+    
     // Création des elements JSX avec le composant
     if (inter.vehicule === null) {
       return (

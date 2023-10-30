@@ -24,12 +24,10 @@ const styles = StyleSheet.create({
         justifyContent:'space-around',
         alignContent:'center',
         alignItems:'center',
-        backgroundColor:'white',
+        backgroundColor:'transparent',
         height:200,
         width:200,
         borderRadius:20,
-        marginRight:40,
-        marginLeft:0,
     },
     image : {
         height:'70%',

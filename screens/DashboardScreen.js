@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { defineListVehicules } from "../reducers/vehicules";
+import vehicules, { defineListVehicules } from "../reducers/vehicules";
 import CarouselDashboard from "../components/CarouselDashboard";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -46,10 +46,12 @@ export default function DashboardScreen({ navigation }) {
   }
 
   const dispatch = useDispatch();
-  const BACKEND_ADRESS = "http://10.3.0.23:3000";
+  const BACKEND_ADRESS = "http://10.3.0.43:3000";
   const user = useSelector((state) => state.user.value);
   const interventions = useSelector((state) => state.interventions.value);
   const recherche = useSelector((state) => state.searchQuery.value);
+  const vehicules = useSelector((state) => state.vehicules.value)
+  console.log('vehicules',vehicules)
 
   // A l'initialisation du dashboard, dispatch de toutes les informations
   useEffect(() => {

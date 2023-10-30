@@ -1,12 +1,20 @@
-import { View , Text , StyleSheet ,Image } from "react-native"
+import { View , Text , StyleSheet ,Image , TouchableOpacity } from "react-native"
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { useState } from "react";
+
 
 
 
 export default function VehiculeDashBoard (item) {
-
+const [update,setUpdate] = useState([])
+const handleSet = () => {
+    setUpdate({plaque:item.plaque,interToken:item.interToken})
+}
+console.log('update',update)
+console.log(item)
     return (
         <View style={styles.container}>
+            <TouchableOpacity style={styles.image} onPress={() => handleSet()}>
             <Image style={styles.image} source={{uri : item.type}}/>
             <View style={styles.bottom}>
             <FontAwesome name='circle' size={(fontSize=10)} color='green' />
@@ -14,6 +22,7 @@ export default function VehiculeDashBoard (item) {
                 {item.plaque}
             </Text>
             </View>
+            </TouchableOpacity>
         </View>
     )
 }

@@ -17,6 +17,7 @@ import { VirtualizedList } from "react-native-web";
 export default function Fiche_intervention(props) {
   const vehicules = useSelector((state) => state.vehicules.value);
   const [modalVisible, setModalVisible] = useState(false);
+  const BACKEND_ADRESS = "http://10.3.0.43:3000";
 
   const handleDispatch = () => {
     setModalVisible(true);
@@ -25,6 +26,15 @@ export default function Fiche_intervention(props) {
   const handleClose = () => {
     setModalVisible(false);
   };
+
+  const handleUpdate = () => {
+    fetch(`${BACKEND_ADRESS}/interventions/dispatch`, {
+      method : 'POST',
+      headers : {'Content-type' : 'application/json'},
+      body : JSON.stringify({plaque : props.plaque, interToken : props.interToken })
+    })
+  }
+
   return (
     <BlurView intensity={50} style={styles.intervention}>
       <View>
@@ -51,6 +61,7 @@ export default function Fiche_intervention(props) {
           <Text>Dispatch</Text>
         </TouchableOpacity>
       )}
+      {/*Modal de dispatch*/}
       <Modal
         visible={modalVisible}
         animationType="fade"
@@ -73,7 +84,7 @@ export default function Fiche_intervention(props) {
                 Attribuez un véhicule pour la prochaine intervention
               </Text>
               <View style={styles.carousel}>
-                <CarouselDashboard />
+                <CarouselDashboard interToken={props.interToken} />
               </View>
               <TouchableOpacity onPress={handleClose} style={styles.button}>
                 <Text style={styles.txt}>Ok</Text>

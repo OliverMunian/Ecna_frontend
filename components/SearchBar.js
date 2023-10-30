@@ -68,12 +68,11 @@ const styles = StyleSheet.create({
   containerUn: {
     alignItems: "center",
     justifyContent: "center",
-    width: "80%",
+    width: "100%",
     borderRadius: 10,
     flexDirection: "row",
     borderWidth: 2,
     borderColor: "white",
-    top: 60,
   },
   containerdeux:{
     width: "100%",

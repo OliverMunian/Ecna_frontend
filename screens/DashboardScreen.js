@@ -31,14 +31,15 @@ import {
   BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
 import { addtokenToSotre, addSirenToSotre } from "../reducers/user";
+import { BlurView } from "expo-blur";
 
 export default function DashboardScreen({ navigation }) {
-  // Bottom Sheet
+  
+  // BOTTOM SHEET MODAL
   const BottomSheetModalRef = useRef(null);
-  const snapPoints = ["25%", "85%"];
+  const snapPoints = ["20%", "50%", "85%"];
   const [modalVisible, setModalVisible] = useState(false);
   const [value, setValue] = useState("");
-
   function handlePressModal() {
     BottomSheetModalRef.current?.present();
     setValue(value);
@@ -94,12 +95,12 @@ export default function DashboardScreen({ navigation }) {
       });
   }, []);
 
-// Fonction logout
-const logHandle = () => {
-  dispatch(addSirenToSotre(null))
-  dispatch(addtokenToSotre(null))
-  navigation.navigate('Home')
-}
+  // Fonction logout
+  const logHandle = () => {
+    dispatch(addSirenToSotre(null));
+    dispatch(addtokenToSotre(null));
+    navigation.navigate("Home");
+  };
 
   return (
     <LinearGradient
@@ -111,6 +112,15 @@ const logHandle = () => {
       <View style={styles.maintitle}>
         <Text style={styles.h1}> Véhicules disponibles </Text>
         <CarouselDashboard></CarouselDashboard>
+      </View>
+      {/* BARRE DE RECHERCHE */}
+      <View style={styles.searchbar}>
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={200}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <SearchBar screenName={"SearchResults"} />
+        </KeyboardAvoidingView>
       </View>
       <View style={styles.icons}>
         <TouchableOpacity style={styles.title} onPress={handlePressModal}>
@@ -146,20 +156,30 @@ const logHandle = () => {
           <Text style={styles.txt}>Anomalies</Text>
         </TouchableOpacity>
       </View>
-      {/* BARRE DE RECHERCHE */}
-      <View>
-        <KeyboardAvoidingView
-          keyboardVerticalOffset={200}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
-          <SearchBar screenName={'SearchResults'} />
-        </KeyboardAvoidingView>
+
+
+      {/* LOGOUT */}
+      <View style={styles.logout}>
+        <TouchableOpacity onPress={() => logHandle()} style={styles.deconnexion}>
+          <MaterialCommunityIcons
+            name="exit-run"
+            size={(fontSize = 30)}
+            color="white"
+            style={{ transform: [{ rotateY: "180deg" }], top: 0 }}
+          />
+          <Text style={styles.txt}>Déconnexion</Text>
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={() => logHandle()}>
-      <Text>
-        LOGOUT
-      </Text>
-    </TouchableOpacity>
+      <View style={styles.containlecteur}>
+        <BlurView style={styles.lecteur}>
+          <Text style={styles.txt}>
+            Aucun véhicule en cours d'intervention
+          </Text>
+        </BlurView>
+      </View>
+
+
+      {/* BOTTOM SHEET MODAL */}
       <BottomSheetModalProvider>
         <View visible={modalVisible}>
           <StatusBar style={styles.statusbar} />
@@ -212,8 +232,14 @@ const styles = StyleSheet.create({
     color: "black",
     textDecorationLine: "underline",
   },
+  //SEARCHBAR
+  searchbar: {
+    width: "85%",
+    top: 25,
+  },
   // LISTE ICONES
   icons: {
+    top: 5,
     width: "100%",
     height: 100,
     flexDirection: "row",
@@ -244,6 +270,17 @@ const styles = StyleSheet.create({
     height: 50,
     marginLeft: "2.5%",
   },
+  //LOGOUT
+  logout:{
+    width:'100%',
+    top: 40,
+    flexDirection:'column',
+    alignItems:'center',
+    justifyContent:'center',
+  },
+  deconnexion:{
+    alignItems:'center',
+  },
   //BottomSheet Modal
   statusbar: {
     width: 30,
@@ -262,5 +299,26 @@ const styles = StyleSheet.create({
   txtmodal: {
     color: "white",
     fontSize: 35,
+  },
+
+  // LECTEUR
+  containlecteur: {
+    width: "95%",
+    height: 70,
+    overflow: "hidden",
+    top:50,
+    borderRadius: 30,
+    borderWidth:0.85,
+    borderColor:'white'
+
+  },
+  lecteur: {
+    alignItems:'center',
+    justifyContent:'center',
+    overflow: "hidden",
+    width: "100%",
+    height: 75,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+
   },
 });

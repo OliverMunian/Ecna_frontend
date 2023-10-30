@@ -25,22 +25,17 @@ export default function FicheVehicule(props) {
   const user = useSelector((state) => state.user.value);
   const etats = ["En ligne", "Hors ligne", "Indisponible"];
   const interventions = useSelector((state) => state.interventions.value)
+  const vehicules = useSelector((state) => state.vehicules.value)
   const [etat, setEtat] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
 // Update du reducer lorsqu'on clique sur un composant véhicule afin de stocker la liste des interventions dans le reducer
 function handlePress(plaque) {
 const interVehicule = interventions.filter(inter => inter.vehicule.plaque === plaque)
-console.log(interVehicule)
 dispatch(addInterPlaque({plaque:plaque,interventions:interVehicule}))
 navigation.navigate(props.screenName)
     }
 
-// const handleDispatch = () => {
-//     if (props.onDispatch) {
-//       props.onDispatch(props.plaque)
-//     }
-//   };
 const modalview = () => {
     setModalVisible(true);
   };

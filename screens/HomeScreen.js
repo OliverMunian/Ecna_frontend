@@ -89,6 +89,9 @@ export default function HomeScreen({ navigation }) {
               placeholderTextColor={"white"}
               ref={ref_input2}
             />
+            <Text style={styles.txtError}>
+              {errorMessage}
+            </Text>
             <TouchableOpacity style={styles.btn} onPress={() => handleSubmit()}>
               <Text style={styles.btntxt}> Valider</Text>
             </TouchableOpacity>
@@ -184,4 +187,8 @@ const styles = StyleSheet.create({
     color: "#00bcf0",
     textDecorationLine: "underline",
   },
+  txtError : {
+    color : 'red',
+    marginBottom : 20,
+  }
 });

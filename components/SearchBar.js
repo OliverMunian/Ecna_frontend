@@ -28,12 +28,14 @@ export default function SearchBar(props) {
         inter.patient.firstName.match(pattern)
     );
   dispatch(updateSearchResults(searchQuery));
-    navigation.navigate(props.screenName);
+   ;
     if (recherche == "") {
       Alert.alert(
         "Stop ✋!",
         "Complétez les champs pour effectuer la recherche"
       );
+    } else {
+      navigation.navigate(props.screenName)
     }
   };
 return (

@@ -14,6 +14,13 @@ export default function carouselDashboard() {
   const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
 
   const vehiculesDispo = useSelector((state) => state.vehiculesDispo.value);
+  if(vehiculesDispo.length === 0){
+    return <View>
+      <Text>
+        Pas de vehicules disponibles 
+      </Text>
+    </View>
+  }
   
   return (
     <View style={styles.container}>

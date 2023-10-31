@@ -5,6 +5,8 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { defineListInter } from "../reducers/interventions";
@@ -14,10 +16,10 @@ import { useNavigation } from "@react-navigation/native";
 import SelectDropdown from "react-native-select-dropdown";
 
 export default function Formulaire_interventions(props) {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const BACKEND_ADRESS = "http://10.3.0.43:3000";
-  const dispatch = useDispatch()
-  const etats = ['Valide' , 'Invalide']
+  const dispatch = useDispatch();
+  const etats = ["Valide", "Invalide"];
 
   // Recuperation des informations du user du reducer
   const user = useSelector((state) => state.user.value);
@@ -42,7 +44,7 @@ export default function Formulaire_interventions(props) {
     fetch(`${BACKEND_ADRESS}/patients/verify`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ SSnumber: SSnumber , token : user.token }),
+      body: JSON.stringify({ SSnumber: SSnumber, token: user.token }),
     })
       .then((response) => response.json())
       .then((patientData) => {
@@ -86,16 +88,16 @@ export default function Formulaire_interventions(props) {
     })
       .then((response) => response.json())
       .then(() => {
-        setFirstName('');
-        setLastName('');
-        setAdress('');
-        setSSnumber('');
-        setPhone('');
-        setMutuelle('');
-        setValide('');
+        setFirstName("");
+        setLastName("");
+        setAdress("");
+        setSSnumber("");
+        setPhone("");
+        setMutuelle("");
+        setValide("");
         setExiste(false);
-        setDeparture('')
-        setArrival('')
+        setDeparture("");
+        setArrival("");
         // mise à jour du reducer interventions
         fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
           .then((response) => response.json())
@@ -127,115 +129,135 @@ export default function Formulaire_interventions(props) {
       start={{ x: 0.5, y: 0.5 }}
       end={{ x: 0.5, y: 1 }}
     >
-      <Text style={styles.titre}>Nouvelle intervention</Text>
+      <View style={styles.bigtilte}>
+        <Text style={styles.titre}>Nouvelle intervention</Text>
+      </View>
 
-      <View style={styles.infospatient}>
-        <View style={styles.viewsoustitre}>
-          <Text style={styles.soustitre}>Informations patient</Text>
-        </View>
-        <View style={styles.nomprenom}>
-          <TextInput
-            style={styles.prenom}
-            placeholder="Nom"
-            placeholderTextColor="white"
-            onChangeText={(value) => setLastName(value)}
-            value={lastName}
-          />
-          <TextInput
-            style={styles.nom}
-            placeholder="Prénom"
-            placeholderTextColor="white"
-            onChangeText={(value) => setFirstName(value)}
-            value={firstName}
-          />
-        </View>
-        <View style={styles.divinput}>
-          <TextInput
-            style={styles.input}
-            placeholder="Adresse domicile"
-            placeholderTextColor="white"
-            onChangeText={(value) => setAdress(value)}
-            value={adress}
-          />
-        </View>
-        <View style={styles.divinput}>
-          <View style={styles.divplaceholder}>
-            <TextInput
-              style={styles.inputplaceholder}
-              placeholder="Sécurité Sociale"
-              placeholderTextColor="white"
-              onChangeText={(value) => setSSnumber(value)}
-              value={SSnumber}
-            />
-          <View>
-              <TouchableOpacity
-                onPress={() => handlesearch(SSnumber)}
-                style={styles.search}
-              >
-                <Text style={styles.txt}>Search</Text>
-              </TouchableOpacity>
-              <Text style={errorStyle}>{error}</Text>
+      <ScrollView
+        // horizontal={false}
+        showsHorizontalScrollIndicator={false}
+        endFillColor="#000"
+        overScrollMode="never"
+        style={{ width: "100%" }}
+      >
+        <KeyboardAvoidingView  keyboardVerticalOffset={100} behavior="padding">
+          <View style={styles.scrollview}>
+            <View style={styles.infospatient}>
+              <View style={styles.viewsoustitre}>
+                <Text style={styles.soustitre}>Informations patient</Text>
+              </View>
+              <View style={styles.nomprenom}>
+                <TextInput
+                  style={styles.prenom}
+                  placeholder="Nom"
+                  placeholderTextColor="white"
+                  onChangeText={(value) => setLastName(value)}
+                  value={lastName}
+                />
+                <TextInput
+                  style={styles.nom}
+                  placeholder="Prénom"
+                  placeholderTextColor="white"
+                  onChangeText={(value) => setFirstName(value)}
+                  value={firstName}
+                />
+              </View>
+              <View style={styles.divinput}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Adresse domicile"
+                  placeholderTextColor="white"
+                  onChangeText={(value) => setAdress(value)}
+                  value={adress}
+                />
+              </View>
+              <View style={styles.divinput}>
+                <View style={styles.divplaceholder}>
+                  <TextInput
+                    style={styles.inputplaceholder}
+                    placeholder="Sécurité Sociale"
+                    placeholderTextColor="white"
+                    onChangeText={(value) => setSSnumber(value)}
+                    value={SSnumber}
+                  />
+                  <View>
+                    <TouchableOpacity
+                      onPress={() => handlesearch(SSnumber)}
+                      style={styles.search}
+                    >
+                      <Text style={styles.txt}>Search</Text>
+                    </TouchableOpacity>
+                    <Text style={errorStyle}>{error}</Text>
+                  </View>
+                </View>
+              </View>
+
+              {/* Telephone + Valide */}
+              <View style={[styles.small]}>
+                <TextInput
+                  style={styles.telephone}
+                  placeholder="Téléphone"
+                  placeholderTextColor="white"
+                  onChangeText={(value) => setPhone(value)}
+                  value={phone}
+                />
+                {/* DropDown */}
+                <SelectDropdown
+                  defaultButtonText="Patient  ▾"
+                  buttonStyle={styles.dropdown}
+                  buttonTextStyle={styles.dropText}
+                  dropdownStyle={styles.card_drop}
+                  placeholderStyle={styles.placeholderStyle}
+                  data={etats}
+                  onSelect={(selectedItem, index) => {
+                    setValide(selectedItem);
+                  }}
+                  buttonTextAfterSelection={(selectedItem, index) => {
+                    return selectedItem;
+                  }}
+                  rowTextForSelection={(item, index) => {
+                    return item;
+                  }}
+                />
+              </View>
+
+              <View style={styles.divinput}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Mutuelle"
+                  placeholderTextColor="white"
+                  onChangeText={(value) => setMutuelle(value)}
+                  value={mutuelle}
+                />
+              </View>
+            </View>
+            <View style={styles.infospatient}>
+              <View style={styles.viewsoustitre}>
+                <Text style={styles.soustitre}>Détails intervention</Text>
+              </View>
+              <View style={styles.divinput}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Lieu de départ"
+                  placeholderTextColor="white"
+                  onChangeText={(value) => setDeparture(value)}
+                  value={Departure}
+                />
+              </View>
+              <View style={styles.divinput}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Lieu d'arrivée"
+                  placeholderTextColor="white"
+                  onChangeText={(value) => setArrival(value)}
+                  value={Arrival}
+                />
+              </View>
             </View>
           </View>
-        </View>
-
-        {/* Telephone + Valide */}
-        <View style={[styles.small]}>
-          <TextInput
-            style={styles.telephone}
-            placeholder="Téléphone"
-            placeholderTextColor="white"
-            onChangeText={(value) => setPhone(value)}
-            value={phone}
-          />
-          <SelectDropdown
-              style={styles.dropdown}
-              placeholderStyle={styles.placeholderStyle}
-              data={etats}
-              onSelect={(selectedItem, index) => {
-                setValide(selectedItem);
-              }}
-              buttonTextAfterSelection={(selectedItem, index) => {
-                return selectedItem;
-              }}
-              rowTextForSelection={(item, index) => {
-                return item;
-              }}
-          />
-        </View>
-
-        <View style={styles.divinput}>
-          <TextInput
-            style={styles.input}
-            placeholder="Mutuelle"
-            placeholderTextColor="white"
-            onChangeText={(value) => setMutuelle(value)}
-            value={mutuelle}
-          />
-        </View>
-      </View>
-      <View style={styles.infospatient}>
-        <View style={styles.viewsoustitre}>
-          <Text style={styles.soustitre}>Détails intervention</Text>
-        </View>
-        <View style={styles.divinput}>
-          <TextInput
-            style={styles.input}
-            placeholder="Départ"
-            placeholderTextColor="white"
-            onChangeText={(value) => setDeparture(value)}
-            value={Departure}
-          />
-        </View>
-        <View style={styles.divinput}>
-          <TextInput
-            style={styles.input}
-            placeholder="Arrivée"
-            placeholderTextColor="white"
-            onChangeText={(value) => setArrival(value)}
-            value={Arrival}
-          />
-        </View>
+        </KeyboardAvoidingView>
+      </ScrollView>
+      <View>
         <TouchableOpacity style={styles.search} onPress={() => handleSubmit()}>
           <Text style={styles.txt}>Submit</Text>
         </TouchableOpacity>
@@ -249,16 +271,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
   },
-  infospatient: {
-    top: 60,
+  //TITRE DE LA PAGE
+  bigtilte: {
     width: "100%",
-    alignItems: "center",
+    borderColor: "grey",
+    borderBottomWidth: 1,
+    marginTop: 140,
   },
   titre: {
-    marginTop: 90,
     color: "white",
     fontSize: 35,
     fontWeight: "bold",
+  },
+  //SCROLLVIEW
+  scrollview: {
+    top: 30,
+  },
+  infospatient: {
+    width: "100%",
+    alignItems: "center",
   },
   viewsoustitre: {
     width: "100%",
@@ -311,11 +342,11 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
   nom: {
-    width: "40%",
+    width: "45%",
     borderColor: "white",
     color: "white",
     borderWidth: 1,
-    height: 35,
+    height: 40,
     borderRadius: 10,
     paddingLeft: 10,
   },
@@ -324,14 +355,14 @@ const styles = StyleSheet.create({
     borderColor: "white",
     color: "white",
     borderWidth: 1,
-    height: 35,
+    height: 40,
     marginRight: "5%",
     borderRadius: 10,
     paddingLeft: 10,
   },
   divinput: {
     color: "white",
-    width: "80%",
+    width: "85%",
     borderColor: "white",
     height: 20,
     marginBottom: 40,
@@ -339,7 +370,7 @@ const styles = StyleSheet.create({
   small: {
     justifyContent: "space-between",
     flexDirection: "row",
-    width: "80%",
+    width: "85%",
     marginBottom: 10,
   },
   telephone: {
@@ -347,7 +378,17 @@ const styles = StyleSheet.create({
     borderColor: "white",
     padding: 10,
     borderRadius: 10,
+    width: "45%",
+    color: "white",
+  },
+  dropdown: {
     width: "50%",
+    backgroundColor: "transparent",
+    borderWidth: 1,
+    borderColor: "white",
+    borderRadius: 10,
+  },
+  dropText: {
     color: "white",
   },
   valide: {

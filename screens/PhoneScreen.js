@@ -60,12 +60,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontStyle: "italic",
   },
-  line: {
-    borderBottomColor: "grey",
-    borderBottomWidth: 1.4,
-  },
-  line: {
-    borderBottomColor: "grey",
-    borderBottomWidth: 1.4,
-  },
 });

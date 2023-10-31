@@ -39,9 +39,9 @@ export default function Interventions() {
     });
   } else {
     interventionsDisplay = 
-    <View>
-      <Text style={{color:'white', fontSize : 20, marginLeft : 30}}>
-        Aucune intervention associée à ce véhicule
+    <View style={styles.subtitle}>
+      <Text style={{color:'white', fontSize : 15, fontStyle:'italic', marginLeft : 10}}>
+        Vous n'avez aucune intervention associée à ce véhicule pour le moment
       </Text>
     </View>
   }
@@ -112,4 +112,8 @@ const styles = StyleSheet.create({
   inter: {
     color: "black",
   },
+  subtitle:{
+    marginTop:5,
+    width:'95%',
+  }
 });

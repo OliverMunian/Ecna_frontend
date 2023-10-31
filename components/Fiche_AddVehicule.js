@@ -149,7 +149,7 @@ export default function FicheAddVehicule(props) {
         <Text style={styles.subtitle}>Ex : AA-123-AA</Text>
         <TextInput
           style={styles.input}
-          placeholder="Saissez la plaque d'immatriculation"
+          placeholder="Saisissez la plaque d'immatriculation"
           placeholderTextColor="white"
           onChangeText={(value) => setPlaque(value)}
           value={plaque}
@@ -164,7 +164,7 @@ export default function FicheAddVehicule(props) {
               buttonStyle={styles.dropdown}
               buttonTextStyle={styles.dropText}
               dropdownStyle={styles.card_drop}
-              defaultButtonText="Option"
+              defaultButtonText="Option ▾"
               placeholderStyle={styles.placeholderStyle}
               data={types}
               onSelect={(selectedItem, index) => {
@@ -181,7 +181,7 @@ export default function FicheAddVehicule(props) {
           <View style={styles.box}>
             <Text style={styles.txt}>Etat par défault</Text>
             <SelectDropdown
-              defaultButtonText="Option"
+              defaultButtonText="Option ▾"
               buttonStyle={styles.dropdown}
               buttonTextStyle={styles.dropText}
               dropdownStyle={styles.card_drop}
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
     color:'white'
   },
   card_drop:{
-    backgroundColor: 'rgba(255,255,255,0.5)',
+    backgroundColor: 'rgba(255,255,255,1)',
     borderRadius:20,
   },
   placeholderStyle: {

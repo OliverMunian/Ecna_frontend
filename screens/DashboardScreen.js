@@ -5,6 +5,8 @@ import {
   View,
   TouchableOpacity,
   KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
   Platform,
   Alert,
   Image,
@@ -34,33 +36,39 @@ import { addtokenToSotre, addSirenToSotre } from "../reducers/user";
 import { BlurView } from "expo-blur";
 
 export default function DashboardScreen({ navigation }) {
-  
   // BOTTOM SHEET MODAL
   const BottomSheetModalRef = useRef(null);
   const snapPoints = ["20%", "50%", "85%"];
   const [modalVisible, setModalVisible] = useState(false);
+  const [anomalieVisible, setAnomalieVisible] = useState(false)
   const [value, setValue] = useState("");
+
   function handlePressModal(name) {
     BottomSheetModalRef.current?.present();
     setValue();
-    if(name = 'dangerous'){
-      return 
+    console.log(name)
+    if ((name == "dangerous")) {
+      setAnomalieVisible(true)
+      console.log(anomalieVisible)
     }
+    else if((name == "skip-next")){}
+    else if((name == "spinner")){}
+    else if((name == "alarm-light")){}
   }
 
   //STATE DES ICONES
-  const [encours, setEnCours]= useState(false)
-  const [samu, setSamu]= useState(false)
-  const [ulterieures, setUlterieures]= useState(false)
-  const [anomalies, setAnomalies] = useState(false)
+  const [encours, setEnCours] = useState(false);
+  const [samu, setSamu] = useState(false);
+  const [ulterieures, setUlterieures] = useState(false);
+  const [anomalies, setAnomalies] = useState(false);
 
   const dispatch = useDispatch();
   const BACKEND_ADRESS = "http://10.3.0.43:3000";
   const user = useSelector((state) => state.user.value);
   const interventions = useSelector((state) => state.interventions.value);
   const recherche = useSelector((state) => state.searchQuery.value);
-  const vehicules = useSelector((state) => state.vehicules.value)
-  console.log('vehicules',vehicules)
+  const vehicules = useSelector((state) => state.vehicules.value);
+  console.log("vehicules", vehicules);
 
   // A l'initialisation du dashboard, dispatch de toutes les informations
   useEffect(() => {
@@ -130,17 +138,21 @@ export default function DashboardScreen({ navigation }) {
           keyboardVerticalOffset={200}
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          <SearchBar screenName={"SearchResults"} />
+            <SearchBar screenName={"SearchResults"} />
         </KeyboardAvoidingView>
       </View>
+
       <View style={styles.icons}>
-        <TouchableOpacity style={styles.title} onPress={()=>handlePressModal("spinner")}>
+        <TouchableOpacity
+          style={styles.title}
+          onPress={() => handlePressModal("spinner")}
+        >
           <FontAwesome name="spinner" size={(fontSize = 25)} color="white" />
           <Text style={styles.txt}>En cours </Text>
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.title}
-          onPress={()=>handlePressModal("alarm-light-outline")}
+          onPress={() => handlePressModal("alarm-light-outline")}
           value="samu"
         >
           <MaterialCommunityIcons
@@ -149,8 +161,12 @@ export default function DashboardScreen({ navigation }) {
             color="white"
           />
           <Text style={styles.txt}>SAMU</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.title} onPress={()=>handlePressModal("skip-next")}>
+        </TouchableOpacity> */}
+        <TouchableOpacity
+          name="skip-next"
+          style={styles.title}
+          onPress={() => handlePressModal("skip-next")}
+        >
           <MaterialCommunityIcons
             name="skip-next"
             size={(fontSize = 25)}
@@ -158,20 +174,10 @@ export default function DashboardScreen({ navigation }) {
           />
           <Text style={styles.txt}>Ultérieures</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.title} onPress={()=>handlePressModal("dangerous")}>
-          <MaterialIcons
-            name="dangerous"
-            size={(fontSize = 25)}
-            color="white"
-          />
-          <Text style={styles.txt}>Anomalies</Text>
-        </TouchableOpacity>
-      </View>
-
-
-      {/* LOGOUT */}
-      <View style={styles.logout}>
-        <TouchableOpacity onPress={() => logHandle()} style={styles.deconnexion}>
+        <TouchableOpacity
+          onPress={() => logHandle()}
+          style={styles.title}
+        >
           <MaterialCommunityIcons
             name="exit-run"
             size={(fontSize = 30)}
@@ -180,15 +186,39 @@ export default function DashboardScreen({ navigation }) {
           />
           <Text style={styles.txt}>Déconnexion</Text>
         </TouchableOpacity>
-      </View>
-      <View style={styles.containlecteur}>
-        <BlurView style={styles.lecteur}>
-          <Text style={styles.txt}>
-            Aucun véhicule en cours d'intervention
-          </Text>
-        </BlurView>
+        {/* <TouchableOpacity
+          style={styles.title}
+          onPress={() => handlePressModal("dangerous")}
+        >
+          <MaterialIcons
+            name="dangerous"
+            size={(fontSize = 25)}
+            color="white"
+          />
+          <Text style={styles.txt}>Anomalies</Text>
+        </TouchableOpacity> */}
       </View>
 
+      {/* LOGOUT */}
+      {/* <View style={styles.logout}>
+        <TouchableOpacity
+          onPress={() => logHandle()}
+          style={styles.deconnexion}
+        >
+          <MaterialCommunityIcons
+            name="exit-run"
+            size={(fontSize = 30)}
+            color="white"
+            style={{ transform: [{ rotateY: "180deg" }], top: 0 }}
+          />
+          <Text style={styles.txt}>Déconnexion</Text>
+        </TouchableOpacity>
+      </View> */}
+      <View style={styles.containlecteur}>
+        <BlurView style={styles.lecteur}>
+          <Text style={styles.txt}>Aucun véhicule en cours d'intervention</Text>
+        </BlurView>
+      </View>
 
       {/* BOTTOM SHEET MODAL */}
       <BottomSheetModalProvider>
@@ -205,9 +235,7 @@ export default function DashboardScreen({ navigation }) {
             }}
           >
             <View style={styles.modalcontain}>
-              <Text style={styles.txtmodal}>
-               {value}
-              </Text>
+              <Text style={styles.txtmodal}>Bonjour à tous</Text>
             </View>
           </BottomSheetModal>
         </View>
@@ -231,7 +259,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 200,
     width: "100%",
     backgroundColor: "white",
-    height: 450,
+    height: '60%',
     alignItems: "center",
     justifyContent: "center",
   },
@@ -262,7 +290,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
-    width: "20%",
+    width: "25%",
     marginTop: 50,
   },
   //TITRES DES ICONES
@@ -282,15 +310,15 @@ const styles = StyleSheet.create({
     marginLeft: "2.5%",
   },
   //LOGOUT
-  logout:{
-    width:'100%',
+  logout: {
+    width: "100%",
     top: 40,
-    flexDirection:'column',
-    alignItems:'center',
-    justifyContent:'center',
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  deconnexion:{
-    alignItems:'center',
+  deconnexion: {
+    alignItems: "center",
   },
   //BottomSheet Modal
   statusbar: {
@@ -317,19 +345,17 @@ const styles = StyleSheet.create({
     width: "95%",
     height: 70,
     overflow: "hidden",
-    top:50,
+    top: 70,
     borderRadius: 30,
-    borderWidth:0.85,
-    borderColor:'white'
-
+    borderWidth: 0.85,
+    borderColor: "white",
   },
   lecteur: {
-    alignItems:'center',
-    justifyContent:'center',
+    alignItems: "center",
+    justifyContent: "center",
     overflow: "hidden",
     width: "100%",
     height: 75,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-
   },
 });

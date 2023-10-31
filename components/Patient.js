@@ -21,20 +21,15 @@ export default function Patient(props) {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "left",
-    marginLeft: 15,
-    justifyContent: "flex-start",
     width: "100%",
   },
   box: {
-    width: "90%",
+    width: "100%",
     top: 40,
     marginBottom: 25,
     borderRadius:10,
-    borderWidth:1,
+    borderBottomWidth:1,
     borderColor:'grey',
-    borderWidth: 1,
-    paddingTop:5,
     paddingBottom:5,
   },
   txt: {

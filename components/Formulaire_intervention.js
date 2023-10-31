@@ -15,7 +15,7 @@ import SelectDropdown from "react-native-select-dropdown";
 
 export default function Formulaire_interventions(props) {
   const navigation = useNavigation()
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://10.3.0.13:3000";
   const dispatch = useDispatch()
   const etats = ['Valide' , 'Invalide']
 
@@ -35,7 +35,7 @@ export default function Formulaire_interventions(props) {
   const [Arrival, setArrival] = useState(null);
   const [error, setError] = useState(null);
   const [errorStyle, setErrorStyle] = useState({});
-
+  const [colorPlaceholder, setcolorPlaceholder] = useState(false)
   // Fonction qui se declenche lors du clique sur Search pour permettre de vérifier s'il existe un patient avec ce numero de securité
   // sociale dans la BDD, si oui préremplir les champs dédiés aux informations patients, si non renvoyer un message d'erreur
   const handlesearch = (SSnumber) => {
@@ -55,9 +55,21 @@ export default function Formulaire_interventions(props) {
           setMutuelle(patientData.patient.mutuelle);
           setValide(patientData.patient.valide);
           setExiste(true);
+          setcolorPlaceholder(true)
+          setError('')
         } else {
           setError(patientData.error);
-          setErrorStyle({ color: "white", fontSize: 10 });
+          setErrorStyle({ color: "red", fontSize: 10 });
+          setFirstName('');
+          setLastName('');
+          setAdress('');
+          setSSnumber('');
+          setPhone('');
+          setMutuelle('');
+          setValide('');
+          setExiste(false);
+          setDeparture('')
+          setArrival('')
         }
       });
   };
@@ -159,23 +171,65 @@ export default function Formulaire_interventions(props) {
           />
         </View>
         <View style={styles.divinput}>
+        
           <View style={styles.divplaceholder}>
+          {!error && !colorPlaceholder &&
             <TextInput
-              style={styles.inputplaceholder}
-              placeholder="Sécurité Sociale"
-              placeholderTextColor="white"
-              onChangeText={(value) => setSSnumber(value)}
-              value={SSnumber}
-            />
-          <View>
-              <TouchableOpacity
-                onPress={() => handlesearch(SSnumber)}
-                style={styles.search}
-              >
-                <Text style={styles.txt}>Search</Text>
-              </TouchableOpacity>
-              <Text style={errorStyle}>{error}</Text>
-            </View>
+                style={styles.inputplaceholder}
+                placeholder="Sécurité Sociale"
+                placeholderTextColor="white"
+                onChangeText={(value) => setSSnumber(value)}
+                value={SSnumber} />
+                  }
+          {!error && colorPlaceholder &&
+            <TextInput
+                style={{
+                  borderRadius: 10,
+                  backgroundColor: "green",
+                  width: "80%",
+                  color:'white',
+                  borderColor: "white",
+                  height: 40,
+                  marginBottom: 60,
+                  marginRight: 10,
+                  borderWidth: 1,
+                  borderColor: "white",
+                  paddingLeft: 10,
+                }}
+                placeholder="Sécurité Sociale"
+                placeholderTextColor="white"
+                onChangeText={(value) => setSSnumber(value)}
+                value={SSnumber} />
+                  }
+          {error && 
+            <TextInput
+                style={{
+                  borderRadius: 10,
+                  backgroundColor: "red",
+                  width: "80%",
+                  color:'white',
+                  borderColor: "white",
+                  height: 40,
+                  marginBottom: 60,
+                  marginRight: 10,
+                  borderWidth: 1,
+                  borderColor: "white",
+                  paddingLeft: 10,
+                }}
+                placeholder="Sécurité Sociale"
+                placeholderTextColor="white"
+                onChangeText={(value) => setSSnumber(value)}
+                value={SSnumber} />
+                  }
+                  <View>
+                  <TouchableOpacity
+                    onPress={() => handlesearch(SSnumber)}
+                    style={styles.search}
+                  >
+                    <Text style={styles.txt}>Search</Text>
+                  </TouchableOpacity>
+                  <Text style={errorStyle}>{error}</Text>
+                </View>
           </View>
         </View>
 

@@ -6,8 +6,9 @@ import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
 import { LinearGradient } from "expo-linear-gradient";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-export default function SearchResults({navigation}) {
+export default function SearchResults({ navigation: { navigate }}) {
     const GVuri = Image.resolveAssetSource(GV).uri;
     const MVuri = Image.resolveAssetSource(MV).uri;
     const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
@@ -59,11 +60,18 @@ export default function SearchResults({navigation}) {
       start={{ x:0.5, y: 0.5 }}
       end={{ x: 0.5, y: 1 }}
     >
+       <TouchableOpacity onPress={() => navigate('TabNavigator', { screen: 'Acceuil' })}>
+        <View style={styles.back_button}>
+          <MaterialIcons
+            name="arrow-back-ios"
+            size={(fontSize = 25)}
+            color="white"
+          />
+        </View>
+      </TouchableOpacity>
      <View style={styles.search_bar}>
       <SearchBar screenName={'SearchResults'} />
       </View>
-   
-        <View style={styles.search}>
         <ScrollView
         horizontal={false}
         showsHorizontalScrollIndicator={false}
@@ -72,8 +80,6 @@ export default function SearchResults({navigation}) {
       >
           {searchResultDisplay}
           </ScrollView>
-        </View> 
-      
       </LinearGradient>
     );
 }
@@ -85,10 +91,13 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "black",
   },
-  search:{
-    marginTop:70,
-  },
   search_bar:{
-    alignItems:'center',
+    alignContent:'center',
+    justifyContent:'center'
+  },
+  back_button:{
+    marginLeft:10,
+    marginTop:80,
+    marginBottom:20,
   }
 });

@@ -22,13 +22,12 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 export default function FicheVehicule(props) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://10.3.0.13:3000";
   const user = useSelector((state) => state.user.value);
   const etats = ["En ligne", "Hors ligne", "Indisponible"];
   const interventions = useSelector((state) => state.interventions.value)
   const [etat, setEtat] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-
 // Update du reducer lorsqu'on clique sur un composant véhicule afin de stocker la liste des interventions dans le reducer
 function handlePress() {
   let interVehicule = []
@@ -77,7 +76,28 @@ const modalview = () => {
       });
     setModalVisible(false);
   };
-
+  const handleDelete = () =>{
+    console.log(interventions.map((data)=>data))
+  // fetch(`${BACKEND_ADRESS}/vehicules/delete/${props.plaque}`, {
+  //   method: "DELETE",
+  //   headers: { "Content-type": "application/json" },
+  //   body: JSON.stringify({
+  //     etat: etat,
+  //   }),
+  // })
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
+  //       .then((response) => response.json())
+  //       .then((vehiculesData) => {
+  //         if (etat == null) {
+  //           Alert.alert("Oup!", "Vous navez pass choisi le statut");
+  //         }
+  //         dispatch(defineListVehicules(vehiculesData.vehicules));
+  //         dispatch(defineListVehiculesDispo(vehiculesData.vehicules.filter(e=>e.etat === 'En ligne')))
+  //       });
+  //   });
+  }
   return (
     <BlurView intensity={50} style={styles.view}>
       <View style={styles.container}>
@@ -134,6 +154,12 @@ const modalview = () => {
                 }}
                 buttonStyle={styles.option}
               />
+              <TouchableOpacity
+                onPress={() => handleDelete()}
+                style={styles.button}
+              >
+                <Text style={styles.txt}>Supprimer Véhicule</Text>
+              </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => handleUpdate()}
                 style={styles.button}
@@ -243,4 +269,16 @@ const styles = StyleSheet.create({
   option: {
     borderRadius: 10,
   },
+  button_sup:{
+    alignItems: "center",
+    marginTop: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    backgroundColor: "transparent",
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "white",
+  }
 });

@@ -65,7 +65,7 @@ export default function DashboardScreen(props) {
   const [anomalies, setAnomalies] = useState(false);
 
   const dispatch = useDispatch();
-  const BACKEND_ADRESS = "http://10.3.0.13:3000";
+  const BACKEND_ADRESS = "https://ecna-backend-odpby015w-olivermunian.vercel.app";
   const user = useSelector((state) => state.user.value);
   const interventions = useSelector((state) => state.interventions.value);
   const recherche = useSelector((state) => state.searchQuery.value);

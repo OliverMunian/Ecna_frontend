@@ -11,6 +11,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useState } from "react";
 import SelectDropdown from "react-native-select-dropdown";
 import { useSelector, useDispatch } from "react-redux";
+import { defineListInter } from "../reducers/interventions";
 import { defineListVehicules } from "../reducers/vehicules";
 import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
 import { BlurView } from "expo-blur";
@@ -22,7 +23,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 export default function FicheVehicule(props) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const BACKEND_ADRESS = "http://10.3.0.13:3000";
+  const BACKEND_ADRESS = "https://ecna-backend-odpby015w-olivermunian.vercel.app";
   const user = useSelector((state) => state.user.value);
   const etats = ["En ligne", "Hors ligne", "Indisponible"];
   const interventions = useSelector((state) => state.interventions.value)
@@ -76,27 +77,31 @@ const modalview = () => {
       });
     setModalVisible(false);
   };
+
+
   const handleDelete = () =>{
-    console.log(interventions.map((data)=>data))
-  // fetch(`${BACKEND_ADRESS}/vehicules/delete/${props.plaque}`, {
-  //   method: "DELETE",
-  //   headers: { "Content-type": "application/json" },
-  //   body: JSON.stringify({
-  //     etat: etat,
-  //   }),
-  // })
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
-  //       .then((response) => response.json())
-  //       .then((vehiculesData) => {
-  //         if (etat == null) {
-  //           Alert.alert("Oup!", "Vous navez pass choisi le statut");
-  //         }
-  //         dispatch(defineListVehicules(vehiculesData.vehicules));
-  //         dispatch(defineListVehiculesDispo(vehiculesData.vehicules.filter(e=>e.etat === 'En ligne')))
-  //       });
-  //   });
+  fetch(`${BACKEND_ADRESS}/vehicules/delete/${props.plaque}`, {
+    method: "DELETE",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify({
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
+        .then((response) => response.json())
+        .then((vehiculesData) => {
+          dispatch(defineListVehicules(vehiculesData.vehicules));
+          dispatch(defineListVehiculesDispo(vehiculesData.vehicules.filter(e=>e.etat === 'En ligne')))
+        });
+    });
+    fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
+          .then((response) => response.json())
+          .then((interData) => {
+            if (interData.result) {
+              dispatch(defineListInter(interData.interventions));
+            }
+          })
   }
   return (
     <BlurView intensity={50} style={styles.view}>

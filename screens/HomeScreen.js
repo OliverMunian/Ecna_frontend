@@ -23,7 +23,7 @@ export default function HomeScreen({ navigation }) {
   const [password, setPassword] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const user = useSelector((state) => state.user.value);
-  const BACKEND_ADRESS = "http://10.3.0.13:3000";
+  const BACKEND_ADRESS = "https://ecna-backend-odpby015w-olivermunian.vercel.app";
 
   const handleSubmit = () => {
     fetch(`${BACKEND_ADRESS}/users/signin`, {

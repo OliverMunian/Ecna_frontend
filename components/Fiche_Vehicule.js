@@ -29,6 +29,8 @@ export default function FicheVehicule(props) {
   const interventions = useSelector((state) => state.interventions.value)
   const [etat, setEtat] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+
+
 // Update du reducer lorsqu'on clique sur un composant véhicule afin de stocker la liste des interventions dans le reducer
 function handlePress() {
   let interVehicule = []
@@ -39,11 +41,6 @@ function handlePress() {
       }
     }
   }
-  console.log(interVehicule)
-
-console.log('interventions',interventions)
-console.log('plaque',props.plaque)
-console.log('interVehicule', interVehicule)
 dispatch(addInterPlaque({plaque:props.plaque,interventions:interVehicule}))
 navigation.navigate(props.screenName)
     }
@@ -51,35 +48,35 @@ navigation.navigate(props.screenName)
 const modalview = () => {
     setModalVisible(true);
   };
-  const handleClose = () => {
+const handleClose = () => {
     setModalVisible(false);
   };
-  // Fonction qui modifie l'état du vehicule dans la BDD et refetch la liste de vehicules pour update le reducer et recharger le composant
-  const handleUpdate = () => {
-    fetch(`${BACKEND_ADRESS}/vehicules/update/${props.plaque}`, {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-        etat: etat,
+// Fonction qui modifie l'état du vehicule dans la BDD et refetch la liste de vehicules pour update le reducer et recharger le composant
+const handleUpdate = () => {
+fetch(`${BACKEND_ADRESS}/vehicules/update/${props.plaque}`, {
+    method: "POST",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify({
+    etat: etat,
       }),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
-          .then((response) => response.json())
-          .then((vehiculesData) => {
-            if (etat == null) {
-              Alert.alert("Oup!", "Vous navez pass choisi le statut");
+    .then((response) => response.json())
+    .then((data) => {
+fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
+    .then((response) => response.json())
+    .then((vehiculesData) => {
+      if (etat == null) {
+        Alert.alert("Oup!", "Vous navez pass choisi le statut");
             }
-            dispatch(defineListVehicules(vehiculesData.vehicules));
-            dispatch(defineListVehiculesDispo(vehiculesData.vehicules.filter(e=>e.etat === 'En ligne')))
+    dispatch(defineListVehicules(vehiculesData.vehicules));
+    dispatch(defineListVehiculesDispo(vehiculesData.vehicules.filter(e=>e.etat === 'En ligne')))
           });
       });
     setModalVisible(false);
   };
 
 
-  const handleDelete = () =>{
+const handleDelete = () =>{
   fetch(`${BACKEND_ADRESS}/vehicules/delete/${props.plaque}`, {
     method: "DELETE",
     headers: { "Content-type": "application/json" },

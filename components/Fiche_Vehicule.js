@@ -31,12 +31,19 @@ export default function FicheVehicule(props) {
 
 // Update du reducer lorsqu'on clique sur un composant véhicule afin de stocker la liste des interventions dans le reducer
 function handlePress() {
-  const interVehicule = []
-if(interventions.vehicule){
-  interVehicule = interventions.filter(inter => inter.vehicule.plaque === props.plaque)
-}
+  let interVehicule = []
+  for(let inter of interventions){
+    if(inter.vehicule){
+      if(inter.vehicule.plaque === props.plaque){
+        interVehicule.push(inter)
+      }
+    }
+  }
+  console.log(interVehicule)
+
+console.log('interventions',interventions)
 console.log('plaque',props.plaque)
-console.log('inter', interVehicule)
+console.log('interVehicule', interVehicule)
 dispatch(addInterPlaque({plaque:props.plaque,interventions:interVehicule}))
 navigation.navigate(props.screenName)
     }

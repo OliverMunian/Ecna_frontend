@@ -43,6 +43,7 @@ export default function InterventionsScreen() {
           date={date}
           dispatched={inter.vehicule}
           interToken={inter.interToken}
+          etat = {inter.etat}
         />
       );
     } else {
@@ -56,6 +57,8 @@ export default function InterventionsScreen() {
           date={date}
           dispatched={inter.vehicule}
           plaque={inter.vehicule.plaque}
+          interToken={inter.interToken}
+          etat = {inter.etat}
           type={imagesData[inter.vehicule.type]}
         />
       );

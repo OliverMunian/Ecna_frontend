@@ -31,6 +31,7 @@ export default function SearchResults({navigation}) {
           arrival={inter.arrival}
           date={date}
           dispatched={inter.vehicule}
+          interToken={inter.interToken}
         />
       );
     } else {
@@ -44,6 +45,7 @@ export default function SearchResults({navigation}) {
           date={date}
           dispatched={inter.vehicule}
           plaque={inter.vehicule.plaque}
+          interToken={inter.interToken}
           type={imagesData[inter.vehicule.type]}
         />
       );

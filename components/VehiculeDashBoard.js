@@ -3,18 +3,33 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useState } from "react";
 
 
-
-
 export default function VehiculeDashBoard (item) {
-const [update,setUpdate] = useState([])
+const [selected,setSelected] = useState(false)
 const handleSet = () => {
-    setUpdate({plaque:item.plaque,interToken:item.interToken})
+    if(item.click){
+        item.tunnel(item.plaque)
+        setSelected(!selected)
+    }
 }
-console.log('update',update)
-console.log(item)
+if(selected && item.plaque === item.selected){
+    styles.image = {
+        height:'90%',
+        width:'100%',
+        alignItems:'center',
+        borderWidth : 2,
+        borderColor : 'white',
+        borderRadius : 20
+    }
+} else {
+    styles.image = {
+        height:'90%',
+        width:'100%',
+        alignItems:'center',
+    }
+}
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.image} onPress={() => handleSet()}>
+            <TouchableOpacity style={styles.touchable} onPress={() => handleSet()}>
             <Image style={styles.image} source={{uri : item.type}}/>
             <View style={styles.bottom}>
             <FontAwesome name='circle' size={(fontSize=10)} color='green' />
@@ -52,4 +67,9 @@ const styles = StyleSheet.create({
         marginLeft:10,
         fontWeight: 'bold'
     },
+    touchable : {
+            height:'90%',
+            width:'100%',
+            alignItems:'center',   
+    }
 })

@@ -6,19 +6,28 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  Button
 } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector , useDispatch } from "react-redux";
 import { useState } from "react";
 import { BlurView } from "expo-blur";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import CarouselDashboard from "./CarouselDashboard";
 import { VirtualizedList } from "react-native-web";
+import { defineListInter } from "../reducers/interventions";
+import { defineListVehicules } from "../reducers/vehicules";
+import { defineListVehiculesDispo} from '../reducers/vehiculesDispo'
 
 export default function Fiche_intervention(props) {
-  const vehicules = useSelector((state) => state.vehicules.value);
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.user.value)
   const [modalVisible, setModalVisible] = useState(false);
   const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const [plaque,setPlaque] = useState('')
 
+  const definePlq = (plq) => {
+    setPlaque(plq)
+  }
   const handleDispatch = () => {
     setModalVisible(true);
   };
@@ -26,12 +35,111 @@ export default function Fiche_intervention(props) {
   const handleClose = () => {
     setModalVisible(false);
   };
+  
+  const handleStart = () => {
+    fetch(`${BACKEND_ADRESS}/interventions/start` , {
+      method:'POST',
+      headers : {'Content-type' : 'application/json'},
+      body : JSON.stringify({interToken : props.interToken})
+    })
+    .then(response => response.json())
+    .then(data => {
+      if(data.result){
+        console.log(data)
+      // Mise à jour des interventions
+      fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
+      .then((response) => response.json())
+      .then((interData) => {
+        if (interData.result) {
+          dispatch(defineListInter(interData.interventions));
+          // Mise à jour vehicules
+          fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
+          .then((response) => response.json())
+          .then((data) => {
+            if(data.result) {
+              dispatch(defineListVehicules(data.vehicules));
+              dispatch(
+                defineListVehiculesDispo(
+                  data.vehicules.filter((e) => e.etat === "En ligne")
+                )
+              );
+            }
+          })
+        }
+      })
+      }
+    })
+  }
 
+  const handleEnd = () => {
+    fetch(`${BACKEND_ADRESS}/interventions/end` , {
+      method:'POST',
+      headers : {'Content-type' : 'application/json'},
+      body : JSON.stringify({interToken : props.interToken})
+    })
+    .then(response => response.json())
+    .then(data => {
+      if(data.result){
+        console.log(data)
+      // Mise à jour des interventions
+      fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
+      .then((response) => response.json())
+      .then((interData) => {
+        if (interData.result) {
+          dispatch(defineListInter(interData.interventions));
+          // Mise à jour vehicules
+          fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
+          .then((response) => response.json())
+          .then((data) => {
+            if(data.result) {
+              dispatch(defineListVehicules(data.vehicules));
+              dispatch(
+                defineListVehiculesDispo(
+                  data.vehicules.filter((e) => e.etat === "En ligne")
+                )
+              );
+            }
+          })
+        }
+      })
+      }
+    })
+  }
+  
+
+// Fonction à appeler lorsqu'un souhaite associer une intervention à un véhicule + mise à jour
   const handleUpdate = () => {
     fetch(`${BACKEND_ADRESS}/interventions/dispatch`, {
       method : 'POST',
       headers : {'Content-type' : 'application/json'},
-      body : JSON.stringify({plaque : props.plaque, interToken : props.interToken })
+      body : JSON.stringify({plaque : plaque, interToken : props.interToken })
+    })
+    .then(response => response.json())
+    .then(dispatchData => {
+      if(dispatchData.result){
+      // Mise à jour des interventions
+        fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
+        .then((response) => response.json())
+        .then((interData) => {
+          if (interData.result) {
+            dispatch(defineListInter(interData.interventions));
+            // Mise à jour vehicules
+            fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
+            .then((response) => response.json())
+            .then((data) => {
+              if(data.result) {
+                dispatch(defineListVehicules(data.vehicules));
+                dispatch(
+                  defineListVehiculesDispo(
+                    data.vehicules.filter((e) => e.etat === "En ligne")
+                  )
+                );
+              }
+            })
+          }
+        })
+        setModalVisible(false)
+      }
     })
   }
 
@@ -45,11 +153,29 @@ export default function Fiche_intervention(props) {
         <Text style={styles.arriver_position}>🏁 {props.arrival}</Text>
         <Text style={styles.jour}>{props.date}</Text>
       </View>
-      {props.dispatched && (
+      {props.dispatched && (props.etat === 'prévue') && (
         <View style={styles.carContainer}>
           <Image style={styles.image} source={{ uri: props.type }} />
           <View style={styles.carInfo}>
             <Text style={styles.plaque}>{props.plaque}</Text>
+            <TouchableOpacity onPress={() => handleStart()}>
+              <Text style={styles.carInfo}>
+                Debuter
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+      {props.dispatched && (props.etat === 'en cours') && (
+        <View style={styles.carContainer}>
+          <Image style={styles.image} source={{ uri: props.type }} />
+          <View style={styles.carInfo}>
+            <Text style={styles.plaque}>{props.plaque}</Text>
+              <TouchableOpacity onPress={() => handleEnd()}>
+                <Text style={styles.carInfo}>
+                   Finir
+                </Text>
+                </TouchableOpacity>
           </View>
         </View>
       )}
@@ -84,9 +210,9 @@ export default function Fiche_intervention(props) {
                 Attribuez un véhicule pour la prochaine intervention
               </Text>
               <View style={styles.carousel}>
-                <CarouselDashboard interToken={props.interToken} />
+                <CarouselDashboard definePlq={definePlq} click={true} selected={plaque}/>
               </View>
-              <TouchableOpacity onPress={handleClose} style={styles.button}>
+              <TouchableOpacity onPress={() => handleUpdate()} style={styles.button}>
                 <Text style={styles.txt}>Ok</Text>
               </TouchableOpacity>
             </BlurView>

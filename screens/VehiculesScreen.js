@@ -13,6 +13,7 @@ import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
 import { useDispatch } from "react-redux";
+import { addInterPlaque } from "../reducers/interVehicules";
 import { LinearGradient } from "expo-linear-gradient";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -37,6 +38,7 @@ const getColorByEtat = (etat) => {
 };
 
 export default function VehiculeScreen({ navigation }) {
+  const dispatch = useDispatch()
   const vehicules = useSelector((state) => state.vehicules.value);
   let vehiculesDisplay = []
 

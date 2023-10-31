@@ -34,8 +34,10 @@ import {
 } from "@gorhom/bottom-sheet";
 import { addtokenToSotre, addSirenToSotre } from "../reducers/user";
 import { BlurView } from "expo-blur";
+import { useNavigation } from "@react-navigation/native";
 
-export default function DashboardScreen({ navigation }) {
+export default function DashboardScreen(props) {
+  const navigation = useNavigation()
   // BOTTOM SHEET MODAL
   const BottomSheetModalRef = useRef(null);
   const snapPoints = ["20%", "50%", "85%"];
@@ -63,7 +65,7 @@ export default function DashboardScreen({ navigation }) {
   const [anomalies, setAnomalies] = useState(false);
 
   const dispatch = useDispatch();
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://10.3.0.13:3000";
   const user = useSelector((state) => state.user.value);
   const interventions = useSelector((state) => state.interventions.value);
   const recherche = useSelector((state) => state.searchQuery.value);
@@ -104,7 +106,7 @@ export default function DashboardScreen({ navigation }) {
           dispatch(defineListPatients(sorted));
         }
       });
-    // Fetch des vehicules correspondant au SIREN
+    // Fetch des interventions correspondant au SIREN
     fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
       .then((response) => response.json())
       .then((interData) => {
@@ -130,7 +132,7 @@ export default function DashboardScreen({ navigation }) {
     >
       <View style={styles.maintitle}>
         <Text style={styles.h1}> Véhicules disponibles </Text>
-        <CarouselDashboard></CarouselDashboard>
+        <CarouselDashboard click={false}></CarouselDashboard>
       </View>
       {/* BARRE DE RECHERCHE */}
       <View style={styles.searchbar}>

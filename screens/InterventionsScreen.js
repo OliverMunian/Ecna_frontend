@@ -10,7 +10,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 export default function InterventionsScreen() {
   const dispatch = useDispatch();
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://10.3.0.13:3000";
   const [dispatchedVehicules, setDispatchedVehicules] = useState([]);
 
   const user = useSelector((state) => state.user.value);
@@ -43,6 +43,7 @@ export default function InterventionsScreen() {
           date={date}
           dispatched={inter.vehicule}
           interToken={inter.interToken}
+          etat = {inter.etat}
         />
       );
     } else {
@@ -56,6 +57,8 @@ export default function InterventionsScreen() {
           date={date}
           dispatched={inter.vehicule}
           plaque={inter.vehicule.plaque}
+          interToken={inter.interToken}
+          etat = {inter.etat}
           type={imagesData[inter.vehicule.type]}
         />
       );

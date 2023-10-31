@@ -34,6 +34,8 @@ export default function Interventions() {
           departure={data.departure}
           arrival={data.arrival}
           date={date}
+          interToken={data.interToken}
+          dispatched={data.vehicule}
         />
       );
     });

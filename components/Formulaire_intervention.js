@@ -16,10 +16,10 @@ import { useNavigation } from "@react-navigation/native";
 import SelectDropdown from "react-native-select-dropdown";
 
 export default function Formulaire_interventions(props) {
-  const navigation = useNavigation();
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
-  const dispatch = useDispatch();
-  const etats = ["Valide", "Invalide"];
+  const navigation = useNavigation()
+  const BACKEND_ADRESS = "http://10.3.0.13:3000";
+  const dispatch = useDispatch()
+  const etats = ['Valide' , 'Invalide']
 
   // Recuperation des informations du user du reducer
   const user = useSelector((state) => state.user.value);
@@ -37,7 +37,7 @@ export default function Formulaire_interventions(props) {
   const [Arrival, setArrival] = useState(null);
   const [error, setError] = useState(null);
   const [errorStyle, setErrorStyle] = useState({});
-
+  const [colorPlaceholder, setcolorPlaceholder] = useState(false)
   // Fonction qui se declenche lors du clique sur Search pour permettre de vérifier s'il existe un patient avec ce numero de securité
   // sociale dans la BDD, si oui préremplir les champs dédiés aux informations patients, si non renvoyer un message d'erreur
   const handlesearch = (SSnumber) => {
@@ -57,9 +57,21 @@ export default function Formulaire_interventions(props) {
           setMutuelle(patientData.patient.mutuelle);
           setValide(patientData.patient.valide);
           setExiste(true);
+          setcolorPlaceholder(true)
+          setError('')
         } else {
           setError(patientData.error);
-          setErrorStyle({ color: "white", fontSize: 10 });
+          setErrorStyle({ color: "red", fontSize: 10 });
+          setFirstName('');
+          setLastName('');
+          setAdress('');
+          setSSnumber('');
+          setPhone('');
+          setMutuelle('');
+          setValide('');
+          setExiste(false);
+          setDeparture('')
+          setArrival('')
         }
       });
   };

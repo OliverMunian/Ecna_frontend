@@ -22,7 +22,7 @@ export default function Fiche_intervention(props) {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user.value)
   const [modalVisible, setModalVisible] = useState(false);
-  const BACKEND_ADRESS = "http://10.3.0.43:3000";
+  const BACKEND_ADRESS = "http://ecna-backend-odpby015w-olivermunian.vercel.app";
   const [plaque,setPlaque] = useState('')
 
   const definePlq = (plq) => {
@@ -176,6 +176,14 @@ export default function Fiche_intervention(props) {
                    Finir
                 </Text>
                 </TouchableOpacity>
+          </View>
+        </View>
+      )}
+      {props.dispatched && (props.etat === 'finie') && (
+        <View style={styles.carContainer}>
+          <Image style={styles.image} source={{ uri: props.type }} />
+          <View style={styles.carInfo}>
+            <Text style={styles.plaque}>{props.plaque}</Text>
           </View>
         </View>
       )}

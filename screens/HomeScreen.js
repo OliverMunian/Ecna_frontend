@@ -23,7 +23,7 @@ export default function HomeScreen({ navigation }) {
   const [password, setPassword] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const user = useSelector((state) => state.user.value);
-  const BACKEND_ADRESS = "http://10.3.0.13:3000";
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
 
   const handleSubmit = () => {
     fetch(`${BACKEND_ADRESS}/users/signin`, {
@@ -89,9 +89,7 @@ export default function HomeScreen({ navigation }) {
               placeholderTextColor={"white"}
               ref={ref_input2}
             />
-            <Text style={styles.txtError}>
-              {errorMessage}
-            </Text>
+            <Text style={styles.txtError}>{errorMessage}</Text>
             <TouchableOpacity style={styles.btn} onPress={() => handleSubmit()}>
               <Text style={styles.btntxt}> Valider</Text>
             </TouchableOpacity>
@@ -187,8 +185,8 @@ const styles = StyleSheet.create({
     color: "#00bcf0",
     textDecorationLine: "underline",
   },
-  txtError : {
-    color : 'red',
-    marginBottom : 20,
-  }
+  txtError: {
+    color: "red",
+    marginBottom: 20,
+  },
 });

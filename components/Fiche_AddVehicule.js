@@ -28,7 +28,7 @@ export default function FicheAddVehicule(props) {
   const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
   const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
 
-  const BACKEND_ADRESS = "http://10.3.0.13:3000";
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
 
   // Definition des possibilités des menus déroulants
   const types = ["Gros", "Classique", "VSL"];
@@ -39,17 +39,17 @@ export default function FicheAddVehicule(props) {
   const [plaque, setPlaque] = useState(null);
   const [type, setType] = useState(null);
   const [etat, setEtat] = useState(null);
-  const [errorMessage,setErrorMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const user = useSelector((state) => state.user.value);
   const SIREN = useSelector((state) => state.user.value.SIREN);
-  const regex = /^[A-Z]{2}[-][0-9]{3}[-][A-Z]{2}$/i 
+  const regex = /^[A-Z]{2}[-][0-9]{3}[-][A-Z]{2}$/i;
 
   // Fonction qui se declenche lors du clique sur le bouton 'Ajouter' afin de sauvegarder le vehicule en BDD et l'afficher sur la page
   // grace à l'etat vehicules + reset des champs/etats dans le cas ou la sauvegarde est réussie en back
   const handleAdd = () => {
-    const testPlaque = regex.test(plaque)
-    if(testPlaque){
+    const testPlaque = regex.test(plaque);
+    if (testPlaque) {
       fetch(`${BACKEND_ADRESS}/vehicules/add`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
@@ -71,7 +71,7 @@ export default function FicheAddVehicule(props) {
           }
         });
     } else {
-      setErrorMessage('La plaque ne correspond pas au format attendu')
+      setErrorMessage("La plaque ne correspond pas au format attendu");
     }
   };
 
@@ -131,19 +131,19 @@ export default function FicheAddVehicule(props) {
       <View style={styles.tiles}>
         <Text style={styles.title}>Nouveau véhicule </Text>
         <Text style={styles.subtitle}>
-          Veuillez compléter les champs suivants pour ajouter un nouveau véhicule
-          à votre flotte
+          Veuillez compléter les champs suivants pour ajouter un nouveau
+          véhicule à votre flotte
         </Text>
       </View>
-      <View  style={styles.vehicules}>
-      <ScrollView
-        horizontal={false}
-        showsHorizontalScrollIndicator={false}
-        endFillColor="#000"
-        overScrollMode="never"
-      >
-        {vehiculesDisplay}
-      </ScrollView>
+      <View style={styles.vehicules}>
+        <ScrollView
+          horizontal={false}
+          showsHorizontalScrollIndicator={false}
+          endFillColor="#000"
+          overScrollMode="never"
+        >
+          {vehiculesDisplay}
+        </ScrollView>
       </View>
       <View style={styles.form}>
         <Text style={styles.subtitle}>Ex : AA-123-AA</Text>
@@ -154,9 +154,7 @@ export default function FicheAddVehicule(props) {
           onChangeText={(value) => setPlaque(value)}
           value={plaque}
         />
-        <Text style={styles.txtError}>
-          {errorMessage}
-        </Text>
+        <Text style={styles.txtError}>{errorMessage}</Text>
         <View style={styles.menuselect}>
           <View style={styles.box}>
             <Text style={styles.txt}>Type de véhicule</Text>
@@ -231,16 +229,16 @@ const styles = StyleSheet.create({
     color: "white",
     marginLeft: 10,
   },
-  tiles:{
+  tiles: {
     top: 10,
   },
   vehicules: {
-    top:20,
+    top: 20,
     width: "100%",
     height: 260,
   },
   form: {
-    top:20,
+    top: 20,
     width: "100%",
     alignItems: "center",
     height: 300,
@@ -260,39 +258,39 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     justifyContent: "center",
-    alignContent:'center',
+    alignContent: "center",
   },
   box: {
-    alignItems: 'center',
-    marginLeft:20,
-    marginRight:20,
+    alignItems: "center",
+    marginLeft: 20,
+    marginRight: 20,
   },
   txt: {
     color: "white",
   },
   dropdown: {
-    marginTop:10,
-    width:'100%',
-    backgroundColor:'transparent',
-    borderWidth:2,
-    borderColor:'white',
-    borderRadius:10,
+    marginTop: 10,
+    width: "100%",
+    backgroundColor: "transparent",
+    borderWidth: 2,
+    borderColor: "white",
+    borderRadius: 10,
   },
-  dropText:{
-    color:'white'
+  dropText: {
+    color: "white",
   },
-  card_drop:{
-    backgroundColor: 'rgba(255,255,255,1)',
-    borderRadius:20,
+  card_drop: {
+    backgroundColor: "rgba(255,255,255,1)",
+    borderRadius: 20,
   },
   placeholderStyle: {
     backgroundColor: "transparent",
   },
   btns: {
-    alignContent:'center',
+    alignContent: "center",
     justifyContent: "space-between",
     flexDirection: "row",
-    width:'60%'
+    width: "60%",
   },
   btn: {
     width: "45%",
@@ -305,7 +303,7 @@ const styles = StyleSheet.create({
     borderColor: "white",
     color: "white",
   },
-  txtError : {
-    color : 'red'
-  }
+  txtError: {
+    color: "red",
+  },
 });

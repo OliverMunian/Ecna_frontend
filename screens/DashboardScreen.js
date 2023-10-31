@@ -37,25 +37,26 @@ import { BlurView } from "expo-blur";
 import { useNavigation } from "@react-navigation/native";
 
 export default function DashboardScreen(props) {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   // BOTTOM SHEET MODAL
   const BottomSheetModalRef = useRef(null);
   const snapPoints = ["20%", "50%", "85%"];
   const [modalVisible, setModalVisible] = useState(false);
-  const [anomalieVisible, setAnomalieVisible] = useState(false)
+  const [anomalieVisible, setAnomalieVisible] = useState(false);
   const [value, setValue] = useState("");
 
   function handlePressModal(name) {
     BottomSheetModalRef.current?.present();
     setValue();
-    console.log(name)
-    if ((name == "dangerous")) {
-      setAnomalieVisible(true)
-      console.log(anomalieVisible)
+    console.log(name);
+    if (name == "dangerous") {
+      setAnomalieVisible(true);
+      console.log(anomalieVisible);
+    } else if (name == "skip-next") {
+    } else if (name == "spinner") {
+
+    } else if (name == "alarm-light") {
     }
-    else if((name == "skip-next")){}
-    else if((name == "spinner")){}
-    else if((name == "alarm-light")){}
   }
 
   //STATE DES ICONES
@@ -63,9 +64,10 @@ export default function DashboardScreen(props) {
   const [samu, setSamu] = useState(false);
   const [ulterieures, setUlterieures] = useState(false);
   const [anomalies, setAnomalies] = useState(false);
+  const [vehiculesEnCours, setVehiculesEnCours]= useState([])
 
   const dispatch = useDispatch();
-  const BACKEND_ADRESS = "http://10.3.0.13:3000";
+  const BACKEND_ADRESS = "http://10.3.0.23:3000";
   const user = useSelector((state) => state.user.value);
   const interventions = useSelector((state) => state.interventions.value);
   const recherche = useSelector((state) => state.searchQuery.value);
@@ -84,7 +86,8 @@ export default function DashboardScreen(props) {
             defineListVehiculesDispo(
               data.vehicules.filter((e) => e.etat === "En ligne")
             )
-          );
+          )
+          setVehiculesEnCours(vehicules.filter((e)=> e.etat ==="En cours d'intervention"));
         }
       });
     // Fetch des patients correspondant au token
@@ -140,7 +143,7 @@ export default function DashboardScreen(props) {
           keyboardVerticalOffset={200}
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-            <SearchBar screenName={"SearchResults"} />
+          <SearchBar screenName={"SearchResults"} />
         </KeyboardAvoidingView>
       </View>
 
@@ -176,10 +179,7 @@ export default function DashboardScreen(props) {
           />
           <Text style={styles.txt}>Ultérieures</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => logHandle()}
-          style={styles.title}
-        >
+        <TouchableOpacity onPress={() => logHandle()} style={styles.title}>
           <MaterialCommunityIcons
             name="exit-run"
             size={(fontSize = 30)}
@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 200,
     width: "100%",
     backgroundColor: "white",
-    height: '60%',
+    height: "60%",
     alignItems: "center",
     justifyContent: "center",
   },

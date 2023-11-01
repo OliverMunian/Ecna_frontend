@@ -85,6 +85,7 @@ export default function Formulaire_interventions(props) {
   const handleSubmit = () => {
     // add inter/patient
     const testSiren = regexSSNFrance.test(SSnumber)
+    console.log(testSiren)
     if(testSiren){
     fetch(`${BACKEND_ADRESS}/interventions/add`, {
       method: "POST",
@@ -193,8 +194,8 @@ export default function Formulaire_interventions(props) {
                 />
               </View>
               <View style={styles.divinput}>
-                <View style={styles.divplaceholder}>
-                  {!error && !colorPlaceholder && (
+              <View style={styles.divplaceholder}>
+                  {(!error && !colorPlaceholder) ? (
                     <TextInput
                       style={styles.inputplaceholder}
                       placeholder="Sécurité Sociale"
@@ -202,8 +203,7 @@ export default function Formulaire_interventions(props) {
                       onChangeText={(value) => setSSnumber(value)}
                       value={SSnumber}
                     />
-                  )}
-                  {error && colorPlaceholder && (
+                  ) : error ? (
                     <TextInput
                       style={{
                         borderRadius: 10,
@@ -222,8 +222,7 @@ export default function Formulaire_interventions(props) {
                       onChangeText={(value) => setSSnumber(value)}
                       value={SSnumber}
                     />
-                  )}
-                  {!error && colorPlaceholder && (
+                  ) : (
                     <TextInput
                       style={{
                         borderRadius: 10,
@@ -244,10 +243,7 @@ export default function Formulaire_interventions(props) {
                     />
                   )}
                   <View>
-                    <TouchableOpacity
-                      onPress={() => handlesearch(SSnumber)}
-                      style={styles.search}
-                    >
+                    <TouchableOpacity onPress={() => handlesearch(SSnumber)} style={styles.search}>
                       <Text style={styles.txt}>Search</Text>
                     </TouchableOpacity>
                     <Text style={errorStyle}>{error}</Text>

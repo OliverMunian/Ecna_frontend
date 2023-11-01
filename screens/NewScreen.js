@@ -11,7 +11,7 @@ export default function NewScreen() {
       end={{ x: 0.5, y: 1 }}
     >
       <View style={styles.box}>
-        <Formulaire_intervention screenName={'TabNavigator'} />
+        <Formulaire_intervention screenName={"TabNavigator"} />
       </View>
     </LinearGradient>
   );

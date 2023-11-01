@@ -1,24 +1,15 @@
 import {
   StyleSheet,
   Text,
-  TextInput,
   View,
   TouchableOpacity,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Platform,
-  Alert,
-  Image,
-  ScrollView,
-  SafeAreaView,
 } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import vehicules, { defineListVehicules } from "../reducers/vehicules";
 import CarouselDashboard from "../components/CarouselDashboard";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import SearchBar from "../components/SearchBar";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
@@ -27,7 +18,6 @@ import { defineListInter } from "../reducers/interventions";
 import { LinearGradient } from "expo-linear-gradient";
 // Bottom Sheet
 import { StatusBar } from "expo-status-bar";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
@@ -136,10 +126,7 @@ export default function DashboardScreen(props) {
       </View>
       {/* BARRE DE RECHERCHE */}
       <View style={styles.searchbar}>
-        <KeyboardAvoidingView
-          keyboardVerticalOffset={200}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
+        <KeyboardAvoidingView>
             <SearchBar screenName={"SearchResults"} />
         </KeyboardAvoidingView>
       </View>
@@ -261,7 +248,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 200,
     width: "100%",
     backgroundColor: "white",
-    height: '60%',
+    height: '50%',
     alignItems: "center",
     justifyContent: "center",
   },
@@ -269,9 +256,7 @@ const styles = StyleSheet.create({
     top: -30,
     fontSize: 25,
     fontWeight: "bold",
-    fontStyle: "italic",
     color: "black",
-    textDecorationLine: "underline",
   },
   //SEARCHBAR
   searchbar: {

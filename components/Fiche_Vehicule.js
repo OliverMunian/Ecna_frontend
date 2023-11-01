@@ -19,87 +19,94 @@ import { addInterPlaque } from "../reducers/interVehicules";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-
 export default function FicheVehicule(props) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const BACKEND_ADRESS = "https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  const BACKEND_ADRESS =
+    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
   const user = useSelector((state) => state.user.value);
   const etats = ["En ligne", "Hors ligne", "Indisponible"];
-  const interventions = useSelector((state) => state.interventions.value)
+  const interventions = useSelector((state) => state.interventions.value);
   const [etat, setEtat] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
-
-// Update du reducer lorsqu'on clique sur un composant véhicule afin de stocker la liste des interventions dans le reducer
-function handlePress() {
-  let interVehicule = []
-  for(let inter of interventions){
-    if(inter.vehicule){
-      if(inter.vehicule.plaque === props.plaque){
-        interVehicule.push(inter)
+  // Update du reducer lorsqu'on clique sur un composant véhicule afin de stocker la liste des interventions dans le reducer
+  function handlePress() {
+    let interVehicule = [];
+    for (let inter of interventions) {
+      if (inter.vehicule) {
+        if (inter.vehicule.plaque === props.plaque) {
+          interVehicule.push(inter);
+        }
       }
     }
+    dispatch(
+      addInterPlaque({ plaque: props.plaque, interventions: interVehicule })
+    );
+    navigation.navigate(props.screenName);
   }
-dispatch(addInterPlaque({plaque:props.plaque,interventions:interVehicule}))
-navigation.navigate(props.screenName)
-    }
 
-const modalview = () => {
+  const modalview = () => {
     setModalVisible(true);
   };
-const handleClose = () => {
+  const handleClose = () => {
     setModalVisible(false);
   };
-// Fonction qui modifie l'état du vehicule dans la BDD et refetch la liste de vehicules pour update le reducer et recharger le composant
-const handleUpdate = () => {
-fetch(`${BACKEND_ADRESS}/vehicules/update/${props.plaque}`, {
-    method: "POST",
-    headers: { "Content-type": "application/json" },
-    body: JSON.stringify({
-    etat: etat,
+  // Fonction qui modifie l'état du vehicule dans la BDD et refetch la liste de vehicules pour update le reducer et recharger le composant
+  const handleUpdate = () => {
+    fetch(`${BACKEND_ADRESS}/vehicules/update/${props.plaque}`, {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        etat: etat,
       }),
     })
-    .then((response) => response.json())
-    .then((data) => {
-fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
-    .then((response) => response.json())
-    .then((vehiculesData) => {
-      if (etat == null) {
-        Alert.alert("Oup!", "Vous navez pass choisi le statut");
+      .then((response) => response.json())
+      .then((data) => {
+        fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
+          .then((response) => response.json())
+          .then((vehiculesData) => {
+            if (etat == null) {
+              Alert.alert("Oup!", "Vous navez pass choisi le statut");
             }
-    dispatch(defineListVehicules(vehiculesData.vehicules));
-    dispatch(defineListVehiculesDispo(vehiculesData.vehicules.filter(e=>e.etat === 'En ligne')))
+            dispatch(defineListVehicules(vehiculesData.vehicules));
+            dispatch(
+              defineListVehiculesDispo(
+                vehiculesData.vehicules.filter((e) => e.etat === "En ligne")
+              )
+            );
           });
       });
     setModalVisible(false);
   };
 
-
-const handleDelete = () =>{
-  fetch(`${BACKEND_ADRESS}/vehicules/delete/${props.plaque}`, {
-    method: "DELETE",
-    headers: { "Content-type": "application/json" },
-    body: JSON.stringify({
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
-        .then((response) => response.json())
-        .then((vehiculesData) => {
-          dispatch(defineListVehicules(vehiculesData.vehicules));
-          dispatch(defineListVehiculesDispo(vehiculesData.vehicules.filter(e=>e.etat === 'En ligne')))
-        });
-    });
-    fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
+  const handleDelete = () => {
+    fetch(`${BACKEND_ADRESS}/vehicules/delete/${props.plaque}`, {
+      method: "DELETE",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({}),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
           .then((response) => response.json())
-          .then((interData) => {
-            if (interData.result) {
-              dispatch(defineListInter(interData.interventions));
-            }
-          })
-  }
+          .then((vehiculesData) => {
+            dispatch(defineListVehicules(vehiculesData.vehicules));
+            dispatch(
+              defineListVehiculesDispo(
+                vehiculesData.vehicules.filter((e) => e.etat === "En ligne")
+              )
+            );
+          });
+      });
+    fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
+      .then((response) => response.json())
+      .then((interData) => {
+        if (interData.result) {
+          dispatch(defineListInter(interData.interventions));
+        }
+      });
+  };
   return (
     <BlurView intensity={50} style={styles.view}>
       <View style={styles.container}>
@@ -271,7 +278,7 @@ const styles = StyleSheet.create({
   option: {
     borderRadius: 10,
   },
-  button_sup:{
+  button_sup: {
     alignItems: "center",
     marginTop: 20,
     paddingTop: 10,
@@ -282,5 +289,5 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
     borderColor: "white",
-  }
+  },
 });

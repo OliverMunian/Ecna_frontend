@@ -24,12 +24,12 @@ export default function SubscribeScreen({ navigation }) {
   const [email, setEmail] = useState(null);
   const [name, setName] = useState(null);
   const [SIREN, setSIREN] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage,setErrorMessage] = useState(null)
 
-  const regex = /^[0-9]{9}$/i;
+  const regexSIREN = /^[0-9]{9}$/;
   // Fonction à déclencher lors de l'appui sur le bouton valider afin de créer un document user et un document entreprise + les lier
   function Subscribe() {
-    const testSiren = regex.test(SIREN)
+    const testSiren = regexSIREN.test(SIREN)
     if(testSiren){
     fetch(`${BACKEND_ADRESS}/users/signup`, {
       method: "POST",
@@ -84,7 +84,8 @@ export default function SubscribeScreen({ navigation }) {
         <View style={styles.title}>
           <Text style={styles.maintitle}>Inscription</Text>
         </View>
-        <View style={styles.titleprevious}></View>
+        <View style={styles.titleprevious}>
+        </View>
         <LinearGradient
           style={styles.div}
           colors={["#1a2755", "#1D94AE"]}
@@ -243,7 +244,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
   },
-  txtError: {
-    color: "red",
-  },
+  txtError : {
+    color : 'red'
+  }
 });

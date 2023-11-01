@@ -8,7 +8,6 @@ import {
   Image,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { BlurView } from "expo-blur";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -230,6 +229,10 @@ export default function Fiche_intervention(props) {
           </View>
         </View>
       </Modal>
+      {!props.dispatched && props.etat === 'finie' && (
+        <View>
+        </View>
+      )}
     </BlurView>
   );
 }

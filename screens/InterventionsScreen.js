@@ -9,6 +9,7 @@ import { LinearGradient } from "expo-linear-gradient";
 export default function InterventionsScreen() {
   const user = useSelector((state) => state.user.value);
   const interventions = useSelector((state) => state.interventions.value);
+  let interventionsDisplay = interventions.slice(0).reverse()
   console.log("interventions", interventions);
 
   // Import images ambulance
@@ -17,10 +18,10 @@ export default function InterventionsScreen() {
   const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
   const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
 
-  const displayInterventions = interventions.map((inter, i) => {
+  const displayInterventions = interventionsDisplay.map((inter, i) => {
     // Mise en format de la date
     const day = new Date(inter.date).getDate();
-    const month = new Date(inter.date).getMonth();
+    const month = new Date(inter.date).getMonth()+1 
     const year = new Date(inter.date).getFullYear();
     let date = month + "/" + day + "/" + year;
 

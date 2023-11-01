@@ -12,10 +12,10 @@ import { addtokenToSotre, addSirenToSotre } from "../reducers/user";
 import background from "../assets/ambulance.jpg";
 import { LinearGradient } from "expo-linear-gradient";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function SubscribeScreen({ navigation }) {
-  const BACKEND_ADRESS =
-    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  const BACKEND_ADRESS ="https://ecna-backend-odpby015w-olivermunian.vercel.app";
   const dispatch = useDispatch();
 
   // Mise en place états liés aux input
@@ -26,7 +26,7 @@ export default function SubscribeScreen({ navigation }) {
   const [SIREN, setSIREN] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const regex = /[0-9]+/i;
+  const regex = /^[0-9]{9}$/i;
   // Fonction à déclencher lors de l'appui sur le bouton valider afin de créer un document user et un document entreprise + les lier
   function Subscribe() {
     const testSiren = regex.test(SIREN)
@@ -96,58 +96,58 @@ export default function SubscribeScreen({ navigation }) {
             Veuillez compléter le formulaire pour continuer
           </Text>
           <Text style={styles.txtError}>{errorMessage}</Text>
-          <View style={styles.formulaire}>
-            <View style={styles.divinput}>
-              <TextInput
-                style={styles.input}
-                placeholder="Nom d'utilisateur"
-                placeholderTextColor="white"
-                onChangeText={(value) => setUserName(value)}
-                value={username}
-              />
+            <View style={styles.formulaire}>
+              <View style={styles.divinput}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Nom d'utilisateur"
+                  placeholderTextColor="white"
+                  onChangeText={(value) => setUserName(value)}
+                  value={username}
+                />
+              </View>
+              <View style={styles.divinput}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Adresse mail"
+                  placeholderTextColor="white"
+                  onChangeText={(value) => setEmail(value)}
+                  value={email}
+                />
+              </View>
+              <View style={styles.divinput}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Mot de passe"
+                  secureTextEntry={true}
+                  placeholderTextColor="white"
+                  onChangeText={(value) => setPassWord(value)}
+                  value={password}
+                />
+              </View>
+              <View style={styles.line}></View>
+              <View style={styles.divinput}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Nom de l'entreprise"
+                  placeholderTextColor="white"
+                  onChangeText={(value) => setName(value)}
+                  value={name}
+                />
+              </View>
+              <View style={styles.divinput}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="N° de SIREN"
+                  placeholderTextColor="white"
+                  onChangeText={(value) => setSIREN(value)}
+                  value={SIREN}
+                />
+              </View>
+              <TouchableOpacity style={styles.btn} onPress={() => Subscribe()}>
+                <Text style={styles.btntxt}> Valider </Text>
+              </TouchableOpacity>
             </View>
-            <View style={styles.divinput}>
-              <TextInput
-                style={styles.input}
-                placeholder="Adresse mail"
-                placeholderTextColor="white"
-                onChangeText={(value) => setEmail(value)}
-                value={email}
-              />
-            </View>
-            <View style={styles.divinput}>
-              <TextInput
-                style={styles.input}
-                placeholder="Mot de passe"
-                secureTextEntry={true}
-                placeholderTextColor="white"
-                onChangeText={(value) => setPassWord(value)}
-                value={password}
-              />
-            </View>
-            <View style={styles.line}></View>
-            <View style={styles.divinput}>
-              <TextInput
-                style={styles.input}
-                placeholder="Nom de l'entreprise"
-                placeholderTextColor="white"
-                onChangeText={(value) => setName(value)}
-                value={name}
-              />
-            </View>
-            <View style={styles.divinput}>
-              <TextInput
-                style={styles.input}
-                placeholder="N° de SIREN"
-                placeholderTextColor="white"
-                onChangeText={(value) => setSIREN(value)}
-                value={SIREN}
-              />
-            </View>
-            <TouchableOpacity style={styles.btn} onPress={() => Subscribe()}>
-              <Text style={styles.btntxt}> Valider </Text>
-            </TouchableOpacity>
-          </View>
         </LinearGradient>
       </ImageBackground>
     </View>
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   previous: {
     color: "white",
     fontSize: 25,
-    fontWeight: "Bold",
+    fontWeight: "bold",
   },
   image: {
     width: "100%",

@@ -22,11 +22,6 @@ export default function Formulaire_interventions(props) {
     "https://ecna-backend-odpby015w-olivermunian.vercel.app";
   const dispatch = useDispatch();
   const etats = ["Valide", "Invalide"];
-  const navigation = useNavigation();
-  const BACKEND_ADRESS =
-    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
-  const dispatch = useDispatch();
-  const etats = ["Valide", "Invalide"];
 
   // Recuperation des informations du user du reducer
   const user = useSelector((state) => state.user.value);

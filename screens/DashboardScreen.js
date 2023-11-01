@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   h1: {
-    top: -30,
+    top: -10,
     fontSize: 25,
     fontWeight: "bold",
     color: "black",

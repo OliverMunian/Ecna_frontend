@@ -14,6 +14,7 @@ import VSLsrc from "../assets/VSL.png";
 import { useDispatch } from "react-redux";
 import { LinearGradient } from "expo-linear-gradient";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const GVuri = Image.resolveAssetSource(GV).uri;
 const MVuri = Image.resolveAssetSource(MV).uri;

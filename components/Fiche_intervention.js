@@ -8,7 +8,6 @@ import {
   Image,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { BlurView } from "expo-blur";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -149,8 +148,8 @@ export default function Fiche_intervention(props) {
         <Text style={styles.patient}>
           {props.lastName} {props.firstName}
         </Text>
-        <Text style={styles.depart_position}>📍 {props.departure}</Text>
-        <Text style={styles.arriver_position}>🏁 {props.arrival}</Text>
+        <Text style={styles.position}>📍 {props.departure}</Text>
+        <Text style={styles.position}>🏁 {props.arrival}</Text>
         <Text style={styles.jour}>{props.date}</Text>
       </View>
       {props.dispatched && props.etat === "prévue" && (
@@ -184,11 +183,10 @@ export default function Fiche_intervention(props) {
         </View>
       )}
       {!props.dispatched && (
-        <TouchableOpacity
-          style={styles.dispatch}
-          onPress={() => handleDispatch()}
-        >
-          <Text>Dispatch</Text>
+        <TouchableOpacity onPress={() => handleDispatch()}>
+          <View style={styles.dispatch}>
+            <Text style={styles.txtdispatch}>Dispatch</Text>
+          </View>
         </TouchableOpacity>
       )}
       {/*Modal de dispatch*/}
@@ -235,68 +233,72 @@ export default function Fiche_intervention(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "black",
-  },
   intervention: {
-    borderRadius: 8,
-    width: 390,
+    width: "100%",
     backgroundColor: "transparent",
     marginTop: 20,
     flexDirection: "row",
+    alignItems:'center',
     justifyContent: "space-between",
     padding: 10,
-  },
-  depart: {
-    marginTop: 4,
-    fontSize: 20,
   },
   patient: {
     fontSize: 30,
     color: "white",
     fontWeight: "bold",
+    marginBottom:10,
   },
-  depart_position: {
+  position: {
     fontSize: 20,
     fontStyle: "italic",
     color: "white",
-  },
-  arriver_position: {
-    fontSize: 20,
-    fontStyle: "italic",
-    color: "white",
+    marginBottom:5,
+    marginLeft:5,
   },
   jour: {
     fontSize: 20,
     marginBottom: 5,
     marginTop: 5,
     color: "white",
+    marginLeft:5,
   },
   dispatch: {
-    alignSelf: "flex-end",
+    justifyContent: "flex-end",
+    borderColor: "white",
+    borderWidth: 2,
+    marginRight:10,
+    padding: 10,
+    borderRadius: 20
+  },
+  txtdispatch: {
+    color: "white",
   },
   plaque: {
-    marginTop: 10,
-    marginRight: 10,
+    marginTop: 15,
+    color: "white",
   },
   carContainer: {
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "space-between",
     marginBottom: 10,
+    padding: 10,
+    height: 120,
+    width: "30%",
   },
   image: {
-    width: 95,
-    height: 80,
+    width: "100%",
+    height: 60,
     marginRight: 10,
   },
   carInfo: {
-    marginLeft: 10,
+    marginLeft: 5,
   },
   left: {
-    width: 200,
+    width: 240,
   },
+
+
+
   //MODALE DISPATCH
   modalView: {
     alignItems: "center",

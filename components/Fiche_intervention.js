@@ -6,8 +6,8 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  Button,
 } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { BlurView } from "expo-blur";
@@ -145,7 +145,7 @@ export default function Fiche_intervention(props) {
 
   return (
     <BlurView intensity={50} style={styles.intervention}>
-      <View>
+      <View style={styles.left}>
         <Text style={styles.patient}>
           {props.lastName} {props.firstName}
         </Text>
@@ -172,6 +172,14 @@ export default function Fiche_intervention(props) {
             <TouchableOpacity onPress={() => handleEnd()}>
               <Text style={styles.carInfo}>Finir</Text>
             </TouchableOpacity>
+          </View>
+        </View>
+      )}
+      {props.dispatched && props.etat === "finie" && (
+        <View style={styles.carContainer}>
+          <Image style={styles.image} source={{ uri: props.type }} />
+          <View style={styles.carInfo}>
+            <Text style={styles.plaque}>{props.plaque}</Text>
           </View>
         </View>
       )}
@@ -270,6 +278,7 @@ const styles = StyleSheet.create({
   },
   plaque: {
     marginTop: 10,
+    marginRight: 10,
   },
   carContainer: {
     flexDirection: "column",
@@ -280,11 +289,14 @@ const styles = StyleSheet.create({
   image: {
     width: 95,
     height: 80,
+    marginRight: 10,
   },
   carInfo: {
     marginLeft: 10,
   },
-
+  left: {
+    width: 200,
+  },
   //MODALE DISPATCH
   modalView: {
     alignItems: "center",

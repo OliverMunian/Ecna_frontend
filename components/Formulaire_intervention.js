@@ -14,8 +14,14 @@ import { defineListPatients } from "../reducers/listPatients";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import SelectDropdown from "react-native-select-dropdown";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function Formulaire_interventions(props) {
+  const navigation = useNavigation();
+  const BACKEND_ADRESS =
+    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  const dispatch = useDispatch();
+  const etats = ["Valide", "Invalide"];
   const navigation = useNavigation();
   const BACKEND_ADRESS =
     "https://ecna-backend-odpby015w-olivermunian.vercel.app";
@@ -153,7 +159,7 @@ export default function Formulaire_interventions(props) {
         overScrollMode="never"
         style={{ width: "100%" }}
       >
-        <KeyboardAvoidingView keyboardVerticalOffset={100} behavior="padding">
+        <KeyboardAwareScrollView>
           <View style={styles.scrollview}>
             <View style={styles.infospatient}>
               <View style={styles.viewsoustitre}>
@@ -185,14 +191,57 @@ export default function Formulaire_interventions(props) {
                 />
               </View>
               <View style={styles.divinput}>
+             
                 <View style={styles.divplaceholder}>
+                {!error && !colorPlaceholder &&
                   <TextInput
                     style={styles.inputplaceholder}
                     placeholder="Sécurité Sociale"
                     placeholderTextColor="white"
                     onChangeText={(value) => setSSnumber(value)}
                     value={SSnumber}
-                  />
+                  /> 
+                }
+                {error && 
+                  <TextInput
+                    style={{
+                      borderRadius: 10,
+                      backgroundColor: "red",
+                      width: "80%",
+                      borderColor: "white",
+                      height: 40,
+                      marginBottom: 60,
+                      marginRight: 10,
+                      borderWidth: 1,
+                      borderColor: "white",
+                      paddingLeft: 10,
+                    }}
+                    placeholder="Sécurité Sociale"
+                    placeholderTextColor="white"
+                    onChangeText={(value) => setSSnumber(value)}
+                    value={SSnumber}
+                  /> 
+                }
+                {!error && colorPlaceholder &&
+                  <TextInput
+                    style={{
+                      borderRadius: 10,
+                      backgroundColor: "green",
+                      width: "80%",
+                      borderColor: "white",
+                      height: 40,
+                      marginBottom: 60,
+                      marginRight: 10,
+                      borderWidth: 1,
+                      borderColor: "white",
+                      paddingLeft: 10,
+                    }}
+                    placeholder="Sécurité Sociale"
+                    placeholderTextColor="white"
+                    onChangeText={(value) => setSSnumber(value)}
+                    value={SSnumber}
+                  /> 
+                }
                   <View>
                     <TouchableOpacity
                       onPress={() => handlesearch(SSnumber)}
@@ -268,7 +317,7 @@ export default function Formulaire_interventions(props) {
               </View>
             </View>
           </View>
-        </KeyboardAvoidingView>
+        </KeyboardAwareScrollView>
       </ScrollView>
       <View>
         <TouchableOpacity style={styles.search} onPress={() => handleSubmit()}>

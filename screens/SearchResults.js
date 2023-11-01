@@ -1,21 +1,27 @@
-import { StyleSheet, Text, View , Image,TouchableOpacity, ScrollView, VirtualizedList} from 'react-native'
-import { useSelector , useDispatch } from "react-redux";
+import {
+  StyleSheet,
+  View,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 import Fiche_intervention from "../components/Fiche_intervention";
-import SearchBar from '../components/SearchBar';
+import SearchBar from "../components/SearchBar";
 import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
 import { LinearGradient } from "expo-linear-gradient";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-export default function SearchResults({ navigation: { navigate }}) {
-    const GVuri = Image.resolveAssetSource(GV).uri;
-    const MVuri = Image.resolveAssetSource(MV).uri;
-    const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
-    const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
-    
-    const searchResult = useSelector((state) => state.searchResult.value)
-    const searchResultDisplay = searchResult.map((inter,i) => {
+export default function SearchResults({ navigation: { navigate } }) {
+  const GVuri = Image.resolveAssetSource(GV).uri;
+  const MVuri = Image.resolveAssetSource(MV).uri;
+  const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
+  const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
+
+  const searchResult = useSelector((state) => state.searchResult.value);
+  const searchResultDisplay = searchResult.map((inter, i) => {
     // Mise en format de la date
     const day = new Date(inter.date).getDate();
     const month = new Date(inter.date).getMonth();
@@ -51,16 +57,18 @@ export default function SearchResults({ navigation: { navigate }}) {
         />
       );
     }
-    })
+  });
 
-    return (
-      <LinearGradient
+  return (
+    <LinearGradient
       style={styles.container}
       colors={["#1a2755", "#1D94AE"]}
-      start={{ x:0.5, y: 0.5 }}
+      start={{ x: 0.5, y: 0.5 }}
       end={{ x: 0.5, y: 1 }}
     >
-       <TouchableOpacity onPress={() => navigate('TabNavigator', { screen: 'Acceuil' })}>
+      <TouchableOpacity
+        onPress={() => navigate("TabNavigator", { screen: "Acceuil" })}
+      >
         <View style={styles.back_button}>
           <MaterialIcons
             name="arrow-back-ios"
@@ -69,19 +77,19 @@ export default function SearchResults({ navigation: { navigate }}) {
           />
         </View>
       </TouchableOpacity>
-     <View style={styles.search_bar}>
-      <SearchBar screenName={'SearchResults'} />
+      <View style={styles.search_bar}>
+        <SearchBar screenName={"SearchResults"} />
       </View>
-        <ScrollView
+      <ScrollView
         horizontal={false}
         showsHorizontalScrollIndicator={false}
         endFillColor="#000"
         overScrollMode="never"
       >
-          {searchResultDisplay}
-          </ScrollView>
-      </LinearGradient>
-    );
+        {searchResultDisplay}
+      </ScrollView>
+    </LinearGradient>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -91,13 +99,13 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "black",
   },
-  search_bar:{
-    alignContent:'center',
-    justifyContent:'center'
+  search_bar: {
+    alignContent: "center",
+    justifyContent: "center",
   },
-  back_button:{
-    marginLeft:10,
-    marginTop:80,
-    marginBottom:20,
-  }
+  back_button: {
+    marginLeft: 10,
+    marginTop: 80,
+    marginBottom: 20,
+  },
 });

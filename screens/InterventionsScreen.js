@@ -1,19 +1,12 @@
 import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
-import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Fiche_intervention from "../components/Fiche_intervention";
 import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
-import { defineListInter } from "../reducers/interventions";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function InterventionsScreen() {
-  const dispatch = useDispatch();
-  const BACKEND_ADRESS =
-    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
-  const [dispatchedVehicules, setDispatchedVehicules] = useState([]);
-
   const user = useSelector((state) => state.user.value);
   const interventions = useSelector((state) => state.interventions.value);
   console.log("interventions", interventions);

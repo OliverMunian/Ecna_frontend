@@ -6,14 +6,12 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import FicheVehicule from "../components/Fiche_Vehicule";
 import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
 import { useDispatch } from "react-redux";
-import { addInterPlaque } from "../reducers/interVehicules";
 import { LinearGradient } from "expo-linear-gradient";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -38,38 +36,38 @@ const getColorByEtat = (etat) => {
 };
 
 export default function VehiculeScreen({ navigation }) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const vehicules = useSelector((state) => state.vehicules.value);
-  let vehiculesDisplay = []
+  let vehiculesDisplay = [];
 
   const handleAdd = () => {
     navigation.navigate("AddVehiculeBis");
   };
 
-  if(vehicules.length>0){
-     vehiculesDisplay = vehicules.map((data, i) => (
+  if (vehicules.length > 0) {
+    vehiculesDisplay = vehicules.map((data, i) => (
       <FicheVehicule
-         key={i}
-         plaque={data.plaque}
-         etat={data.etat}
-         color={getColorByEtat(data.etat)}
-         type={imagesData[data.type]}
-         screenName={'Interventionduvehicule'}
-       />
-     ))
+        key={i}
+        plaque={data.plaque}
+        etat={data.etat}
+        color={getColorByEtat(data.etat)}
+        type={imagesData[data.type]}
+        screenName={"Interventionduvehicule"}
+      />
+    ));
   } else {
-    vehiculesDisplay = 
-    <Text style={{color:'white',fontSize:25}}>
-      Pas de véhicules associés à ce compte
-    </Text>
+    vehiculesDisplay = (
+      <Text style={{ color: "white", fontSize: 25 }}>
+        Pas de véhicules associés à ce compte
+      </Text>
+    );
   }
 
-
-return (
+  return (
     <LinearGradient
       style={styles.container}
       colors={["#1a2755", "#1D94AE"]}
-      start={{ x:0.5, y: 0.5 }}
+      start={{ x: 0.5, y: 0.5 }}
       end={{ x: 0.5, y: 1 }}
     >
       <View style={styles.titreBox}>
@@ -88,9 +86,7 @@ return (
         endFillColor="#000"
         overScrollMode="never"
       >
-        <View style={styles.box}>
-            {vehiculesDisplay}
-        </View>
+        <View style={styles.box}>{vehiculesDisplay}</View>
       </ScrollView>
       <View style={styles.trait} />
     </LinearGradient>

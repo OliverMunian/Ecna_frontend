@@ -83,14 +83,14 @@ const styles = StyleSheet.create({
   infopatient: {
     top: 50,
   },
-  nametitle:{
-    width:'100%',
-    borderBottomColor:'grey',
-    borderBottomWidth: 0.5
+  nametitle: {
+    width: "100%",
+    borderBottomColor: "grey",
+    borderBottomWidth: 0.5,
   },
   complement: {
     top: 20,
-    marginLeft:10,
+    marginLeft: 10,
   },
   title: {
     color: "white",

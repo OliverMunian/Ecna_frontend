@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { addtokenToSotre, addSirenToSotre } from "../reducers/user";
 import background from "../assets/ambulance.jpg";
 import { LinearGradient } from "expo-linear-gradient";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export default function SubscribeScreen({ navigation }) {
   const BACKEND_ADRESS = "https://ecna-backend-odpby015w-olivermunian.vercel.app";
@@ -24,10 +25,10 @@ export default function SubscribeScreen({ navigation }) {
   const [SIREN, setSIREN] = useState(null);
   const [errorMessage,setErrorMessage] = useState(null)
 
-  const regex = /[0-9]+/i;
+  const regexSIREN = /^[0-9]{9}$/;
   // Fonction à déclencher lors de l'appui sur le bouton valider afin de créer un document user et un document entreprise + les lier
   function Subscribe() {
-    const testSiren = regex.test(SIREN)
+    const testSiren = regexSIREN.test(SIREN)
     if(testSiren){
     fetch(`${BACKEND_ADRESS}/users/signup`, {
       method: "POST",
@@ -69,14 +70,16 @@ export default function SubscribeScreen({ navigation }) {
         style={styles.image}
         blurRadius={1}
       >
-      <TouchableOpacity>
-        <Text style={{top: 250,
-    color: "white",
-    fontSize: 25,
-    fontWeight: "bold"}} onPress={() => navigate()}>
-          RETOUR
-        </Text>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigate()}>
+          <View style={styles.divprevious}>
+            <MaterialIcons
+              name="arrow-back-ios"
+              size={(fontSize = 25)}
+              color="white"
+            />
+            <Text style={styles.previous}>Retour</Text>
+          </View>
+        </TouchableOpacity>
         <View style={styles.title}>
           <Text style={styles.maintitle}>Inscription</Text>
         </View>
@@ -85,7 +88,7 @@ export default function SubscribeScreen({ navigation }) {
         <LinearGradient
           style={styles.div}
           colors={["#1a2755", "#1D94AE"]}
-          start={{ x: 0.6, y: 0.7 }}
+          start={{ x: 0.9, y: 0.2 }}
           end={{ x: 0.5, y: 1 }}
         >
           <Text style={styles.titleform}>Bienvenue sur Ecna</Text>
@@ -161,6 +164,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
   },
+  divprevious: {
+    top: 250,
+    flexDirection: "row",
+    alignItems: "center",
+    width: "40%",
+    marginLeft: 10,
+  },
+  previous: {
+    color: "white",
+    fontSize: 25,
+    fontWeight: "Bold",
+  },
   image: {
     width: "100%",
     height: "85%",
@@ -215,6 +230,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     borderColor: "white",
     borderWidth: 1,
+    color: "white",
   },
   btn: {
     borderColor: "white",

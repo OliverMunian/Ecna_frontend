@@ -16,10 +16,11 @@ import { useNavigation } from "@react-navigation/native";
 import SelectDropdown from "react-native-select-dropdown";
 
 export default function Formulaire_interventions(props) {
-  const navigation = useNavigation()
-  const BACKEND_ADRESS = "https://ecna-backend-odpby015w-olivermunian.vercel.app";
-  const dispatch = useDispatch()
-  const etats = ['Valide' , 'Invalide']
+  const navigation = useNavigation();
+  const BACKEND_ADRESS =
+    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  const dispatch = useDispatch();
+  const etats = ["Valide", "Invalide"];
 
   // Recuperation des informations du user du reducer
   const user = useSelector((state) => state.user.value);
@@ -38,6 +39,8 @@ export default function Formulaire_interventions(props) {
   const [error, setError] = useState(null);
   const [errorStyle, setErrorStyle] = useState({});
   const [colorPlaceholder, setcolorPlaceholder] = useState(false)
+
+  const regexSSNFrance = /^[12]\d{2}(0[1-9]|1[0-2])(0[1-9]|[1-2]\d|3[0-1])\d{6}[0-9A-B][0-9]{3}$/;
   // Fonction qui se declenche lors du clique sur Search pour permettre de vérifier s'il existe un patient avec ce numero de securité
   // sociale dans la BDD, si oui préremplir les champs dédiés aux informations patients, si non renvoyer un message d'erreur
   const handlesearch = (SSnumber) => {
@@ -74,12 +77,14 @@ export default function Formulaire_interventions(props) {
           setArrival('')
         }
       });
-  };
+  }
 
   // Fonction qui se declenche lors du clique sur le bouton submit qui ajoute si necessaire le patient dans la BDD, et l'intervention quoi
   // qu'il arrive. Permet également de récuperer la liste des interventions/patients et de mettre à jour le reducer
   const handleSubmit = () => {
     // add inter/patient
+    const testSiren = regexSSNFrance.test(SSnumber)
+    if(testSiren){
     fetch(`${BACKEND_ADRESS}/interventions/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -132,7 +137,10 @@ export default function Formulaire_interventions(props) {
               });
           });
       });
-  };
+  }else{
+    setError('Sécurité Sociale non valide')
+  }
+}
 
   return (
     <LinearGradient
@@ -195,7 +203,7 @@ export default function Formulaire_interventions(props) {
                     value={SSnumber}
                   /> 
                 }
-                {error && !colorPlaceholder &&
+                {error && colorPlaceholder &&
                   <TextInput
                     style={{
                       borderRadius: 10,

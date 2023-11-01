@@ -64,7 +64,7 @@ export default function HomeScreen({ navigation }) {
         >
           <View style={styles.bigtitle}>
             <Text style={styles.title}> ECNA </Text>
-            <Text style={styles.titleDeux}> Time is now your </Text>
+            <Text style={styles.titleDeux}> Time is now yours</Text>
           </View>
           <View style={styles.view}>
             <Text style={styles.txt}>

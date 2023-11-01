@@ -25,42 +25,89 @@ import {
 import { addtokenToSotre, addSirenToSotre } from "../reducers/user";
 import { BlurView } from "expo-blur";
 import { useNavigation } from "@react-navigation/native";
+import EnCours from "../components/EnCours";
 
 export default function DashboardScreen(props) {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   // BOTTOM SHEET MODAL
-  const BottomSheetModalRef = useRef(null);
-  const snapPoints = ["20%", "50%", "85%"];
-  const [modalVisible, setModalVisible] = useState(false);
-  const [anomalieVisible, setAnomalieVisible] = useState(false)
-  const [value, setValue] = useState("");
-
-  function handlePressModal(name) {
-    BottomSheetModalRef.current?.present();
-    setValue();
-    console.log(name)
-    if ((name == "dangerous")) {
-      setAnomalieVisible(true)
-      console.log(anomalieVisible)
-    }
-    else if((name == "skip-next")){}
-    else if((name == "spinner")){}
-    else if((name == "alarm-light")){}
-  }
-
   //STATE DES ICONES
   const [encours, setEnCours] = useState(false);
   const [samu, setSamu] = useState(false);
   const [ulterieures, setUlterieures] = useState(false);
   const [anomalies, setAnomalies] = useState(false);
+  const [vehiculesEnCours, setVehiculesEnCours] = useState([]);
+  const [interEnCours, setInterEnCours] = useState([]);
 
   const dispatch = useDispatch();
-  const BACKEND_ADRESS = "https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  const BACKEND_ADRESS =
+    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
   const user = useSelector((state) => state.user.value);
   const interventions = useSelector((state) => state.interventions.value);
   const recherche = useSelector((state) => state.searchQuery.value);
   const vehicules = useSelector((state) => state.vehicules.value);
-  console.log("vehicules", vehicules);
+  const BottomSheetModalRef = useRef(null);
+  const snapPoints = ["20%", "50%", "85%"];
+  const [modalVisible, setModalVisible] = useState(false);
+  const [anomalieVisible, setAnomalieVisible] = useState(false);
+  const [value, setValue] = useState("");
+  let interEnCoursDisplay = [];
+  const [iconName, setIconame] = useState("");
+  const [iconNameMI, setIconameMI] = useState("");
+  let etat = "";
+
+  function handlePressModal(name) {
+    BottomSheetModalRef.current?.present();
+    setValue();
+    console.log(name);
+    if (name == "dangerous") {
+      setAnomalieVisible(true);
+      console.log(anomalieVisible);
+    } else if (name == "skip-next") {
+      setInterEnCours(interventions.filter((e) => e.etat === "prévue"));
+        if (interEnCours.length === 0) {
+          setIconame("");
+          setIconameMI("");
+        } else {
+          setIconame("");
+          setIconameMI(name);
+          etat = interventions.etat;
+        }
+    } else if (name === "spinner") {
+      setInterEnCours(interventions.filter((e) => e.etat === "en cours"));
+        if (interEnCours.length === 0) {
+          setIconame("");
+          setIconameMI("");
+        } else {
+          setIconameMI("");
+          setIconame(name);
+          etat = interventions.etat;
+        }
+    } else if (name == "alarm-light") {
+    }
+  }
+  if (interEnCours.length > 0) {
+    interEnCoursDisplay = interEnCours.map((inter, i) => {
+      console.log(inter.patient.firstName);
+      return (
+        <EnCours
+          key={i}
+          etat={inter.etat}
+          lastName={inter.patient.lastName}
+          firstName={inter.patient.firstName}
+          departure={inter.departure}
+          arrival={inter.arrival}
+        />
+      );
+    });
+  } else {
+    interEnCoursDisplay = (
+      <View>
+        <Text style={{ color: "white", fontSize: 20 }}>
+          Rien à afficher pour le moment
+        </Text>
+      </View>
+    );
+  }
 
   // A l'initialisation du dashboard, dispatch de toutes les informations
   useEffect(() => {
@@ -74,6 +121,9 @@ export default function DashboardScreen(props) {
             defineListVehiculesDispo(
               data.vehicules.filter((e) => e.etat === "En ligne")
             )
+          );
+          setVehiculesEnCours(
+            vehicules.filter((e) => e.etat === "En cours d'intervention")
           );
         }
       });
@@ -163,10 +213,7 @@ export default function DashboardScreen(props) {
           />
           <Text style={styles.txt}>Ultérieures</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => logHandle()}
-          style={styles.title}
-        >
+        <TouchableOpacity onPress={() => logHandle()} style={styles.title}>
           <MaterialCommunityIcons
             name="exit-run"
             size={(fontSize = 30)}
@@ -187,22 +234,6 @@ export default function DashboardScreen(props) {
           <Text style={styles.txt}>Anomalies</Text>
         </TouchableOpacity> */}
       </View>
-
-      {/* LOGOUT */}
-      {/* <View style={styles.logout}>
-        <TouchableOpacity
-          onPress={() => logHandle()}
-          style={styles.deconnexion}
-        >
-          <MaterialCommunityIcons
-            name="exit-run"
-            size={(fontSize = 30)}
-            color="white"
-            style={{ transform: [{ rotateY: "180deg" }], top: 0 }}
-          />
-          <Text style={styles.txt}>Déconnexion</Text>
-        </TouchableOpacity>
-      </View> */}
       <View style={styles.containlecteur}>
         <BlurView style={styles.lecteur}>
           <Text style={styles.txt}>Aucun véhicule en cours d'intervention</Text>
@@ -211,7 +242,7 @@ export default function DashboardScreen(props) {
 
       {/* BOTTOM SHEET MODAL */}
       <BottomSheetModalProvider>
-        <View visible={modalVisible}>
+        <View style={styles.modalVisible}>
           <StatusBar style={styles.statusbar} />
           <BottomSheetModal
             ref={BottomSheetModalRef}
@@ -220,11 +251,25 @@ export default function DashboardScreen(props) {
             blurRadius={1}
             backgroundStyle={{
               borderRadius: 30,
-              backgroundColor: "rgba(0, 0, 0, 0.7)",
+              backgroundColor: "rgba(0, 0, 0, 0.8)",
+              width: "100%",
             }}
           >
             <View style={styles.modalcontain}>
-              <Text style={styles.txtmodal}>Bonjour à tous</Text>
+              <View style={styles.titleIcon}>
+                <Text>{etat}</Text>
+                <FontAwesome
+                  name={iconName}
+                  size={(fontSize = 25)}
+                  color="white"
+                />
+                <MaterialCommunityIcons
+                  name={iconNameMI}
+                  size={(fontSize = 25)}
+                  color="white"
+                />
+              </View>
+              {interEnCoursDisplay}
             </View>
           </BottomSheetModal>
         </View>
@@ -308,25 +353,30 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   //BottomSheet Modal
+  modalVisible: {
+    width: "100%",
+  },
   statusbar: {
     width: 30,
   },
   containermodal: {
     flex: 1,
     borderColor: "red",
-    borderWidth: 1,
+    borderWidth: 30,
     height: 500,
     width: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
   },
   modalcontain: {
     alignItems: "center",
+  },
+  titleIcon: {
+    flexDirection: "row",
   },
   txtmodal: {
     color: "white",
     fontSize: 35,
   },
-
   // LECTEUR
   containlecteur: {
     width: "95%",

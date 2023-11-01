@@ -24,8 +24,11 @@ export default function SubscribeScreen({ navigation }) {
   const [SIREN, setSIREN] = useState(null);
   const [errorMessage,setErrorMessage] = useState(null)
 
+  const regex = /[0-9]+/i;
   // Fonction à déclencher lors de l'appui sur le bouton valider afin de créer un document user et un document entreprise + les lier
   function Subscribe() {
+    const testSiren = regex.test(SIREN)
+    if(testSiren){
     fetch(`${BACKEND_ADRESS}/users/signup`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -47,6 +50,10 @@ export default function SubscribeScreen({ navigation }) {
           setErrorMessage(data.error);
         }
       });
+    }
+    else {
+        setErrorMessage(`Le SIREN n'est pas valide ou faux`);
+      }
   }
 
   // Fonction qui permet de revenir vers l'ecran d'acceuil

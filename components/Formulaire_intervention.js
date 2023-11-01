@@ -184,14 +184,57 @@ export default function Formulaire_interventions(props) {
                 />
               </View>
               <View style={styles.divinput}>
+             
                 <View style={styles.divplaceholder}>
+                {!error && !colorPlaceholder &&
                   <TextInput
                     style={styles.inputplaceholder}
                     placeholder="Sécurité Sociale"
                     placeholderTextColor="white"
                     onChangeText={(value) => setSSnumber(value)}
                     value={SSnumber}
-                  />
+                  /> 
+                }
+                {error && 
+                  <TextInput
+                    style={{
+                      borderRadius: 10,
+                      backgroundColor: "red",
+                      width: "80%",
+                      borderColor: "white",
+                      height: 40,
+                      marginBottom: 60,
+                      marginRight: 10,
+                      borderWidth: 1,
+                      borderColor: "white",
+                      paddingLeft: 10,
+                    }}
+                    placeholder="Sécurité Sociale"
+                    placeholderTextColor="white"
+                    onChangeText={(value) => setSSnumber(value)}
+                    value={SSnumber}
+                  /> 
+                }
+                {!error && colorPlaceholder &&
+                  <TextInput
+                    style={{
+                      borderRadius: 10,
+                      backgroundColor: "green",
+                      width: "80%",
+                      borderColor: "white",
+                      height: 40,
+                      marginBottom: 60,
+                      marginRight: 10,
+                      borderWidth: 1,
+                      borderColor: "white",
+                      paddingLeft: 10,
+                    }}
+                    placeholder="Sécurité Sociale"
+                    placeholderTextColor="white"
+                    onChangeText={(value) => setSSnumber(value)}
+                    value={SSnumber}
+                  /> 
+                }
                   <View>
                     <TouchableOpacity
                       onPress={() => handlesearch(SSnumber)}

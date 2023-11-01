@@ -39,11 +39,11 @@ function handlePress() {
       }
     }
   }
-  console.log(interVehicule)
+//   console.log(interVehicule)
 
-console.log('interventions',interventions)
-console.log('plaque',props.plaque)
-console.log('interVehicule', interVehicule)
+// console.log('interventions',interventions)
+// console.log('plaque',props.plaque)
+// console.log('interVehicule', interVehicule)
 dispatch(addInterPlaque({plaque:props.plaque,interventions:interVehicule}))
 navigation.navigate(props.screenName)
     }
@@ -79,29 +79,37 @@ const modalview = () => {
   };
 
 
-  const handleDelete = () =>{
-  fetch(`${BACKEND_ADRESS}/vehicules/delete/${props.plaque}`, {
-    method: "DELETE",
-    headers: { "Content-type": "application/json" },
-    body: JSON.stringify({
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
-        .then((response) => response.json())
-        .then((vehiculesData) => {
-          dispatch(defineListVehicules(vehiculesData.vehicules));
-          dispatch(defineListVehiculesDispo(vehiculesData.vehicules.filter(e=>e.etat === 'En ligne')))
-        });
-    });
-    fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
+  const handleSup = () =>{
+    Alert.alert('Supression véhicule', 'Vous les vous supprimer ce véhicule ?', [
+      {
+        text: 'Non',
+      },
+      {text: 'Oui', onPress: () => handleDelete()},
+    ]);
+  }
+  const handleDelete= () =>{
+    fetch(`${BACKEND_ADRESS}/vehicules/delete/${props.plaque}`, {
+      method: "DELETE",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
           .then((response) => response.json())
-          .then((interData) => {
-            if (interData.result) {
-              dispatch(defineListInter(interData.interventions));
-            }
-          })
+          .then((vehiculesData) => {
+            dispatch(defineListVehicules(vehiculesData.vehicules));
+            dispatch(defineListVehiculesDispo(vehiculesData.vehicules.filter(e=>e.etat === 'En ligne')))
+          });
+      });
+      fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
+            .then((response) => response.json())
+            .then((interData) => {
+              if (interData.result) {
+                dispatch(defineListInter(interData.interventions));
+              }
+            })
   }
   return (
     <BlurView intensity={50} style={styles.view}>
@@ -137,6 +145,12 @@ const modalview = () => {
           <View style={styles.centeredViewtwo}>
             <BlurView intensity={50} style={styles.modalView}>
               <View style={styles.close}>
+              <TouchableOpacity
+                onPress={() => handleSup()}
+                style={styles.button_sup}
+              >
+                <Text style={styles.txt}>Supprimer Véhicule</Text>
+              </TouchableOpacity>
                 <TouchableOpacity onPress={handleClose}>
                   <Ionicons
                     name="close-circle"
@@ -159,12 +173,6 @@ const modalview = () => {
                 }}
                 buttonStyle={styles.option}
               />
-              <TouchableOpacity
-                onPress={() => handleDelete()}
-                style={styles.button}
-              >
-                <Text style={styles.txt}>Supprimer Véhicule</Text>
-              </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => handleUpdate()}
                 style={styles.button}
@@ -248,7 +256,9 @@ const styles = StyleSheet.create({
   },
   close: {
     width: "100%",
-    alignItems: "flex-end",
+    flexDirection:'row',
+    alignItems: "center",
+    justifyContent:"space-between",
     marginBottom: 10,
   },
   modalText: {
@@ -276,11 +286,11 @@ const styles = StyleSheet.create({
   },
   button_sup:{
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 10,
     paddingTop: 10,
     paddingBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingLeft: 10,
+    paddingRight: 10,
     backgroundColor: "transparent",
     borderRadius: 10,
     borderWidth: 2,

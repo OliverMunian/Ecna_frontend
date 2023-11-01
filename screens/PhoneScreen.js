@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from "react-native";
 import Patient from "../components/Patient";
 import { addpatientToStore } from "../reducers/patient";
 import { useDispatch, useSelector } from "react-redux";
@@ -41,7 +41,14 @@ export default function PhoneScreen({ navigation }) {
       <View style={styles.box}>
         <Text style={styles.title}> Répertoire </Text>
       </View>
+      <ScrollView
+        horizontal={false}
+        showsHorizontalScrollIndicator={false}
+        endFillColor="#000"
+        overScrollMode="never"
+        >
       {patientsDisplay}
+      </ScrollView>
     </LinearGradient>
   );
 }

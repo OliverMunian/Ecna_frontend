@@ -14,14 +14,12 @@ import { defineListPatients } from "../reducers/listPatients";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import SelectDropdown from "react-native-select-dropdown";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function Formulaire_interventions(props) {
-  const navigation = useNavigation();
-  const BACKEND_ADRESS =
-    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
-  const dispatch = useDispatch();
-  const etats = ["Valide", "Invalide"];
+  const navigation = useNavigation()
+  const BACKEND_ADRESS = "https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  const dispatch = useDispatch()
+  const etats = ['Valide' , 'Invalide']
 
   // Recuperation des informations du user du reducer
   const user = useSelector((state) => state.user.value);
@@ -39,7 +37,7 @@ export default function Formulaire_interventions(props) {
   const [Arrival, setArrival] = useState(null);
   const [error, setError] = useState(null);
   const [errorStyle, setErrorStyle] = useState({});
-  const [colorPlaceholder, setcolorPlaceholder] = useState(false);
+  const [colorPlaceholder, setcolorPlaceholder] = useState(false)
   // Fonction qui se declenche lors du clique sur Search pour permettre de vérifier s'il existe un patient avec ce numero de securité
   // sociale dans la BDD, si oui préremplir les champs dédiés aux informations patients, si non renvoyer un message d'erreur
   const handlesearch = (SSnumber) => {
@@ -59,21 +57,21 @@ export default function Formulaire_interventions(props) {
           setMutuelle(patientData.patient.mutuelle);
           setValide(patientData.patient.valide);
           setExiste(true);
-          setcolorPlaceholder(true);
-          setError("");
+          setcolorPlaceholder(true)
+          setError('')
         } else {
           setError(patientData.error);
           setErrorStyle({ color: "red", fontSize: 10 });
-          setFirstName("");
-          setLastName("");
-          setAdress("");
-          setSSnumber("");
-          setPhone("");
-          setMutuelle("");
-          setValide("");
+          setFirstName('');
+          setLastName('');
+          setAdress('');
+          setSSnumber('');
+          setPhone('');
+          setMutuelle('');
+          setValide('');
           setExiste(false);
-          setDeparture("");
-          setArrival("");
+          setDeparture('')
+          setArrival('')
         }
       });
   };
@@ -154,7 +152,7 @@ export default function Formulaire_interventions(props) {
         overScrollMode="never"
         style={{ width: "100%" }}
       >
-        <KeyboardAwareScrollView>
+        <KeyboardAvoidingView  keyboardVerticalOffset={100} behavior="padding">
           <View style={styles.scrollview}>
             <View style={styles.infospatient}>
               <View style={styles.viewsoustitre}>
@@ -197,7 +195,7 @@ export default function Formulaire_interventions(props) {
                     value={SSnumber}
                   /> 
                 }
-                {error && 
+                {error && !colorPlaceholder &&
                   <TextInput
                     style={{
                       borderRadius: 10,
@@ -312,7 +310,7 @@ export default function Formulaire_interventions(props) {
               </View>
             </View>
           </View>
-        </KeyboardAwareScrollView>
+        </KeyboardAvoidingView>
       </ScrollView>
       <View>
         <TouchableOpacity style={styles.search} onPress={() => handleSubmit()}>

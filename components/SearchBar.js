@@ -4,10 +4,7 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
   Alert,
-  SafeAreaView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { updateSearchQuery } from "../reducers/searchQuery";
@@ -15,7 +12,7 @@ import { updateSearchResults } from "../reducers/searchResult";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function SearchBar(props) {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const recherche = useSelector((state) => state.searchQuery.value);
   const interventions = useSelector((state) => state.interventions.value);
@@ -27,18 +24,17 @@ export default function SearchBar(props) {
         inter.patient.lastName.match(pattern) ||
         inter.patient.firstName.match(pattern)
     );
-  dispatch(updateSearchResults(searchQuery));
-   ;
+    dispatch(updateSearchResults(searchQuery));
     if (recherche == "") {
       Alert.alert(
         "Stop ✋!",
         "Complétez les champs pour effectuer la recherche"
       );
     } else {
-      navigation.navigate(props.screenName)
+      navigation.navigate(props.screenName);
     }
   };
-return (
+  return (
     <View style={styles.containerUn}>
       <View
         style={styles.containerdeux}
@@ -53,12 +49,12 @@ return (
           onChangeText={(value) => dispatch(updateSearchQuery(value))}
           value={recherche}
         />
-         <TouchableOpacity
+        <TouchableOpacity
           onPress={() => handleSearch()}
           style={styles.verifyButton}
         >
           <Text>🔍</Text>
-        </TouchableOpacity> 
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -74,7 +70,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "white",
   },
-  containerdeux:{
+  containerdeux: {
     width: "100%",
     flexDirection: "row",
     alignItems: "center",

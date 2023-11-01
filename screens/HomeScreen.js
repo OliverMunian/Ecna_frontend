@@ -1,8 +1,6 @@
 import { useState, useRef } from "react";
 import {
   View,
-  Linking,
-  Image,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
@@ -18,12 +16,12 @@ import background from "../assets/ambulance.jpg";
 export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch();
   const ref_input2 = useRef();
-  const ref_input3 = useRef();
   const [username, setUserName] = useState(null);
   const [password, setPassword] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const user = useSelector((state) => state.user.value);
-  const BACKEND_ADRESS = "https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  const BACKEND_ADRESS =
+    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
 
   const handleSubmit = () => {
     fetch(`${BACKEND_ADRESS}/users/signin`, {
@@ -89,9 +87,7 @@ export default function HomeScreen({ navigation }) {
               placeholderTextColor={"white"}
               ref={ref_input2}
             />
-            <Text style={styles.txtError}>
-              {errorMessage}
-            </Text>
+            <Text style={styles.txtError}>{errorMessage}</Text>
             <TouchableOpacity style={styles.btn} onPress={() => handleSubmit()}>
               <Text style={styles.btntxt}> Valider</Text>
             </TouchableOpacity>
@@ -187,8 +183,8 @@ const styles = StyleSheet.create({
     color: "#00bcf0",
     textDecorationLine: "underline",
   },
-  txtError : {
-    color : 'red',
-    marginBottom : 20,
-  }
+  txtError: {
+    color: "red",
+    marginBottom: 20,
+  },
 });

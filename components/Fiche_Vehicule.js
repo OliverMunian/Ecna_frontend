@@ -19,36 +19,34 @@ import { addInterPlaque } from "../reducers/interVehicules";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-
 export default function FicheVehicule(props) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const BACKEND_ADRESS = "https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  const BACKEND_ADRESS =
+    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
   const user = useSelector((state) => state.user.value);
   const etats = ["En ligne", "Hors ligne", "Indisponible"];
-  const interventions = useSelector((state) => state.interventions.value)
+  const interventions = useSelector((state) => state.interventions.value);
   const [etat, setEtat] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-// Update du reducer lorsqu'on clique sur un composant véhicule afin de stocker la liste des interventions dans le reducer
-function handlePress() {
-  let interVehicule = []
-  for(let inter of interventions){
-    if(inter.vehicule){
-      if(inter.vehicule.plaque === props.plaque){
-        interVehicule.push(inter)
+
+  // Update du reducer lorsqu'on clique sur un composant véhicule afin de stocker la liste des interventions dans le reducer
+  function handlePress() {
+    let interVehicule = [];
+    for (let inter of interventions) {
+      if (inter.vehicule) {
+        if (inter.vehicule.plaque === props.plaque) {
+          interVehicule.push(inter);
+        }
       }
     }
+    dispatch(
+      addInterPlaque({ plaque: props.plaque, interventions: interVehicule })
+    );
+    navigation.navigate(props.screenName);
   }
-//   console.log(interVehicule)
 
-// console.log('interventions',interventions)
-// console.log('plaque',props.plaque)
-// console.log('interVehicule', interVehicule)
-dispatch(addInterPlaque({plaque:props.plaque,interventions:interVehicule}))
-navigation.navigate(props.screenName)
-    }
-
-const modalview = () => {
+  const modalview = () => {
     setModalVisible(true);
   };
   const handleClose = () => {
@@ -72,7 +70,11 @@ const modalview = () => {
               Alert.alert("Oup!", "Vous navez pass choisi le statut");
             }
             dispatch(defineListVehicules(vehiculesData.vehicules));
-            dispatch(defineListVehiculesDispo(vehiculesData.vehicules.filter(e=>e.etat === 'En ligne')))
+            dispatch(
+              defineListVehiculesDispo(
+                vehiculesData.vehicules.filter((e) => e.etat === "En ligne")
+              )
+            );
           });
       });
     setModalVisible(false);
@@ -284,7 +286,7 @@ const styles = StyleSheet.create({
   option: {
     borderRadius: 10,
   },
-  button_sup:{
+  button_sup: {
     alignItems: "center",
     marginTop: 10,
     paddingTop: 10,
@@ -295,5 +297,5 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
     borderColor: "white",
-  }
+  },
 });

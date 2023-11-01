@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function PhoneScreen({ navigation }) {
-  const BACKEND_ADRESS = "https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  const BACKEND_ADRESS =
+    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
   const patients = useSelector((state) => state.listPatients.value);

@@ -12,15 +12,15 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Interventions() {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const interventions = useSelector(
     (state) => state.interVehicules.value.interventions
-  ); 
+  );
   const plaque = useSelector((state) => state.interVehicules.value.plaque);
-  let interventionsDisplay = []
+  let interventionsDisplay = [];
 
-  if(interventions.length > 0){
-      interventionsDisplay = interventions.map((data, i) => {
+  if (interventions.length > 0) {
+    interventionsDisplay = interventions.map((data, i) => {
       const day = new Date(data.date).getDate();
       const month = new Date(data.date).getMonth();
       const year = new Date(data.date).getFullYear();
@@ -40,18 +40,24 @@ export default function Interventions() {
       );
     });
   } else {
-    interventionsDisplay = 
-    <View style={styles.subtitle}>
-      <Text style={{color:'white', fontSize : 15, fontStyle:'italic', marginLeft : 10}}>
-        Vous n'avez aucune intervention associée à ce véhicule pour le moment
-      </Text>
-    </View>
+    interventionsDisplay = (
+      <View style={styles.subtitle}>
+        <Text
+          style={{
+            color: "white",
+            fontSize: 15,
+            fontStyle: "italic",
+            marginLeft: 10,
+          }}
+        >
+          Vous n'avez aucune intervention associée à ce véhicule pour le moment
+        </Text>
+      </View>
+    );
   }
-
-
   const back = () => {
-    navigation.navigate('TabNavigator',{screen:'Véhicules'});
-  }
+    navigation.navigate("TabNavigator", { screen: "Véhicules" });
+  };
   return (
     <LinearGradient
       style={styles.container}
@@ -114,8 +120,8 @@ const styles = StyleSheet.create({
   inter: {
     color: "black",
   },
-  subtitle:{
-    marginTop:5,
-    width:'95%',
-  }
+  subtitle: {
+    marginTop: 5,
+    width: "95%",
+  },
 });

@@ -80,9 +80,9 @@ export default function FicheVehicule(props) {
     setModalVisible(false);
   };
 
-
+// Fonction qui se declenche lorsqu'un clique sur supprimer véhicule dans la modale
   const handleSup = () =>{
-    Alert.alert('Supression véhicule', 'Vous les vous supprimer ce véhicule ?', [
+    Alert.alert('Suppression véhicule', 'Voulez-vous supprimer ce véhicule ?', [
       {
         text: 'Non',
       },
@@ -109,7 +109,8 @@ export default function FicheVehicule(props) {
             .then((response) => response.json())
             .then((interData) => {
               if (interData.result) {
-                dispatch(defineListInter(interData.interventions));
+                dispatch(defineListInter(interData.interventions))
+                setModalVisible(false)
               }
             })
   }

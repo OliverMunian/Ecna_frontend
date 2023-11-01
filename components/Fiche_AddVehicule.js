@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Image,
   ScrollView,
+  KeyboardAvoidingView
 } from "react-native";
 import { useState } from "react";
 import FicheVehicule from "./Fiche_Vehicule";
@@ -18,6 +19,7 @@ import VSLsrc from "../assets/VSL.png";
 import { defineListVehicules } from "../reducers/vehicules";
 import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
 import { useDispatch } from "react-redux";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function FicheAddVehicule(props) {
   const navigation = useNavigation();
@@ -147,7 +149,6 @@ export default function FicheAddVehicule(props) {
         </ScrollView>
       </View>
       <View style={styles.form}>
-        <Text style={styles.subtitle}>Ex : AA-123-AA</Text>
         <TextInput
           style={styles.input}
           placeholder="Saisissez la plaque d'immatriculation"
@@ -155,6 +156,7 @@ export default function FicheAddVehicule(props) {
           onChangeText={(value) => setPlaque(value)}
           value={plaque}
         />
+        <Text style={styles.subtitle}>Ex : AA-123-AA</Text>
         <Text style={styles.txtError}>{errorMessage}</Text>
         <View style={styles.menuselect}>
           <View style={styles.box}>
@@ -231,15 +233,15 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   tiles: {
-    top: 10,
+    top: 0,
   },
   vehicules: {
-    top: 20,
+    top: 0,
     width: "100%",
     height: 260,
   },
   form: {
-    top: 20,
+    top: -0,
     width: "100%",
     alignItems: "center",
     height: 300,

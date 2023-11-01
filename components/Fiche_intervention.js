@@ -22,7 +22,8 @@ export default function Fiche_intervention(props) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
   const [modalVisible, setModalVisible] = useState(false);
-  const BACKEND_ADRESS = "http://10.3.0.23:3000";
+  const BACKEND_ADRESS =
+    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
   const [plaque, setPlaque] = useState("");
 
   const definePlq = (plq) => {

@@ -11,9 +11,11 @@ import { useDispatch } from "react-redux";
 import { addtokenToSotre, addSirenToSotre } from "../reducers/user";
 import background from "../assets/ambulance.jpg";
 import { LinearGradient } from "expo-linear-gradient";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export default function SubscribeScreen({ navigation }) {
-  const BACKEND_ADRESS = "http://10.3.0.23:3000";
+  const BACKEND_ADRESS =
+    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
   const dispatch = useDispatch();
 
   // Mise en place états liés aux input
@@ -62,18 +64,15 @@ export default function SubscribeScreen({ navigation }) {
         style={styles.image}
         blurRadius={1}
       >
-        <TouchableOpacity>
-          <Text
-            style={{
-              top: 250,
-              color: "white",
-              fontSize: 25,
-              fontWeight: "bold",
-            }}
-            onPress={() => navigate()}
-          >
-            RETOUR
-          </Text>
+        <TouchableOpacity onPress={() => navigate()}>
+          <View style={styles.divprevious}>
+            <MaterialIcons
+              name="arrow-back-ios"
+              size={(fontSize = 25)}
+              color="white"
+            />
+            <Text style={styles.previous}>Retour</Text>
+          </View>
         </TouchableOpacity>
         <View style={styles.title}>
           <Text style={styles.maintitle}>Inscription</Text>
@@ -82,7 +81,7 @@ export default function SubscribeScreen({ navigation }) {
         <LinearGradient
           style={styles.div}
           colors={["#1a2755", "#1D94AE"]}
-          start={{ x: 0.6, y: 0.7 }}
+          start={{ x: 0.9, y: 0.2 }}
           end={{ x: 0.5, y: 1 }}
         >
           <Text style={styles.titleform}>Bienvenue sur Ecna</Text>
@@ -156,6 +155,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
   },
+  divprevious: {
+    top: 250,
+    flexDirection: "row",
+    alignItems: "center",
+    width: "40%",
+    marginLeft: 10,
+  },
+  previous: {
+    color: "white",
+    fontSize: 25,
+    fontWeight: "Bold",
+  },
   image: {
     width: "100%",
     height: "85%",
@@ -210,6 +221,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     borderColor: "white",
     borderWidth: 1,
+    color: "white",
   },
   btn: {
     borderColor: "white",

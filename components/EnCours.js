@@ -1,60 +1,73 @@
 import {
-    View,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    StyleSheet,
-    Image,
-    ScrollView,
-  } from "react-native";
-  import { useState } from "react";
-  import { useNavigation } from "@react-navigation/native";
-  import { useSelector } from "react-redux";
-  import SelectDropdown from "react-native-select-dropdown";
-  import GV from "../assets/grosVolume.png";
-  import MV from "../assets/moyenVolume.png";
-  import VSLsrc from "../assets/VSL.png";
-  import { defineListVehicules } from "../reducers/vehicules";
-  import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
-  import { useDispatch } from "react-redux";
-  
-  export default function FicheAddVehicule(props) {
-    const navigation = useNavigation();
-    const dispatch = useDispatch();
-    // Import des images des assets et création de l'objet permettant de les dispatch
-    const GVuri = Image.resolveAssetSource(GV).uri;
-    const MVuri = Image.resolveAssetSource(MV).uri;
-    const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
-    const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  ScrollView,
+} from "react-native";
+import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { useSelector, useDispatch } from "react-redux";
+import GV from "../assets/grosVolume.png";
+import MV from "../assets/moyenVolume.png";
+import VSLsrc from "../assets/VSL.png";
+import { defineListVehicules } from "../reducers/vehicules";
+import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-  
-    const BACKEND_ADRESS = "http://10.3.0.23:3000";
-  
-    // Definition des possibilités des menus déroulants
-    const types = ["Gros", "Classique", "VSL"];
-    const etats = ["En ligne", "Hors ligne", "Indisponible"];
-  
-    // Setup des etats qui stockeront la data recuperée des champs input/menus
-    const [vehicules, setVehicules] = useState([]);
-    const [plaque, setPlaque] = useState(null);
-    const [type, setType] = useState(null);
-    const [etat, setEtat] = useState(null);
-    const [errorMessage, setErrorMessage] = useState(null);
-  
-    const user = useSelector((state) => state.user.value);
-    const SIREN = useSelector((state) => state.user.value.SIREN);
-    const regex = /^[A-Z]{2}[-][0-9]{3}[-][A-Z]{2}$/i;
-  
-    // Création des elements JSX à partir du composant Fichevehicule
+export default function EnCours(props) {
 
-  
-    return (
-      <View style={styles.container}>
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  // Import des images des assets et création de l'objet permettant de les dispatch
+  const GVuri = Image.resolveAssetSource(GV).uri;
+  const MVuri = Image.resolveAssetSource(MV).uri;
+  const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
+  const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
 
-      </View>
-    );
-  }
-  
-  const styles = StyleSheet.create({
-  });
-  
+  return (
+    <View style={styles.container}>
+        <Text style={styles.etat}>{props.etat} </Text>
+        <View style={styles.box}>
+            <Text style={styles.txt}>{props.lastName} {props.firstName} </Text>
+            <Text style={styles.txt}>📍{props.departure} </Text>
+            <Text style={styles.txt}>🏁{props.arrival} </Text>
+        </View>
+        <View>
+            <Image style={styles.image} source={{ uri: props.type }} />
+            <Text style={styles.plaque}>{props.plaque}</Text>
+        </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+    container:{
+        width:'100%',
+        alignItems:'center',
+    },
+    etat:{
+        fontSize:20,
+        color:'white',
+        marginBottom:10
+    },
+    box:{
+        marginTop:15,
+        backgroundColor:'rgba(159,159,159, 0.7)',
+        alignItems:'flex-start',
+        width:'95%',
+        borderRadius:20,
+        padding:5
+    },
+    txt:{
+        color:'white',
+        fontSize:17,
+        marginBottom:5,
+        marginLeft: 10,
+    },
+    plaque:{
+        color:'white'
+    }
+});

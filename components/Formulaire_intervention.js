@@ -14,6 +14,7 @@ import { defineListPatients } from "../reducers/listPatients";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import SelectDropdown from "react-native-select-dropdown";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function Formulaire_interventions(props) {
   const navigation = useNavigation();
@@ -40,7 +41,7 @@ export default function Formulaire_interventions(props) {
   const [errorStyle, setErrorStyle] = useState({});
   const [colorPlaceholder, setcolorPlaceholder] = useState(false)
 
-  const regexSSNFrance = /^[12]\d{2}(0[1-9]|1[0-2])(0[1-9]|[1-2]\d|3[0-1])\d{6}[0-9A-B][0-9]{3}$/;
+  const regexSSNFrance = /^[0-9]{15}$/;
   // Fonction qui se declenche lors du clique sur Search pour permettre de vérifier s'il existe un patient avec ce numero de securité
   // sociale dans la BDD, si oui préremplir les champs dédiés aux informations patients, si non renvoyer un message d'erreur
   const handlesearch = (SSnumber) => {
@@ -160,7 +161,7 @@ export default function Formulaire_interventions(props) {
         overScrollMode="never"
         style={{ width: "100%" }}
       >
-        <KeyboardAvoidingView  keyboardVerticalOffset={100} behavior="padding">
+        <KeyboardAwareScrollView>
           <View style={styles.scrollview}>
             <View style={styles.infospatient}>
               <View style={styles.viewsoustitre}>
@@ -192,57 +193,56 @@ export default function Formulaire_interventions(props) {
                 />
               </View>
               <View style={styles.divinput}>
-             
                 <View style={styles.divplaceholder}>
-                {!error && !colorPlaceholder &&
-                  <TextInput
-                    style={styles.inputplaceholder}
-                    placeholder="Sécurité Sociale"
-                    placeholderTextColor="white"
-                    onChangeText={(value) => setSSnumber(value)}
-                    value={SSnumber}
-                  /> 
-                }
-                {error && colorPlaceholder &&
-                  <TextInput
-                    style={{
-                      borderRadius: 10,
-                      backgroundColor: "red",
-                      width: "80%",
-                      borderColor: "white",
-                      height: 40,
-                      marginBottom: 60,
-                      marginRight: 10,
-                      borderWidth: 1,
-                      borderColor: "white",
-                      paddingLeft: 10,
-                    }}
-                    placeholder="Sécurité Sociale"
-                    placeholderTextColor="white"
-                    onChangeText={(value) => setSSnumber(value)}
-                    value={SSnumber}
-                  /> 
-                }
-                {!error && colorPlaceholder &&
-                  <TextInput
-                    style={{
-                      borderRadius: 10,
-                      backgroundColor: "green",
-                      width: "80%",
-                      borderColor: "white",
-                      height: 40,
-                      marginBottom: 60,
-                      marginRight: 10,
-                      borderWidth: 1,
-                      borderColor: "white",
-                      paddingLeft: 10,
-                    }}
-                    placeholder="Sécurité Sociale"
-                    placeholderTextColor="white"
-                    onChangeText={(value) => setSSnumber(value)}
-                    value={SSnumber}
-                  /> 
-                }
+                  {!error && !colorPlaceholder && (
+                    <TextInput
+                      style={styles.inputplaceholder}
+                      placeholder="Sécurité Sociale"
+                      placeholderTextColor="white"
+                      onChangeText={(value) => setSSnumber(value)}
+                      value={SSnumber}
+                    />
+                  )}
+                  {error && colorPlaceholder && (
+                    <TextInput
+                      style={{
+                        borderRadius: 10,
+                        backgroundColor: "red",
+                        width: "80%",
+                        borderColor: "white",
+                        height: 40,
+                        marginBottom: 60,
+                        marginRight: 10,
+                        borderWidth: 1,
+                        borderColor: "white",
+                        paddingLeft: 10,
+                      }}
+                      placeholder="Sécurité Sociale"
+                      placeholderTextColor="white"
+                      onChangeText={(value) => setSSnumber(value)}
+                      value={SSnumber}
+                    />
+                  )}
+                  {!error && colorPlaceholder && (
+                    <TextInput
+                      style={{
+                        borderRadius: 10,
+                        backgroundColor: "green",
+                        width: "80%",
+                        borderColor: "white",
+                        height: 40,
+                        marginBottom: 60,
+                        marginRight: 10,
+                        borderWidth: 1,
+                        borderColor: "white",
+                        paddingLeft: 10,
+                      }}
+                      placeholder="Sécurité Sociale"
+                      placeholderTextColor="white"
+                      onChangeText={(value) => setSSnumber(value)}
+                      value={SSnumber}
+                    />
+                  )}
                   <View>
                     <TouchableOpacity
                       onPress={() => handlesearch(SSnumber)}
@@ -281,6 +281,7 @@ export default function Formulaire_interventions(props) {
                   rowTextForSelection={(item, index) => {
                     return item;
                   }}
+                  
                 />
               </View>
 
@@ -318,7 +319,7 @@ export default function Formulaire_interventions(props) {
               </View>
             </View>
           </View>
-        </KeyboardAvoidingView>
+        </KeyboardAwareScrollView>
       </ScrollView>
       <View>
         <TouchableOpacity style={styles.search} onPress={() => handleSubmit()}>
@@ -339,7 +340,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderColor: "grey",
     borderBottomWidth: 1,
-    marginTop: 140,
+    marginTop: 130,
   },
   titre: {
     color: "white",
@@ -348,7 +349,7 @@ const styles = StyleSheet.create({
   },
   //SCROLLVIEW
   scrollview: {
-    top: 30,
+    top: 10,
   },
   infospatient: {
     width: "100%",

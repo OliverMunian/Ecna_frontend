@@ -14,7 +14,6 @@ import { defineListPatients } from "../reducers/listPatients";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import SelectDropdown from "react-native-select-dropdown";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function Formulaire_interventions(props) {
   const navigation = useNavigation();
@@ -39,7 +38,9 @@ export default function Formulaire_interventions(props) {
   const [Arrival, setArrival] = useState(null);
   const [error, setError] = useState(null);
   const [errorStyle, setErrorStyle] = useState({});
-  const [colorPlaceholder, setcolorPlaceholder] = useState(false);
+  const [colorPlaceholder, setcolorPlaceholder] = useState(false)
+
+  const regexSSNFrance = /^[12]\d{2}(0[1-9]|1[0-2])(0[1-9]|[1-2]\d|3[0-1])\d{6}[0-9A-B][0-9]{3}$/;
   // Fonction qui se declenche lors du clique sur Search pour permettre de vérifier s'il existe un patient avec ce numero de securité
   // sociale dans la BDD, si oui préremplir les champs dédiés aux informations patients, si non renvoyer un message d'erreur
   const handlesearch = (SSnumber) => {
@@ -59,29 +60,31 @@ export default function Formulaire_interventions(props) {
           setMutuelle(patientData.patient.mutuelle);
           setValide(patientData.patient.valide);
           setExiste(true);
-          setcolorPlaceholder(true);
-          setError("");
+          setcolorPlaceholder(true)
+          setError('')
         } else {
           setError(patientData.error);
           setErrorStyle({ color: "red", fontSize: 10 });
-          setFirstName("");
-          setLastName("");
-          setAdress("");
-          setSSnumber("");
-          setPhone("");
-          setMutuelle("");
-          setValide("");
+          setFirstName('');
+          setLastName('');
+          setAdress('');
+          setSSnumber('');
+          setPhone('');
+          setMutuelle('');
+          setValide('');
           setExiste(false);
-          setDeparture("");
-          setArrival("");
+          setDeparture('')
+          setArrival('')
         }
       });
-  };
+  }
 
   // Fonction qui se declenche lors du clique sur le bouton submit qui ajoute si necessaire le patient dans la BDD, et l'intervention quoi
   // qu'il arrive. Permet également de récuperer la liste des interventions/patients et de mettre à jour le reducer
   const handleSubmit = () => {
     // add inter/patient
+    const testSiren = regexSSNFrance.test(SSnumber)
+    if(testSiren){
     fetch(`${BACKEND_ADRESS}/interventions/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -134,7 +137,10 @@ export default function Formulaire_interventions(props) {
               });
           });
       });
-  };
+  }else{
+    setError('Sécurité Sociale non valide')
+  }
+}
 
   return (
     <LinearGradient
@@ -154,7 +160,7 @@ export default function Formulaire_interventions(props) {
         overScrollMode="never"
         style={{ width: "100%" }}
       >
-        <KeyboardAwareScrollView>
+        <KeyboardAvoidingView  keyboardVerticalOffset={100} behavior="padding">
           <View style={styles.scrollview}>
             <View style={styles.infospatient}>
               <View style={styles.viewsoustitre}>
@@ -197,7 +203,7 @@ export default function Formulaire_interventions(props) {
                     value={SSnumber}
                   /> 
                 }
-                {error && 
+                {error && colorPlaceholder &&
                   <TextInput
                     style={{
                       borderRadius: 10,
@@ -312,7 +318,7 @@ export default function Formulaire_interventions(props) {
               </View>
             </View>
           </View>
-        </KeyboardAwareScrollView>
+        </KeyboardAvoidingView>
       </ScrollView>
       <View>
         <TouchableOpacity style={styles.search} onPress={() => handleSubmit()}>

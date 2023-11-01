@@ -228,6 +228,10 @@ export default function Fiche_intervention(props) {
           </View>
         </View>
       </Modal>
+      {!props.dispatched && props.etat === 'finie' && (
+        <View>
+        </View>
+      )}
     </BlurView>
   );
 }

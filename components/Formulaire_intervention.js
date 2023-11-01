@@ -339,13 +339,17 @@ const styles = StyleSheet.create({
     width: "100%",
     borderColor: "grey",
     borderBottomWidth: 1,
-    marginTop: 140,
+    marginTop: 130,
   },
   titre: {
     color: "white",
     fontSize: 35,
     fontWeight: "bold",
+    fontStyle:'italic',
+    marginLeft:10,
   },
+
+
   //SCROLLVIEW
   scrollview: {
     top: 30,

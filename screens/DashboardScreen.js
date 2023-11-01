@@ -50,11 +50,13 @@ export default function DashboardScreen(props) {
   const [modalVisible, setModalVisible] = useState(false);
   const [anomalieVisible, setAnomalieVisible] = useState(false);
   const [value, setValue] = useState("");
-  let interEnCoursDisplay = [];
   const [iconName, setIconame] = useState("");
   const [iconNameMI, setIconameMI] = useState("");
   let etat = "";
+  let interEnCoursDisplay = [];
 
+  console.log(vehicules)
+  
   function handlePressModal(name) {
     BottomSheetModalRef.current?.present();
     setValue();
@@ -382,7 +384,7 @@ const styles = StyleSheet.create({
     width: "95%",
     height: 70,
     overflow: "hidden",
-    top: 70,
+    top:165,
     borderRadius: 30,
     borderWidth: 0.85,
     borderColor: "white",

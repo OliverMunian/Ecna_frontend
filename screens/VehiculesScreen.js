@@ -72,14 +72,21 @@ export default function VehiculeScreen({ navigation }) {
       end={{ x: 0.5, y: 1 }}
     >
       <View style={styles.titreBox}>
-        <Text style={styles.titre}>Véhicules</Text>
-        <TouchableOpacity style={styles.btn} onPress={() => handleAdd()}>
-          <MaterialCommunityIcons
-            name="plus-circle"
-            size={(fontSize = 40)}
-            color="white"
-          />
-        </TouchableOpacity>
+        <View style={styles.firstbox}>
+          <Text style={styles.titre}>Véhicules</Text>
+          <Text style={styles.subtitle}>
+            Cliquez sur la plaque ou le véhicule pour afficher le contenu
+          </Text>
+        </View>
+        <View style={styles.btn}>
+          <TouchableOpacity style={styles.btn} onPress={() => handleAdd()}>
+            <MaterialCommunityIcons
+              name="plus-circle"
+              size={(fontSize = 40)}
+              color="white"
+            />
+          </TouchableOpacity>
+        </View>
       </View>
       <ScrollView
         horizontal={false}
@@ -102,16 +109,26 @@ const styles = StyleSheet.create({
   titre: {
     color: "white",
     fontSize: 34,
-    marginLeft: 20,
     fontWeight: "bold",
+    fontStyle: "italic",
+  },
+  subtitle: {
+    fontSize: 15,
+    color: "white",
     fontStyle: "italic",
   },
   titreBox: {
     flexDirection: "row",
+    alignItems:'center',
     justifyContent: "space-between",
     width: "100%",
     marginTop: 130,
     marginBottom: 20,
+    marginLeft: 20,
+  },
+  firstbox:{
+    flexDirection:'column',
+    width:'80%'
   },
   btn: {
     width: 50,

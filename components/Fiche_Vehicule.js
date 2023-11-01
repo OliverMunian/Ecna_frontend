@@ -67,7 +67,7 @@ export default function FicheVehicule(props) {
           .then((response) => response.json())
           .then((vehiculesData) => {
             if (etat == null) {
-              Alert.alert("Oup!", "Vous navez pass choisi le statut");
+              Alert.alert("Oups!", "Vous n'avez pas choisi le statut");
             }
             dispatch(defineListVehicules(vehiculesData.vehicules));
             dispatch(

@@ -40,7 +40,7 @@ export default function Formulaire_interventions(props) {
   const [errorStyle, setErrorStyle] = useState({});
   const [colorPlaceholder, setcolorPlaceholder] = useState(false)
 
-  const regexSSNFrance = /^[12]\d{2}(0[1-9]|1[0-2])(0[1-9]|[1-2]\d|3[0-1])\d{6}[0-9A-B][0-9]{3}$/;
+  const regexSSNFrance = /^[0-9]{15}$/;
   // Fonction qui se declenche lors du clique sur Search pour permettre de vérifier s'il existe un patient avec ce numero de securité
   // sociale dans la BDD, si oui préremplir les champs dédiés aux informations patients, si non renvoyer un message d'erreur
   const handlesearch = (SSnumber) => {
@@ -84,6 +84,7 @@ export default function Formulaire_interventions(props) {
   const handleSubmit = () => {
     // add inter/patient
     const testSiren = regexSSNFrance.test(SSnumber)
+    console.log(testSiren)
     if(testSiren){
     fetch(`${BACKEND_ADRESS}/interventions/add`, {
       method: "POST",
@@ -192,62 +193,56 @@ export default function Formulaire_interventions(props) {
                 />
               </View>
               <View style={styles.divinput}>
-             
-                <View style={styles.divplaceholder}>
-                {!error && !colorPlaceholder &&
-                  <TextInput
-                    style={styles.inputplaceholder}
-                    placeholder="Sécurité Sociale"
-                    placeholderTextColor="white"
-                    onChangeText={(value) => setSSnumber(value)}
-                    value={SSnumber}
-                  /> 
-                }
-                {error && colorPlaceholder &&
-                  <TextInput
-                    style={{
-                      borderRadius: 10,
-                      backgroundColor: "red",
-                      width: "80%",
-                      borderColor: "white",
-                      height: 40,
-                      marginBottom: 60,
-                      marginRight: 10,
-                      borderWidth: 1,
-                      borderColor: "white",
-                      paddingLeft: 10,
-                    }}
-                    placeholder="Sécurité Sociale"
-                    placeholderTextColor="white"
-                    onChangeText={(value) => setSSnumber(value)}
-                    value={SSnumber}
-                  /> 
-                }
-                {!error && colorPlaceholder &&
-                  <TextInput
-                    style={{
-                      borderRadius: 10,
-                      backgroundColor: "green",
-                      width: "80%",
-                      borderColor: "white",
-                      height: 40,
-                      marginBottom: 60,
-                      marginRight: 10,
-                      borderWidth: 1,
-                      borderColor: "white",
-                      paddingLeft: 10,
-                    }}
-                    placeholder="Sécurité Sociale"
-                    placeholderTextColor="white"
-                    onChangeText={(value) => setSSnumber(value)}
-                    value={SSnumber}
-                  /> 
-                }
+              <View style={styles.divplaceholder}>
+                  {(!error && !colorPlaceholder) ? (
+                    <TextInput
+                      style={styles.inputplaceholder}
+                      placeholder="Sécurité Sociale"
+                      placeholderTextColor="white"
+                      onChangeText={(value) => setSSnumber(value)}
+                      value={SSnumber}
+                    />
+                  ) : error ? (
+                    <TextInput
+                      style={{
+                        borderRadius: 10,
+                        backgroundColor: "red",
+                        width: "80%",
+                        borderColor: "white",
+                        height: 40,
+                        marginBottom: 60,
+                        marginRight: 10,
+                        borderWidth: 1,
+                        borderColor: "white",
+                        paddingLeft: 10,
+                      }}
+                      placeholder="Sécurité Sociale"
+                      placeholderTextColor="white"
+                      onChangeText={(value) => setSSnumber(value)}
+                      value={SSnumber}
+                    />
+                  ) : (
+                    <TextInput
+                      style={{
+                        borderRadius: 10,
+                        backgroundColor: "green",
+                        width: "80%",
+                        borderColor: "white",
+                        height: 40,
+                        marginBottom: 60,
+                        marginRight: 10,
+                        borderWidth: 1,
+                        borderColor: "white",
+                        paddingLeft: 10,
+                      }}
+                      placeholder="Sécurité Sociale"
+                      placeholderTextColor="white"
+                      onChangeText={(value) => setSSnumber(value)}
+                      value={SSnumber}
+                    />
+                  )}
                   <View>
-                    <TouchableOpacity
-                      onPress={() => handlesearch(SSnumber)}
-                      style={styles.search}
-                    >
+                    <TouchableOpacity onPress={() => handlesearch(SSnumber)} style={styles.search}>
                       <Text style={styles.txt}>Search</Text>
                     </TouchableOpacity>
                     <Text style={errorStyle}>{error}</Text>

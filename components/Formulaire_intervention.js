@@ -14,6 +14,7 @@ import { defineListPatients } from "../reducers/listPatients";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import SelectDropdown from "react-native-select-dropdown";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function Formulaire_interventions(props) {
   const navigation = useNavigation();
@@ -161,7 +162,7 @@ export default function Formulaire_interventions(props) {
         overScrollMode="never"
         style={{ width: "100%" }}
       >
-        <KeyboardAvoidingView  keyboardVerticalOffset={100} behavior="padding">
+        <KeyboardAwareScrollView>
           <View style={styles.scrollview}>
             <View style={styles.infospatient}>
               <View style={styles.viewsoustitre}>
@@ -276,6 +277,7 @@ export default function Formulaire_interventions(props) {
                   rowTextForSelection={(item, index) => {
                     return item;
                   }}
+                  
                 />
               </View>
 
@@ -313,7 +315,7 @@ export default function Formulaire_interventions(props) {
               </View>
             </View>
           </View>
-        </KeyboardAvoidingView>
+        </KeyboardAwareScrollView>
       </ScrollView>
       <View>
         <TouchableOpacity style={styles.search} onPress={() => handleSubmit()}>
@@ -334,16 +336,20 @@ const styles = StyleSheet.create({
     width: "100%",
     borderColor: "grey",
     borderBottomWidth: 1,
-    marginTop: 140,
+    marginTop: 130,
   },
   titre: {
     color: "white",
     fontSize: 35,
     fontWeight: "bold",
+    fontStyle:'italic',
+    marginLeft:10,
   },
+
+
   //SCROLLVIEW
   scrollview: {
-    top: 30,
+    top: 10,
   },
   infospatient: {
     width: "100%",

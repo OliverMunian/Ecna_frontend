@@ -61,10 +61,12 @@ const styles = StyleSheet.create({
   },
   box: {
     marginTop: 130,
+    borderBottomWidth: 1,
+    borderBottomColor: "grey",
   },
   title: {
     color: "white",
-    fontSize: 40,
+    fontSize: 35,
     fontWeight: "bold",
     fontStyle: "italic",
   },

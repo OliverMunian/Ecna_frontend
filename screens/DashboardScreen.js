@@ -417,6 +417,9 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 35,
   },
+
+
+  
   // LECTEUR
   containlecteur: {
     width: "95%",

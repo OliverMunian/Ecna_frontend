@@ -22,6 +22,7 @@ import interVehicules from "./reducers/interVehicules";
 import interventions from "./reducers/interventions";
 import listPatients from "./reducers/listPatients";
 import vehiculesDispo from "./reducers/vehiculesDispo";
+import vehiculesEnCours from './reducers/vehiculesEnCours';
 import searchResult from "./reducers/searchResult";
 import searchQuery from "./reducers/searchQuery";
 import { Provider } from "react-redux";
@@ -31,7 +32,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 
 const store = configureStore({
-  reducer: { user, vehicules, patient, interVehicules, interventions, listPatients, vehiculesDispo, searchResult, searchQuery},
+  reducer: { user, vehicules, patient, interVehicules, interventions, listPatients, vehiculesDispo, searchResult, searchQuery, vehiculesEnCours},
 });
 
 const Stack = createNativeStackNavigator();

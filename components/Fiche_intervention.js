@@ -16,10 +16,12 @@ import { VirtualizedList } from "react-native-web";
 import { defineListInter } from "../reducers/interventions";
 import { defineListVehicules } from "../reducers/vehicules";
 import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
+import { defineListVehiculesEnCours , defineCountListVehiculesEnCours } from "../reducers/vehiculesEnCours";
 
 export default function Fiche_intervention(props) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
+  const count = useSelector((state) => state.vehiculesEnCours.value.count)
   const [modalVisible, setModalVisible] = useState(false);
   const BACKEND_ADRESS =
     "https://ecna-backend-odpby015w-olivermunian.vercel.app";
@@ -62,7 +64,10 @@ export default function Fiche_intervention(props) {
                         defineListVehiculesDispo(
                           data.vehicules.filter((e) => e.etat === "En ligne")
                         )
-                      );
+                      )
+                      dispatch(defineListVehiculesEnCours(
+                          data.vehicules.filter(e => e.etat === 'En cours d\'intervention')
+                      ))
                     }
                   });
               }
@@ -98,6 +103,9 @@ export default function Fiche_intervention(props) {
                           data.vehicules.filter((e) => e.etat === "En ligne")
                         )
                       );
+                      dispatch(defineListVehiculesEnCours(
+                          data.vehicules.filter(e => e.etat === 'En cours d\'intervention')
+                      ))
                     }
                   });
               }

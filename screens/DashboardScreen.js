@@ -17,6 +17,10 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
 import { defineListPatients } from "../reducers/listPatients";
 import { defineListInter } from "../reducers/interventions";
+import {
+  defineListVehiculesEnCours,
+  defineCountListVehiculesEnCours,
+} from "../reducers/vehiculesEnCours";
 import { LinearGradient } from "expo-linear-gradient";
 // Bottom Sheet
 import { StatusBar } from "expo-status-bar";
@@ -45,7 +49,6 @@ export default function DashboardScreen(props) {
   const [samu, setSamu] = useState(false);
   const [ulterieures, setUlterieures] = useState(false);
   const [anomalies, setAnomalies] = useState(false);
-  const [vehiculesEnCours, setVehiculesEnCours] = useState([{plaque:"-", etat:'-', type:'-' }]);
   const [interEnCours, setInterEnCours] = useState([]);
 
   const dispatch = useDispatch();
@@ -55,6 +58,8 @@ export default function DashboardScreen(props) {
   const interventions = useSelector((state) => state.interventions.value);
   const recherche = useSelector((state) => state.searchQuery.value);
   const vehicules = useSelector((state) => state.vehicules.value);
+  const vehiculesEnCours = useSelector((state) => state.vehiculesEnCours.value.vehicules)
+  const count = useSelector((state) => state.vehiculesEnCours.value.count)
   const BottomSheetModalRef = useRef(null);
   const snapPoints = ["20%", "50%", "85%"];
   const [modalVisible, setModalVisible] = useState(false);
@@ -64,7 +69,6 @@ export default function DashboardScreen(props) {
   let vehiculesEnCoursDisplay = []
   const [iconName, setIconame] = useState("");
   const [iconNameMI, setIconameMI] = useState("");
-  const [count,setCount] = useState(0)
   let etat = ""
   //Fonction pour la bottomsheet 
   function handlePressModal(name) {
@@ -134,9 +138,9 @@ export default function DashboardScreen(props) {
               data.vehicules.filter((e) => e.etat === "En ligne")
             )
           );
-          setVehiculesEnCours(
-            data.vehicules.filter((e) => e.etat === "En cours d'intervention")
-          );
+          dispatch(defineListVehiculesEnCours(
+            data.vehicules.filter((e) => e.etat === 'En cours d\'intervention')
+          ))
         }
       });
     // Fetch des patients correspondant au token
@@ -180,15 +184,15 @@ export default function DashboardScreen(props) {
     dispatch(addtokenToSotre(null));
     navigation.navigate("Home");
   };
-  
+  console.log(vehiculesEnCours)
   const handleDisplay = () =>{
     if(count === vehiculesEnCours.length -1){
       console.log('setcount0')
-      setCount(0)
+      dispatch(defineCountListVehiculesEnCours(0))
     } else {
-      setCount(count+1)
+      dispatch(defineCountListVehiculesEnCours(count + 1))
     } 
-  } 
+  }  
   if(vehiculesEnCours.length > 0) {
     vehiculesEnCoursDisplay=
     <LecteurEncours 

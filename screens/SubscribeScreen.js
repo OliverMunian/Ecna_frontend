@@ -65,41 +65,30 @@ export default function SubscribeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={{ height: 400, width: "100%", position: "absolute" }}>
-        <ImageBackground
-          source={background}
-          resizeMode="cover"
-          style={styles.image}
-          blurRadius={1}
-        >
-          <TouchableOpacity onPress={() => navigate()}>
-            <View style={styles.divprevious}>
-              <MaterialIcons
-                name="arrow-back-ios"
-                size={(fontSize = 25)}
-                color="white"
-              />
-              <Text style={styles.previous}>Retour</Text>
-            </View>
-          </TouchableOpacity>
-          <View style={styles.title}>
-            <Text style={styles.maintitle}>Inscription</Text>
-          </View>
-        </ImageBackground>
-      </View>
-
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "position" : "height"}
-        contentContainerStyle={{
-          borderWidth: 3,
-          borderColor: "green",
-        }}
-        style={styles.keyboardscrollview}
+      <ImageBackground
+        source={background}
+        resizeMode="cover"
+        style={styles.image}
+        blurRadius={1}
       >
+        <TouchableOpacity onPress={() => navigate()}>
+          <View style={styles.divprevious}>
+            <MaterialIcons
+              name="arrow-back-ios"
+              size={(fontSize = 25)}
+              color="white"
+            />
+            <Text style={styles.previous}>Retour</Text>
+          </View>
+        </TouchableOpacity>
+        <View style={styles.title}>
+          <Text style={styles.maintitle}>Inscription</Text>
+        </View>
+        <View style={styles.titleprevious}></View>
         <LinearGradient
           style={styles.div}
           colors={["#1a2755", "#1D94AE"]}
-          start={{ x: 0.5, y: 0.5 }}
+          start={{ x: 0.9, y: 0.2 }}
           end={{ x: 0.5, y: 1 }}
         >
           <ScrollView
@@ -174,7 +163,7 @@ export default function SubscribeScreen({ navigation }) {
             </KeyboardAwareScrollView>
           </ScrollView>
         </LinearGradient>
-      </KeyboardAvoidingView>
+      </ImageBackground>
     </View>
   );
 }
@@ -183,11 +172,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "black",
-    margin: 0,
-    padding: 0,
+    justifyContent: "center",
+    alignItems: "center",
     width: "100%",
   },
   divprevious: {
+    top: 250,
     flexDirection: "row",
     alignItems: "center",
     width: "40%",
@@ -200,13 +190,15 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: "100%",
+    height: "85%",
+    top: -250,
   },
   title: {
     alignItems: "center",
     justifyContent: "center",
   },
   maintitle: {
+    top: 300,
     color: "white",
     fontSize: 55,
     fontWeight: "bold",
@@ -220,8 +212,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   keyboardscrollview: {
-    top: 250,
-    height: 600,
     width: "100%",
     top: 100,
   },
@@ -232,7 +222,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     fontSize: 30,
-    alignSelf:'center'
   },
   titleformun: {
     color: "white",
@@ -254,7 +243,6 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: "transparent",
-    margin: 5,
     height: 40,
     borderRadius: 20,
     textAlign: "left",

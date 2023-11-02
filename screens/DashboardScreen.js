@@ -4,6 +4,8 @@ import {
   View,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Image,
+  ScrollView
 } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -26,8 +28,17 @@ import { addtokenToSotre, addSirenToSotre } from "../reducers/user";
 import { BlurView } from "expo-blur";
 import { useNavigation } from "@react-navigation/native";
 import EnCours from "../components/EnCours";
+import LecteurEncours from "../components/LecteurEncours";
+import GV from "../assets/grosVolume.png";
+import MV from "../assets/moyenVolume.png";
+import VSLsrc from "../assets/VSL.png";
 
 export default function DashboardScreen(props) {
+  // Import des images des assets et création de l'objet permettant de les dispatch
+  const GVuri = Image.resolveAssetSource(GV).uri;
+  const MVuri = Image.resolveAssetSource(MV).uri;
+  const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
+  const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
   const navigation = useNavigation();
   // BOTTOM SHEET MODAL
   //STATE DES ICONES
@@ -35,7 +46,7 @@ export default function DashboardScreen(props) {
   const [samu, setSamu] = useState(false);
   const [ulterieures, setUlterieures] = useState(false);
   const [anomalies, setAnomalies] = useState(false);
-  const [vehiculesEnCours, setVehiculesEnCours] = useState([]);
+  const [vehiculesEnCours, setVehiculesEnCours] = useState([{plaque:"-", etat:'-', type:'-' }]);
   const [interEnCours, setInterEnCours] = useState([]);
 
   const dispatch = useDispatch();
@@ -50,16 +61,18 @@ export default function DashboardScreen(props) {
   const [modalVisible, setModalVisible] = useState(false);
   const [anomalieVisible, setAnomalieVisible] = useState(false);
   const [value, setValue] = useState("");
-  let interEnCoursDisplay = [];
+  let interEnCoursDisplay = []; 
+  let vehiculesEnCoursDisplay = []
   const [iconName, setIconame] = useState("");
   const [iconNameMI, setIconameMI] = useState("");
+  const [count,setCount] = useState(0)
   let etat = "";
 
+  //Fonction pour la bottomsheet 
   function handlePressModal(name) {
     BottomSheetModalRef.current?.present();
     setValue();
-    console.log(name);
-    if (name == "dangerous") {
+    if (name == "dangerous") { 
       setAnomalieVisible(true);
       console.log(anomalieVisible);
     } else if (name == "skip-next") {
@@ -85,6 +98,8 @@ export default function DashboardScreen(props) {
     } else if (name == "alarm-light") {
     }
   }
+
+
   if (interEnCours.length > 0) {
     interEnCoursDisplay = interEnCours.map((inter, i) => {
       console.log(inter.patient.firstName);
@@ -123,7 +138,7 @@ export default function DashboardScreen(props) {
             )
           );
           setVehiculesEnCours(
-            vehicules.filter((e) => e.etat === "En cours d'intervention")
+            data.vehicules.filter((e) => e.etat === "En cours d'intervention")
           );
         }
       });
@@ -156,12 +171,38 @@ export default function DashboardScreen(props) {
       });
   }, []);
 
+ 
+  
+  console.log('vehicule en cours',vehiculesEnCours)
+  console.log('count ',count)
+
+
   // Fonction logout
   const logHandle = () => {
     dispatch(addSirenToSotre(null));
     dispatch(addtokenToSotre(null));
     navigation.navigate("Home");
   };
+  
+  const handleDisplay = () =>{
+    if(count === vehiculesEnCours.length -1){
+      console.log('setcount0')
+      setCount(0)
+    } else {
+      setCount(count+1)
+    } 
+  } 
+  if(vehiculesEnCours.length > 0) {
+    vehiculesEnCoursDisplay=
+    <LecteurEncours 
+    plaque = {vehiculesEnCours[count].plaque}
+    etat = {vehiculesEnCours[count].etat}
+    type = {imagesData[vehiculesEnCours[count].type]}
+    handleDisplay = {handleDisplay}
+    />
+  }
+
+  // LECTEUR
 
   return (
     <LinearGradient
@@ -235,9 +276,7 @@ export default function DashboardScreen(props) {
         </TouchableOpacity> */}
       </View>
       <View style={styles.containlecteur}>
-        <BlurView style={styles.lecteur}>
-          <Text style={styles.txt}>Aucun véhicule en cours d'intervention</Text>
-        </BlurView>
+      {vehiculesEnCoursDisplay}
       </View>
 
       {/* BOTTOM SHEET MODAL */}
@@ -269,7 +308,9 @@ export default function DashboardScreen(props) {
                   color="white"
                 />
               </View>
-              {interEnCoursDisplay}
+                <View style={styles.containlecteur}>
+                  {interEnCoursDisplay}
+                </View>
             </View>
           </BottomSheetModal>
         </View>
@@ -380,19 +421,16 @@ const styles = StyleSheet.create({
   // LECTEUR
   containlecteur: {
     width: "95%",
-    height: 70,
+    height: 100,
     overflow: "hidden",
-    top: 70,
-    borderRadius: 30,
-    borderWidth: 0.85,
-    borderColor: "white",
+    top: 120,
   },
-  lecteur: {
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "hidden",
-    width: "100%",
-    height: 75,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
+  // lecteur: {
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  //   overflow: "hidden",
+  //   width: "100%",
+  //   height: 75,
+  //   backgroundColor: "rgba(0, 0, 0, 0.5)",
+  // },
 });

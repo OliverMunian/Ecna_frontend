@@ -158,7 +158,7 @@ export default function Fiche_intervention(props) {
           <View style={styles.carInfo}>
             <Text style={styles.plaque}>{props.plaque}</Text>
             <TouchableOpacity onPress={() => handleStart()}>
-              <Text style={styles.carInfo}>Debuter</Text>
+              <Text style={styles.statuscar}>Debuter</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -169,7 +169,7 @@ export default function Fiche_intervention(props) {
           <View style={styles.carInfo}>
             <Text style={styles.plaque}>{props.plaque}</Text>
             <TouchableOpacity onPress={() => handleEnd()}>
-              <Text style={styles.carInfo}>Finir</Text>
+              <Text style={styles.statuscar}>Finir</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -228,10 +228,7 @@ export default function Fiche_intervention(props) {
           </View>
         </View>
       </Modal>
-      {!props.dispatched && props.etat === 'finie' && (
-        <View>
-        </View>
-      )}
+      {!props.dispatched && props.etat === "finie" && <View></View>}
     </BlurView>
   );
 }
@@ -278,14 +275,13 @@ const styles = StyleSheet.create({
     color: "white",
   },
   plaque: {
-    marginTop: 15,
+    marginTop: 10,
     color: "white",
   },
   carContainer: {
     flexDirection: "column",
     alignItems: "center",
-    marginBottom: 10,
-    padding: 10,
+    margin:10,
     height: 120,
     width: "30%",
   },
@@ -293,16 +289,24 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 60,
     marginRight: 10,
+    paddingBottom: 10
   },
   carInfo: {
-    marginLeft: 5,
+    alignItems:'center'
   },
   left: {
     width: 240,
   },
-
-
-
+  statuscar: {
+    justifyContent: "flex-end",
+    borderColor: "white",
+    borderWidth: 2,
+    marginRight:10,
+    padding: 5,
+    borderRadius: 10,
+    color: 'white',
+    marginTop : 10, 
+  },
   //MODALE DISPATCH
   modalView: {
     alignItems: "center",

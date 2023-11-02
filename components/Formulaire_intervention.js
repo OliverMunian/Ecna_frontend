@@ -6,7 +6,6 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  KeyboardAvoidingView,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { defineListInter } from "../reducers/interventions";
@@ -69,7 +68,6 @@ export default function Formulaire_interventions(props) {
           setFirstName('');
           setLastName('');
           setAdress('');
-          setSSnumber('');
           setPhone('');
           setMutuelle('');
           setValide('');

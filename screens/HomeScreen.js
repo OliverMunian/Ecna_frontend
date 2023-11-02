@@ -35,7 +35,7 @@ export default function HomeScreen({ navigation }) {
           dispatch(addtokenToSotre(data.token));
           dispatch(addSirenToSotre(data.SIREN));
           setUserName("")
-          setPassword("")
+          setPassword('')
           navigation.navigate("TabNavigator");
         } else {
           setErrorMessage(data.error);

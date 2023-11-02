@@ -5,7 +5,6 @@ import {
   TextInput,
   TouchableOpacity,
   ImageBackground,
-  KeyboardAvoidingView,
 } from "react-native";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -103,69 +102,77 @@ export default function SubscribeScreen({ navigation }) {
           start={{ x: 0.5, y: 0.5 }}
           end={{ x: 0.5, y: 1 }}
         >
-          <View
-            style={{
-              height: "100%",
-              paddingTop: 80,
-              paddingLeft: 60,
-              paddingRight: 60,
-              alignItems:'center'
-            }}
+          <ScrollView
+            horizontal={false}
+            showsHorizontalScrollIndicator={false}
+            endFillColor="#000"
+            overScrollMode="never"
           >
-            <Text style={styles.titleform}>Bienvenue sur Ecna</Text>
-            <Text style={styles.titleformun}>
-              Veuillez compléter le formulaire pour continuer
-            </Text>
-
-            <Text style={styles.txtError}>{errorMessage}</Text>
-
-            <TextInput
-              style={styles.input}
-              placeholder="Nom d'utilisateur"
-              placeholderTextColor="white"
-              onChangeText={(value) => setUserName(value)}
-              value={username}
-            />
-
-            <TextInput
-              style={styles.input}
-              placeholder="Adresse mail"
-              placeholderTextColor="white"
-              onChangeText={(value) => setEmail(value)}
-              value={email}
-            />
-
-            <TextInput
-              style={styles.input}
-              placeholder="Mot de passe"
-              secureTextEntry={true}
-              placeholderTextColor="white"
-              onChangeText={(value) => setPassWord(value)}
-              value={password}
-            />
-
-            <View style={styles.line}></View>
-
-            <TextInput
-              style={styles.input}
-              placeholder="Nom de l'entreprise"
-              placeholderTextColor="white"
-              onChangeText={(value) => setName(value)}
-              value={name}
-            />
-
-            <TextInput
-              style={styles.input}
-              placeholder="N° de SIREN"
-              placeholderTextColor="white"
-              onChangeText={(value) => setSIREN(value)}
-              value={SIREN}
-            />
-
-            <TouchableOpacity style={styles.btn} onPress={() => Subscribe()}>
-              <Text style={styles.btntxt}> Valider </Text>
-            </TouchableOpacity>
-          </View>
+            <View style={styles.titlediv}>
+              <Text style={styles.titleform}>Bienvenue sur Ecna</Text>
+              <Text style={styles.titleformun}>
+                Veuillez compléter le formulaire pour continuer
+              </Text>
+            </View>
+            <KeyboardAwareScrollView style={styles.keyboardscrollview}>
+              <Text style={styles.txtError}>{errorMessage}</Text>
+              <View style={styles.formulaire}>
+                <View style={styles.divinput}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Nom d'utilisateur"
+                    placeholderTextColor="white"
+                    onChangeText={(value) => setUserName(value)}
+                    value={username}
+                  />
+                </View>
+                <View style={styles.divinput}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Adresse mail"
+                    placeholderTextColor="white"
+                    onChangeText={(value) => setEmail(value)}
+                    value={email}
+                  />
+                </View>
+                <View style={styles.divinput}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Mot de passe"
+                    secureTextEntry={true}
+                    placeholderTextColor="white"
+                    onChangeText={(value) => setPassWord(value)}
+                    value={password}
+                  />
+                </View>
+                <View style={styles.line}></View>
+                <View style={styles.divinput}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Nom de l'entreprise"
+                    placeholderTextColor="white"
+                    onChangeText={(value) => setName(value)}
+                    value={name}
+                  />
+                </View>
+                <View style={styles.divinput}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="N° de SIREN"
+                    placeholderTextColor="white"
+                    onChangeText={(value) => setSIREN(value)}
+                    value={SIREN}
+                  />
+                </View>
+                <TouchableOpacity
+                  style={styles.btn}
+                  onPress={() => Subscribe()}
+                >
+                  <Text style={styles.btntxt}> Valider </Text>
+                </TouchableOpacity>
+              </View>
+            </KeyboardAwareScrollView>
+          </ScrollView>
         </LinearGradient>
       </KeyboardAvoidingView>
     </View>
@@ -206,19 +213,20 @@ const styles = StyleSheet.create({
   },
   div: {
     borderTopLeftRadius: 180,
-    backgroundColor: "white",
+    width: "100%",
+    height: "100%",
+    top: 300,
+    justifyContent: "center",
+    alignItems: "center",
   },
   keyboardscrollview: {
     top: 250,
     height: 600,
     width: "100%",
-    position: "absolute",
-    borderWidth: 3,
-    borderColor: "red",
+    top: 100,
   },
   titlediv: {
-    position: "absolute",
-    top: 50,
+    top : 100
   },
   titleform: {
     color: "white",
@@ -236,9 +244,10 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
+    zIndex : 1
   },
   divinput: {
-    width: "70%",
+    width: "100%",
     height: 40,
     borderRadius: 20,
     margin: 10,

@@ -169,9 +169,7 @@ export default function Fiche_intervention(props) {
           <View style={styles.carInfo}>
             <Text style={styles.plaque}>{props.plaque}</Text>
             <TouchableOpacity onPress={() => handleEnd()}>
-              <View style={styles.statutcar}>
-                <Text style={styles.statutcar}>Finir</Text>
-              </View>
+                <Text style={styles.statuscar}>Finir</Text>
             </TouchableOpacity>
           </View>
         </View>

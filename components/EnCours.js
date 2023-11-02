@@ -29,7 +29,6 @@ export default function EnCours(props) {
 
   return (
     <View style={styles.container}>
-        <Text style={styles.etat}>{props.etat} </Text>
         <View style={styles.box}>
             <Text style={styles.id}>{props.lastName} {props.firstName} </Text>
             <Text style={styles.txt}>📍{props.departure} </Text>

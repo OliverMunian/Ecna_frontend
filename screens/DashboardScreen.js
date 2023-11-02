@@ -65,8 +65,7 @@ export default function DashboardScreen(props) {
   const [iconName, setIconame] = useState("");
   const [iconNameMI, setIconameMI] = useState("");
   const [count,setCount] = useState(0)
-  let etat = "";
-
+  let etat = ""
   //Fonction pour la bottomsheet 
   function handlePressModal(name) {
     BottomSheetModalRef.current?.present();
@@ -82,7 +81,7 @@ export default function DashboardScreen(props) {
         } else {
           setIconame("");
           setIconameMI(name);
-          etat = interventions.etat;
+          etat = interEnCours[0].etat
         }
     } else if (name === "spinner") {
       setInterEnCours(interventions.filter((e) => e.etat === "en cours"));
@@ -92,7 +91,7 @@ export default function DashboardScreen(props) {
         } else {
           setIconameMI("");
           setIconame(name);
-          etat = interventions.etat;
+          etat = interEnCours[0].etat;
         }
     } else if (name == "alarm-light") {
     }
@@ -105,7 +104,6 @@ export default function DashboardScreen(props) {
       return (
         <EnCours
           key={i}
-          etat={inter.etat}
           lastName={inter.patient.lastName}
           firstName={inter.patient.firstName}
           departure={inter.departure}
@@ -199,6 +197,13 @@ export default function DashboardScreen(props) {
     type = {imagesData[vehiculesEnCours[count].type]}
     handleDisplay = {handleDisplay}
     />
+  } else {
+    vehiculesEnCoursDisplay = 
+    <View>
+      <Text>
+        Pas de véhicules en cours d'intervention
+      </Text>
+    </View>
   }
 
   // LECTEUR
@@ -295,7 +300,7 @@ export default function DashboardScreen(props) {
           >
             <View style={styles.modalcontain}>
               <View style={styles.titleIcon}>
-                <Text>{etat}</Text>
+                <Text style={{color:'white'}}>{etat}</Text>
                 <FontAwesome
                   name={iconName}
                   size={(fontSize = 25)}
@@ -307,7 +312,7 @@ export default function DashboardScreen(props) {
                   color="white"
                 />
               </View>
-                <View style={styles.containlecteur}>
+                <View style={styles.interbottomsheet}>
                   {interEnCoursDisplay}
                 </View>
             </View>
@@ -413,6 +418,11 @@ const styles = StyleSheet.create({
   titleIcon: {
     flexDirection: "row",
   },
+  interbottomsheet:{
+    width: "95%",
+    overflow: "hidden",
+    top: 10,
+  },
   txtmodal: {
     color: "white",
     fontSize: 35,
@@ -423,9 +433,9 @@ const styles = StyleSheet.create({
   // LECTEUR
   containlecteur: {
     width: "95%",
-    height: 100,
+    height: 200,
     overflow: "hidden",
-    top: 120,
+    top: 130,
   },
   // lecteur: {
   //   alignItems: "center",

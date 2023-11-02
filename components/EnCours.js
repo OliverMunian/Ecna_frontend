@@ -31,7 +31,7 @@ export default function EnCours(props) {
     <View style={styles.container}>
         <Text style={styles.etat}>{props.etat} </Text>
         <View style={styles.box}>
-            <Text style={styles.txt}>{props.lastName} {props.firstName} </Text>
+            <Text style={styles.id}>{props.lastName} {props.firstName} </Text>
             <Text style={styles.txt}>📍{props.departure} </Text>
             <Text style={styles.txt}>🏁{props.arrival} </Text>
         </View>
@@ -60,6 +60,13 @@ const styles = StyleSheet.create({
         width:'95%',
         borderRadius:20,
         padding:5
+    },
+    id:{
+        fontWeight:'bold',
+        marginBottom:10,
+        marginLeft: 10,
+        color:'white',
+        fontSize:20,
     },
     txt:{
         color:'white',

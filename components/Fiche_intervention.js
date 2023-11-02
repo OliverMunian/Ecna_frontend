@@ -169,7 +169,9 @@ export default function Fiche_intervention(props) {
           <View style={styles.carInfo}>
             <Text style={styles.plaque}>{props.plaque}</Text>
             <TouchableOpacity onPress={() => handleEnd()}>
-              <Text style={styles.carInfo}>Finir</Text>
+              <View style={styles.statutcar}>
+                <Text style={styles.statutcar}>Finir</Text>
+              </View>
             </TouchableOpacity>
           </View>
         </View>
@@ -296,6 +298,7 @@ const styles = StyleSheet.create({
   },
   carInfo: {
     marginLeft: 5,
+    alignItems:'center'
   },
   left: {
     width: 240,

@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-} from "react-native";
+import {StyleSheet, Text,View,TouchableOpacity,KeyboardAvoidingView} from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import vehicules, { defineListVehicules } from "../reducers/vehicules";
@@ -29,8 +23,7 @@ import EnCours from "../components/EnCours";
 
 export default function DashboardScreen(props) {
   const navigation = useNavigation();
-  // BOTTOM SHEET MODAL
-  //STATE DES ICONES
+  // BOTTOM SHEET MODAL + STATE DES ICONES
   const [encours, setEnCours] = useState(false);
   const [samu, setSamu] = useState(false);
   const [ulterieures, setUlterieures] = useState(false);
@@ -60,7 +53,6 @@ export default function DashboardScreen(props) {
   function handlePressModal(name) {
     BottomSheetModalRef.current?.present();
     setValue();
-    console.log(name);
     if (name == "dangerous") {
       setAnomalieVisible(true);
       console.log(anomalieVisible);

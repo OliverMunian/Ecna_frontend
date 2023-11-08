@@ -16,10 +16,11 @@ import SelectDropdown from "react-native-select-dropdown";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function Formulaire_interventions(props) {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
+
   const BACKEND_ADRESS =
     "https://ecna-backend-odpby015w-olivermunian.vercel.app";
-  const dispatch = useDispatch();
   const etats = ["Valide", "Invalide"];
 
   // Recuperation des informations du user du reducer
@@ -40,7 +41,7 @@ export default function Formulaire_interventions(props) {
   const [errorStyle, setErrorStyle] = useState({});
   const [colorPlaceholder, setcolorPlaceholder] = useState(false)
 
-  const regexSSNFrance = /^[0-9]{15}$/;
+
   // Fonction qui se declenche lors du clique sur Search pour permettre de vérifier s'il existe un patient avec ce numero de securité
   // sociale dans la BDD, si oui préremplir les champs dédiés aux informations patients, si non renvoyer un message d'erreur
   const handlesearch = (SSnumber) => {
@@ -81,10 +82,10 @@ export default function Formulaire_interventions(props) {
   // Fonction qui se declenche lors du clique sur le bouton submit qui ajoute si necessaire le patient dans la BDD, et l'intervention quoi
   // qu'il arrive. Permet également de récuperer la liste des interventions/patients et de mettre à jour le reducer
   const handleSubmit = () => {
-    // add inter/patient
-    const testSiren = regexSSNFrance.test(SSnumber)
-    console.log(testSiren)
-    if(testSiren){
+    // Verification que le numero de securité sociale est du bon format
+    const regexSSNFrance = /^[0-9]{15}$/
+    const testSSnumber = regexSSNFrance.test(SSnumber)
+    if(testSSnumber){
     fetch(`${BACKEND_ADRESS}/interventions/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

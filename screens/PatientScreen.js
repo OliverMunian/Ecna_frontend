@@ -1,18 +1,14 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { useState, useEffect } from "react";
-import Patient from "../components/Patient";
-import { addpatientToStore } from "../reducers/patient";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSelector } from "react-redux";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export default function OnePatient({ navigation }) {
   const patient = useSelector((state) => state.patient.value);
-
   function back() {
     navigation.navigate("Repertoire");
   }
-  console.log(patient);
+  
   return (
     <LinearGradient
       style={styles.container}

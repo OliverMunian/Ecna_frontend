@@ -1,26 +1,15 @@
 import {
   View,
   Text,
-  TextInput,
-  TouchableOpacity,
   StyleSheet,
   Image,
-  ScrollView,
 } from "react-native";
-import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { useSelector, useDispatch } from "react-redux";
 import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
-import { defineListVehicules } from "../reducers/vehicules";
-import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+
 
 export default function EnCours(props) {
-
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
   // Import des images des assets et création de l'objet permettant de les dispatch
   const GVuri = Image.resolveAssetSource(GV).uri;
   const MVuri = Image.resolveAssetSource(MV).uri;

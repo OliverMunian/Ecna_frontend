@@ -3,9 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   FlatList,
-  useWindowDimensions,
   Image,
 } from "react-native";
 import { useSelector } from "react-redux";
@@ -26,7 +24,7 @@ export default function carouselDashboard(props) {
   if (vehiculesDispo.length === 0) {
     return (
       <View>
-        <Text>Pas de vehicules disponibles</Text>
+        <Text style={styles.errorText}>Pas de vehicules disponibles</Text>
       </View>
     );
   }
@@ -60,4 +58,8 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
   },
+  errorText: {
+    color: 'white',
+    fontSize : 20
+  }
 });

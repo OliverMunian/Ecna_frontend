@@ -2,10 +2,9 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   TouchableOpacity,
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Fiche_intervention from "../components/Fiche_intervention";
 import { LinearGradient } from "expo-linear-gradient";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -13,12 +12,17 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function Interventions() {
   const navigation = useNavigation();
+
+  // Recupération des informations du reducer ou l'on stock les interventions du vehicule sur lequel on a cliqué
   const interventions = useSelector(
     (state) => state.interVehicules.value.interventions
   );
   const plaque = useSelector((state) => state.interVehicules.value.plaque);
+
+  // Initialisation de la variable
   let interventionsDisplay = [];
 
+// Creation des elements JSX qui correspondent à la liste des interventions
   if (interventions.length > 0) {
     interventionsDisplay = interventions.map((data, i) => {
       const day = new Date(data.date).getDate();

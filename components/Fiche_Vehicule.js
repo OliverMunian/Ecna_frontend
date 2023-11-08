@@ -20,13 +20,17 @@ import { useNavigation } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function FicheVehicule(props) {
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
   const BACKEND_ADRESS =
     "https://ecna-backend-odpby015w-olivermunian.vercel.app";
-  const user = useSelector((state) => state.user.value);
   const etats = ["En ligne", "Hors ligne", "Indisponible"];
+
+  const user = useSelector((state) => state.user.value);
   const interventions = useSelector((state) => state.interventions.value);
+
   const [etat, setEtat] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -89,6 +93,8 @@ export default function FicheVehicule(props) {
       {text: 'Oui', onPress: () => handleDelete()},
     ]);
   }
+
+// Fonction pour delete et update (pas implementée)
   const handleDelete= () =>{
     fetch(`${BACKEND_ADRESS}/vehicules/delete/${props.plaque}`, {
       method: "DELETE",
@@ -114,6 +120,7 @@ export default function FicheVehicule(props) {
               }
             })
   }
+
   return (
     <BlurView intensity={50} style={styles.view}>
       <View style={styles.container}>

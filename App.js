@@ -51,7 +51,7 @@ const TabNavigator = () => {
             iconName = "plus-circle";
           } else if (route.name === "Interventions") {
             return <MaterialCommunityIcons name='heart-pulse' size={31} color={color} />;
-          } else if (route.name === "Repertoire") {
+          } else if (route.name === "Répertoire") {
             iconName = "phone";
           } else if (route.name === "Accueil") {
             iconName = "home";
@@ -75,7 +75,7 @@ const TabNavigator = () => {
       <Tab.Screen name="Véhicules" component={VehiculesScreen} />
       <Tab.Screen name="New" component={NewScreen} />
       <Tab.Screen name="Interventions" component={InterventionsScreen} />
-      <Tab.Screen name="Repertoire" component={PhoneScreen} />
+      <Tab.Screen name="Répertoire" component={PhoneScreen} />
     </Tab.Navigator>
   );
 };

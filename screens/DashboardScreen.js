@@ -201,14 +201,15 @@ export default function DashboardScreen(props) {
     type = {imagesData[vehiculesEnCours[count].type]}
     handleDisplay = {handleDisplay}
     />
-  } else {
-    vehiculesEnCoursDisplay = 
-    <View>
-      <Text>
-        Pas de véhicules en cours d'intervention
-      </Text>
-    </View>
   }
+  //  else {
+  //   vehiculesEnCoursDisplay = 
+  //   <View>
+  //     <Text>
+  //       Pas de véhicules en cours d'intervention
+  //     </Text>
+  //   </View>
+  // }
 
   // LECTEUR
 

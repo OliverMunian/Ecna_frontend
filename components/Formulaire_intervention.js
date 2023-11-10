@@ -317,7 +317,7 @@ export default function Formulaire_interventions(props) {
       </ScrollView>
       <View>
         <TouchableOpacity style={styles.search} onPress={() => handleSubmit()}>
-          <Text style={styles.txt}>Submit</Text>
+          <Text style={styles.txt}>Soumettre</Text>
         </TouchableOpacity>
       </View>
     </LinearGradient>

@@ -58,8 +58,8 @@ export default function VehiculeScreen({ navigation }) {
     ));
   } else {
     vehiculesDisplay = (
-      <Text style={{ color: "white", fontSize: 25 }}>
-        Pas de véhicules associés à ce compte
+      <Text style={{ color: "white", fontSize: 25, marginLeft:20, fontStyle:'italic', top:250 }}>
+        Aucun véhicule n'est associé à ce compte pour le moment...
       </Text>
     );
   }

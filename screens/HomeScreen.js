@@ -38,6 +38,8 @@ export default function HomeScreen({ navigation }) {
           setPassword('')
           navigation.navigate("TabNavigator");
         } else {
+          setUserName("")
+          setPassword('')
           setErrorMessage(data.error);
         }
       });

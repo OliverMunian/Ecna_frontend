@@ -10,19 +10,22 @@ import {
   ImageBackground,
 } from "react-native";
 import { addtokenToSotre, addSirenToSotre } from "../reducers/user";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import background from "../assets/ambulance.jpg";
 
 export default function HomeScreen({ navigation }) {
+
+  const BACKEND_ADRESS =
+    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
   const dispatch = useDispatch();
   const ref_input2 = useRef();
+
+  // Declaration des états
   const [username, setUserName] = useState(null);
   const [password, setPassword] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-  const user = useSelector((state) => state.user.value);
-  const BACKEND_ADRESS =
-    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
 
+  // Fonction pour sign in
   const handleSubmit = () => {
     fetch(`${BACKEND_ADRESS}/users/signin`, {
       method: "POST",
@@ -45,9 +48,7 @@ export default function HomeScreen({ navigation }) {
       });
   };
 
-  console.log("token", user.token);
-  console.log("Siren", user.SIREN);
-
+  // Fonction pour naviguer vers la page subscribe
   const navigate = () => {
     navigation.navigate("Subscribe");
   };
@@ -60,8 +61,6 @@ export default function HomeScreen({ navigation }) {
         style={styles.image}
         blurRadius={2}
       >
-        {/* <Text style={styles.title}> ECNA </Text>
-        <Text style={styles.titleDeux}> Time is now your </Text> */}
         <KeyboardAvoidingView
           style={styles.container}
           behavior={Platform.OS === "ios" ? "padding" : "height"}

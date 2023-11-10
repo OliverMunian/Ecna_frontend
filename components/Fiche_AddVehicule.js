@@ -5,8 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-  ScrollView,
-  KeyboardAvoidingView
+  ScrollView
 } from "react-native";
 import { useState } from "react";
 import FicheVehicule from "./Fiche_Vehicule";
@@ -19,7 +18,7 @@ import VSLsrc from "../assets/VSL.png";
 import { defineListVehicules } from "../reducers/vehicules";
 import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
 import { useDispatch } from "react-redux";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 
 export default function FicheAddVehicule(props) {
   const navigation = useNavigation();
@@ -44,13 +43,16 @@ export default function FicheAddVehicule(props) {
   const [etat, setEtat] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
+  // Recuperation des infos des reducers
   const user = useSelector((state) => state.user.value);
   const SIREN = useSelector((state) => state.user.value.SIREN);
-  const regex = /^[A-Z]{2}[-][0-9]{3}[-][A-Z]{2}$/i;
+  
 
   // Fonction qui se declenche lors du clique sur le bouton 'Ajouter' afin de sauvegarder le vehicule en BDD et l'afficher sur la page
   // grace à l'etat vehicules + reset des champs/etats dans le cas ou la sauvegarde est réussie en back
   const handleAdd = () => {
+    // Verification que la plaque est du bon format
+    const regex = /^[A-Z]{2}[-][0-9]{3}[-][A-Z]{2}$/i;
     const testPlaque = regex.test(plaque);
     if (testPlaque) {
       fetch(`${BACKEND_ADRESS}/vehicules/add`, {
@@ -78,6 +80,7 @@ export default function FicheAddVehicule(props) {
     }
   };
 
+// Fonction qui se declenche lorsqu'un appuie sur le bouton next afin de modifier les reducers relatifs aux vehicules
   const handleNext = () => {
     fetch(`${BACKEND_ADRESS}/vehicules/${SIREN}`)
       .then((response) => response.json())

@@ -3,16 +3,14 @@ import {
     Text,
     StyleSheet,
     Image,
-    FlatList,
     TouchableOpacity
   } from "react-native";
-import { useState } from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
   
 export default function LecteurEncours(props) {
 
+// Fonction qui appelle la fonction définie dans dashboardscreen
 const handleSwitch = () => {
-    
     props.handleDisplay()
 }
     return (

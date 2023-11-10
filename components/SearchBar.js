@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 export default function SearchBar(props) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
   const recherche = useSelector((state) => state.searchQuery.value);
   const interventions = useSelector((state) => state.interventions.value);
 
@@ -34,6 +35,7 @@ export default function SearchBar(props) {
       navigation.navigate(props.screenName);
     }
   };
+  
   return (
     <View style={styles.containerUn}>
       <View

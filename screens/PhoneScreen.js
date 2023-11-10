@@ -5,18 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function PhoneScreen({ navigation }) {
-  const BACKEND_ADRESS =
-    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.value);
   const patients = useSelector((state) => state.listPatients.value);
 
   // Fonction qui permet de récuperer les informations du patient et de naviguer vers la page qui affiche les informations
   // patients en fonction de son numero de securité sociale
   const handleClick = (SSnumber) => {
-    const infoPatient = patients.filter((e) => e.SSnumber === SSnumber);
-    dispatch(addpatientToStore(infoPatient[0]));
-    navigation.navigate("Infosdupatient");
+  const infoPatient = patients.filter((e) => e.SSnumber === SSnumber);
+  dispatch(addpatientToStore(infoPatient[0]));
+  navigation.navigate("Infosdupatient");
   };
 
   const patientsDisplay = patients.map((patient, i) => {

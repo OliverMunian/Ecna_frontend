@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector} from "react-redux";
 import Fiche_intervention from "../components/Fiche_intervention";
 import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";
@@ -7,10 +7,9 @@ import VSLsrc from "../assets/VSL.png";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function InterventionsScreen() {
-  const user = useSelector((state) => state.user.value);
   const interventions = useSelector((state) => state.interventions.value);
+  // Inversion des interventions pour que la plus récente s'affiche en premier
   let interventionsDisplay = interventions.slice(0).reverse()
-  console.log("interventions", interventions);
 
   // Import images ambulance
   const GVuri = Image.resolveAssetSource(GV).uri;
@@ -18,14 +17,15 @@ export default function InterventionsScreen() {
   const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
   const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
 
-  const displayInterventions = interventionsDisplay.map((inter, i) => {
-    // Mise en format de la date
-    const day = new Date(inter.date).getDate();
-    const month = new Date(inter.date).getMonth()+1 
-    const year = new Date(inter.date).getFullYear();
-    let date = month + "/" + day + "/" + year;
 
-    // Création des elements JSX avec le composant
+  const displayInterventions = interventionsDisplay.map((inter, i) => {
+  // Mise en format de la date
+  const day = new Date(inter.date).getDate();
+  const month = new Date(inter.date).getMonth()+1 
+  const year = new Date(inter.date).getFullYear();
+  let date = month + "/" + day + "/" + year;
+
+  // Création des elements JSX avec le composant
     if (inter.vehicule === null) {
       return (
         <Fiche_intervention

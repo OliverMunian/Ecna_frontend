@@ -11,16 +11,17 @@ import FicheVehicule from "../components/Fiche_Vehicule";
 import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
-import { useDispatch } from "react-redux";
 import { LinearGradient } from "expo-linear-gradient";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+
+// Import des images des icones d'ambulance
 const GVuri = Image.resolveAssetSource(GV).uri;
 const MVuri = Image.resolveAssetSource(MV).uri;
 const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
 const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
 
+// Fonction switch qui permet de changer la couleur de l'icone en fonction de l'état du véhicule 
 const getColorByEtat = (etat) => {
   switch (etat) {
     case "En ligne":
@@ -37,14 +38,14 @@ const getColorByEtat = (etat) => {
 };
 
 export default function VehiculeScreen({ navigation }) {
-  const dispatch = useDispatch();
-  const vehicules = useSelector((state) => state.vehicules.value);
-  let vehiculesDisplay = [];
+const vehicules = useSelector((state) => state.vehicules.value);
+let vehiculesDisplay = [];
 
-  const handleAdd = () => {
-    navigation.navigate("AddVehiculeBis");
+const handleAdd = () => {
+  navigation.navigate("AddVehiculeBis");
   };
 
+// Création des elements JSX afin d'afficher la liste des véhicules
   if (vehicules.length > 0) {
     vehiculesDisplay = vehicules.map((data, i) => (
       <FicheVehicule

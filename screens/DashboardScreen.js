@@ -5,11 +5,10 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Image,
-  ScrollView
 } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import vehicules, { defineListVehicules } from "../reducers/vehicules";
+import  { defineListVehicules } from "../reducers/vehicules";
 import CarouselDashboard from "../components/CarouselDashboard";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import SearchBar from "../components/SearchBar";
@@ -22,14 +21,12 @@ import {
   defineCountListVehiculesEnCours,
 } from "../reducers/vehiculesEnCours";
 import { LinearGradient } from "expo-linear-gradient";
-// Bottom Sheet
 import { StatusBar } from "expo-status-bar";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
 import { addtokenToSotre, addSirenToSotre } from "../reducers/user";
-import { BlurView } from "expo-blur";
 import { useNavigation } from "@react-navigation/native";
 import EnCours from "../components/EnCours";
 import LecteurEncours from "../components/LecteurEncours";
@@ -37,97 +34,45 @@ import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
 
-export default function DashboardScreen(props) {
+
+export default function DashboardScreen() {
+  const BACKEND_ADRESS =
+     "https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  
+  // Declaration fonctions
+  const navigation = useNavigation()
+  const dispatch = useDispatch()
+
   // Import des images des assets et création de l'objet permettant de les dispatch
   const GVuri = Image.resolveAssetSource(GV).uri;
   const MVuri = Image.resolveAssetSource(MV).uri;
   const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
   const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
-  const navigation = useNavigation();
-  // BOTTOM SHEET MODAL + STATE DES ICONES
-  const [encours, setEnCours] = useState(false);
-  const [samu, setSamu] = useState(false);
-  const [ulterieures, setUlterieures] = useState(false);
-  const [anomalies, setAnomalies] = useState(false);
-  const [interEnCours, setInterEnCours] = useState([]);
 
-  const dispatch = useDispatch();
-  const BACKEND_ADRESS =
-    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
-  const user = useSelector((state) => state.user.value);
-  const interventions = useSelector((state) => state.interventions.value);
-  const recherche = useSelector((state) => state.searchQuery.value);
-  const vehicules = useSelector((state) => state.vehicules.value);
-  const vehiculesEnCours = useSelector((state) => state.vehiculesEnCours.value.vehicules)
-  const count = useSelector((state) => state.vehiculesEnCours.value.count)
-  const BottomSheetModalRef = useRef(null);
-  const snapPoints = ["20%", "50%", "85%"];
-  const [modalVisible, setModalVisible] = useState(false);
+  // Declaration états
   const [anomalieVisible, setAnomalieVisible] = useState(false);
   const [value, setValue] = useState("");
-  let interEnCoursDisplay = []; 
-  let vehiculesEnCoursDisplay = []
   const [iconName, setIconame] = useState("");
   const [iconNameMI, setIconameMI] = useState("");
-  let etat = ""
-  //Fonction pour la bottomsheet 
-  function handlePressModal(name) {
-    BottomSheetModalRef.current?.present();
-    setValue();
-    if (name == "dangerous") { 
-      setAnomalieVisible(true);
-      console.log(anomalieVisible);
-    } else if (name == "skip-next") {
-      setInterEnCours(interventions.filter((e) => e.etat === "prévue"));
-        if (interEnCours.length === 0) {
-          setIconame("");
-          setIconameMI("");
-        } else {
-          setIconame("");
-          setIconameMI(name);
-          etat = interEnCours[0].etat
-        }
-    } else if (name === "spinner") {
-      setInterEnCours(interventions.filter((e) => e.etat === "en cours"));
-        if (interEnCours.length === 0) {
-          setIconame("");
-          setIconameMI("");
-        } else {
-          setIconameMI("");
-          setIconame(name);
-          etat = interEnCours[0].etat;
-        }
-    } else if (name == "alarm-light") {
-    }
-  }
 
+  // Récupération des informations des reducers
+  const user = useSelector((state) => state.user.value);
+  const interventions = useSelector((state) => state.interventions.value);
+  const vehiculesEnCours = useSelector(
+    (state) => state.vehiculesEnCours.value.vehicules
+  );
+  const count = useSelector((state) => state.vehiculesEnCours.value.count);
 
-  if (interEnCours.length > 0) {
-    interEnCoursDisplay = interEnCours.map((inter, i) => {
-      console.log(inter.patient.firstName);
-      return (
-        <EnCours
-          key={i}
-          lastName={inter.patient.lastName}
-          firstName={inter.patient.firstName}
-          departure={inter.departure}
-          arrival={inter.arrival}
-        />
-      );
-    });
-  } else {
-    interEnCoursDisplay = (
-      <View>
-        <Text style={{ color: "white", fontSize: 20 }}>
-          Rien à afficher pour le moment
-        </Text>
-      </View>
-    );
-  }
+  // Declaration variables
+  const BottomSheetModalRef = useRef(null);
+  const snapPoints = ["20%", "50%", "85%"];
+  let interEnCoursDisplay = [];
+  let vehiculesEnCoursDisplay = [];
+  let etat = "";
 
-  // A l'initialisation du dashboard, dispatch de toutes les informations
+// A l'initialisation du dashboard, dispatch de toutes les informations
   useEffect(() => {
-    // Fetch des vehicules correspondant au siren
+  // Fetch des vehicules correspondant au siren
     fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
       .then((response) => response.json())
       .then((data) => {
@@ -138,9 +83,11 @@ export default function DashboardScreen(props) {
               data.vehicules.filter((e) => e.etat === "En ligne")
             )
           );
-          dispatch(defineListVehiculesEnCours(
-            data.vehicules.filter((e) => e.etat === 'En cours d\'intervention')
-          ))
+          dispatch(
+            defineListVehiculesEnCours(
+              data.vehicules.filter((e) => e.etat === "En cours d'intervention")
+            )
+          );
         }
       });
     // Fetch des patients correspondant au token
@@ -172,47 +119,94 @@ export default function DashboardScreen(props) {
       });
   }, []);
 
- 
-  
-  console.log('vehicule en cours',vehiculesEnCours)
-  console.log('count ',count)
+  //Fonction pour la bottomsheet
+  function handlePressModal(name) {
+    BottomSheetModalRef.current?.present();
+    setValue();
+    if (name == "dangerous") {
+      setAnomalieVisible(true);
+      console.log(anomalieVisible);
+    } else if (name == "skip-next") {
+      setInterEnCours(interventions.filter((e) => e.etat === "prévue"));
+      if (interEnCours.length === 0) {
+        setIconame("");
+        setIconameMI("");
+      } else {
+        setIconame("");
+        setIconameMI(name);
+        etat = interEnCours[0].etat;
+      }
+    } else if (name === "spinner") {
+      setInterEnCours(interventions.filter((e) => e.etat === "en cours"));
+      if (interEnCours.length === 0) {
+        setIconame("");
+        setIconameMI("");
+      } else {
+        setIconameMI("");
+        setIconame(name);
+        etat = interEnCours[0].etat;
+      }
+    } else if (name == "alarm-light") {
+    }
+  }
 
+// Création des elements JSX à afficher dans la modale bottom sheet dans l'onglet interventions en cours
+  if (interEnCours.length > 0) {
+    interEnCoursDisplay = interEnCours.map((inter, i) => {
+      console.log(inter.patient.firstName);
+      return (
+        <EnCours
+          key={i}
+          lastName={inter.patient.lastName}
+          firstName={inter.patient.firstName}
+          departure={inter.departure}
+          arrival={inter.arrival}
+        />
+      );
+    });
+  } else {
+    interEnCoursDisplay = (
+      <View>
+        <Text style={{ color: "white", fontSize: 20 }}>
+          Rien à afficher pour le moment
+        </Text>
+      </View>
+    );
+  }
 
-  // Fonction logout
+// Fonction logout
   const logHandle = () => {
     dispatch(addSirenToSotre(null));
     dispatch(addtokenToSotre(null));
     navigation.navigate("Home");
   };
-  console.log(vehiculesEnCours)
-  const handleDisplay = () =>{
-    if(count === vehiculesEnCours.length -1){
-      console.log('setcount0')
-      dispatch(defineCountListVehiculesEnCours(0))
+
+// Fonction reverse data flow pour slider sur le lecteur des véhicules en cours d'intervention
+  const handleDisplay = () => {
+    if (count === vehiculesEnCours.length - 1) {
+      dispatch(defineCountListVehiculesEnCours(0));
     } else {
-      dispatch(defineCountListVehiculesEnCours(count + 1))
-    } 
-  }  
-  if(vehiculesEnCours.length > 0) {
-    vehiculesEnCoursDisplay=
-    <LecteurEncours 
-    plaque = {vehiculesEnCours[count].plaque}
-    etat = {vehiculesEnCours[count].etat}
-    type = {imagesData[vehiculesEnCours[count].type]}
-    handleDisplay = {handleDisplay}
-    />
+      dispatch(defineCountListVehiculesEnCours(count + 1));
+    }
   }
-  //  else {
-  //   vehiculesEnCoursDisplay = 
-  //   <View>
-  //     <Text>
-  //       Pas de véhicules en cours d'intervention
-  //     </Text>
-  //   </View>
-  // }
+  if(vehiculesEnCours.length > 0) {
+    vehiculesEnCoursDisplay = (
+      <LecteurEncours
+        plaque={vehiculesEnCours[count].plaque}
+        etat={vehiculesEnCours[count].etat}
+        type={imagesData[vehiculesEnCours[count].type]}
+        handleDisplay={handleDisplay}
+      />
+    );
+  } else {
+    vehiculesEnCoursDisplay = (
+      <View>
+        <Text>Pas de véhicules en cours d'intervention</Text>
+      </View>
+    );
+  }
 
-  // LECTEUR
-
+//LECTEUR
   return (
     <LinearGradient
       style={styles.container}
@@ -227,7 +221,7 @@ export default function DashboardScreen(props) {
       {/* BARRE DE RECHERCHE */}
       <View style={styles.searchbar}>
         <KeyboardAvoidingView>
-            <SearchBar screenName={"SearchResults"} />
+          <SearchBar screenName={"SearchResults"} />
         </KeyboardAvoidingView>
       </View>
 
@@ -239,18 +233,6 @@ export default function DashboardScreen(props) {
           <FontAwesome name="spinner" size={(fontSize = 25)} color="white" />
           <Text style={styles.txt}>En cours </Text>
         </TouchableOpacity>
-        {/* <TouchableOpacity
-          style={styles.title}
-          onPress={() => handlePressModal("alarm-light-outline")}
-          value="samu"
-        >
-          <MaterialCommunityIcons
-            name="alarm-light-outline"
-            size={(fontSize = 25)}
-            color="white"
-          />
-          <Text style={styles.txt}>SAMU</Text>
-        </TouchableOpacity> */}
         <TouchableOpacity
           name="skip-next"
           style={styles.title}
@@ -272,21 +254,8 @@ export default function DashboardScreen(props) {
           />
           <Text style={styles.txt}>Déconnexion</Text>
         </TouchableOpacity>
-        {/* <TouchableOpacity
-          style={styles.title}
-          onPress={() => handlePressModal("dangerous")}
-        >
-          <MaterialIcons
-            name="dangerous"
-            size={(fontSize = 25)}
-            color="white"
-          />
-          <Text style={styles.txt}>Anomalies</Text>
-        </TouchableOpacity> */}
       </View>
-      <View style={styles.containlecteur}>
-      {vehiculesEnCoursDisplay}
-      </View>
+      <View style={styles.containlecteur}>{vehiculesEnCoursDisplay}</View>
 
       {/* BOTTOM SHEET MODAL */}
       <BottomSheetModalProvider>
@@ -305,7 +274,7 @@ export default function DashboardScreen(props) {
           >
             <View style={styles.modalcontain}>
               <View style={styles.titleIcon}>
-                <Text style={{color:'white'}}>{etat}</Text>
+                <Text style={{ color: "white" }}>{etat}</Text>
                 <FontAwesome
                   name={iconName}
                   size={(fontSize = 25)}
@@ -317,9 +286,7 @@ export default function DashboardScreen(props) {
                   color="white"
                 />
               </View>
-                <View style={styles.interbottomsheet}>
-                  {interEnCoursDisplay}
-                </View>
+              <View style={styles.interbottomsheet}>{interEnCoursDisplay}</View>
             </View>
           </BottomSheetModal>
         </View>

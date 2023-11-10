@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
   TouchableOpacity,
   Image,
 } from "react-native";
@@ -12,32 +11,38 @@ import { useState } from "react";
 import { BlurView } from "expo-blur";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import CarouselDashboard from "./CarouselDashboard";
-import { VirtualizedList } from "react-native-web";
 import { defineListInter } from "../reducers/interventions";
 import { defineListVehicules } from "../reducers/vehicules";
 import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
-import { defineListVehiculesEnCours , defineCountListVehiculesEnCours } from "../reducers/vehiculesEnCours";
+import { defineListVehiculesEnCours} from "../reducers/vehiculesEnCours";
 
 export default function Fiche_intervention(props) {
   const dispatch = useDispatch();
+
   const user = useSelector((state) => state.user.value);
-  const count = useSelector((state) => state.vehiculesEnCours.value.count)
+
+  const [plaque, setPlaque] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+
   const BACKEND_ADRESS =
     "https://ecna-backend-odpby015w-olivermunian.vercel.app";
-  const [plaque, setPlaque] = useState("");
-
+  
+  // Fonction inverse data flow pour communiquer 
   const definePlq = (plq) => {
     setPlaque(plq);
   };
+
+  // Fonction pour ouvrir la modale
   const handleDispatch = () => {
     setModalVisible(true);
   };
 
+  // Fonction pour fermer la modale de dispatch
   const handleClose = () => {
     setModalVisible(false);
   };
 
+  // Fonction qui se declenche lorsqu'on commence une intervention
   const handleStart = () => {
     fetch(`${BACKEND_ADRESS}/interventions/start`, {
       method: "POST",
@@ -76,6 +81,7 @@ export default function Fiche_intervention(props) {
       });
   };
 
+  // Fonction qui se declenche pour finaliser une intervention
   const handleEnd = () => {
     fetch(`${BACKEND_ADRESS}/interventions/end`, {
       method: "POST",

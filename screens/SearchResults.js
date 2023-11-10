@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Fiche_intervention from "../components/Fiche_intervention";
 import SearchBar from "../components/SearchBar";
 import GV from "../assets/grosVolume.png";
@@ -15,19 +15,20 @@ import { LinearGradient } from "expo-linear-gradient";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export default function SearchResults({ navigation: { navigate } }) {
-  const GVuri = Image.resolveAssetSource(GV).uri;
-  const MVuri = Image.resolveAssetSource(MV).uri;
-  const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
-  const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
+// Import des icones des ambulances
+const GVuri = Image.resolveAssetSource(GV).uri;
+const MVuri = Image.resolveAssetSource(MV).uri;
+const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
+const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
 
-  const searchResult = useSelector((state) => state.searchResult.value);
-  const searchResultDisplay = searchResult.map((inter, i) => {
-    // Mise en format de la date
-    const day = new Date(inter.date).getDate();
-    const month = new Date(inter.date).getMonth();
-    const year = new Date(inter.date).getFullYear();
-    let date = month + "/" + day + "/" + year;
-    // Création des elements JSX avec le composant
+const searchResult = useSelector((state) => state.searchResult.value);
+const searchResultDisplay = searchResult.map((inter, i) => {
+// Mise en format de la date
+  const day = new Date(inter.date).getDate();
+  const month = new Date(inter.date).getMonth();
+  const year = new Date(inter.date).getFullYear();
+  let date = month + "/" + day + "/" + year;
+  // Création des elements JSX avec le composant
     if (inter.vehicule === null) {
       return (
         <Fiche_intervention

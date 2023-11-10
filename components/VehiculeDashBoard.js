@@ -3,8 +3,8 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useState } from "react";
 
 export default function VehiculeDashBoard(item) {
-  const [selected, setSelected] = useState(false);
-  const handleSet = () => {
+const [selected, setSelected] = useState(false);
+const handleSet = () => {
     if (item.click) {
       item.tunnel(item.plaque);
       setSelected(!selected);

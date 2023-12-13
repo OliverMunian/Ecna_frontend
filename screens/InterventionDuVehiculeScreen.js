@@ -1,9 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from "react-native";
 import { useSelector } from "react-redux";
 import Fiche_intervention from "../components/Fiche_intervention";
 import { LinearGradient } from "expo-linear-gradient";
@@ -22,7 +17,7 @@ export default function Interventions() {
   // Initialisation de la variable
   let interventionsDisplay = [];
 
-// Creation des elements JSX qui correspondent à la liste des interventions
+  // Creation des elements JSX qui correspondent à la liste des interventions
   if (interventions.length > 0) {
     interventionsDisplay = interventions.map((data, i) => {
       const day = new Date(data.date).getDate();
@@ -37,6 +32,8 @@ export default function Interventions() {
           firstName={data.patient.firstName}
           departure={data.departure}
           arrival={data.arrival}
+          city={data.patient.address.city}
+          postalCode={data.patient.address.postalCode}
           date={date}
           interToken={data.interToken}
           dispatched={data.vehicule}
@@ -81,7 +78,18 @@ export default function Interventions() {
       </TouchableOpacity>
       <View style={styles.box}>
         <Text style={styles.txt}> Interventions </Text>
-        {interventionsDisplay}
+
+        <ScrollView
+          // horizontal={false}
+          keyboardDismissMode="on-drag"
+          showsHorizontalScrollIndicator={false}
+          onContentSizeChange={this.onContentSizeChange}
+          endFillColor="#000"
+          overScrollMode="never"
+          style={{ width: "100%" }}
+        >
+          {interventionsDisplay}
+        </ScrollView>
       </View>
       <View style={styles.input}>
         <Text style={styles.inter}></Text>

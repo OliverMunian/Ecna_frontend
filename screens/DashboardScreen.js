@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import  { defineListVehicules } from "../reducers/vehicules";
+import { defineListVehicules } from "../reducers/vehicules";
 import CarouselDashboard from "../components/CarouselDashboard";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import SearchBar from "../components/SearchBar";
@@ -26,22 +26,21 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
-import { addtokenToSotre, addSirenToSotre } from "../reducers/user";
+import { addtokenToSotre, addSirenToSotre, adduserToSotre} from "../reducers/user";
 import { useNavigation } from "@react-navigation/native";
 import EnCours from "../components/EnCours";
 import LecteurEncours from "../components/LecteurEncours";
 import GV from "../assets/grosVolume.png";
 import MV from "../assets/moyenVolume.png";
 import VSLsrc from "../assets/VSL.png";
-
+import Feather from "react-native-vector-icons/Feather";
 
 export default function DashboardScreen() {
-  const BACKEND_ADRESS =
-     "https://ecna-backend-odpby015w-olivermunian.vercel.app";
-  
+  const BACKEND_ADRESS = "http://192.168.1.20:3000";
+
   // Declaration fonctions
-  const navigation = useNavigation()
-  const dispatch = useDispatch()
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   // Import des images des assets et création de l'objet permettant de les dispatch
   const GVuri = Image.resolveAssetSource(GV).uri;
@@ -54,6 +53,7 @@ export default function DashboardScreen() {
   const [value, setValue] = useState("");
   const [iconName, setIconame] = useState("");
   const [iconNameMI, setIconameMI] = useState("");
+  const [interEnCours, setInterEnCours] = useState([]);
 
   // Récupération des informations des reducers
   const user = useSelector((state) => state.user.value);
@@ -63,16 +63,16 @@ export default function DashboardScreen() {
   );
   const count = useSelector((state) => state.vehiculesEnCours.value.count);
 
-  // Declaration variables
+  // Declaration variables pour la bottom sheetModale
   const BottomSheetModalRef = useRef(null);
   const snapPoints = ["20%", "50%", "85%"];
   let interEnCoursDisplay = [];
   let vehiculesEnCoursDisplay = [];
   let etat = "";
 
-// A l'initialisation du dashboard, dispatch de toutes les informations
+  // A l'initialisation du dashboard, dispatch de toutes les informations
   useEffect(() => {
-  // Fetch des vehicules correspondant au siren
+    // Fetch des vehicules correspondant au siren
     fetch(`${BACKEND_ADRESS}/vehicules/${user.SIREN}`)
       .then((response) => response.json())
       .then((data) => {
@@ -150,7 +150,7 @@ export default function DashboardScreen() {
     }
   }
 
-// Création des elements JSX à afficher dans la modale bottom sheet dans l'onglet interventions en cours
+  // Création des elements JSX à afficher dans la modale bottom sheet dans l'onglet interventions en cours
   if (interEnCours.length > 0) {
     interEnCoursDisplay = interEnCours.map((inter, i) => {
       console.log(inter.patient.firstName);
@@ -166,30 +166,31 @@ export default function DashboardScreen() {
     });
   } else {
     interEnCoursDisplay = (
-      <View>
-        <Text style={{ color: "white", fontSize: 20 }}>
-          Rien à afficher pour le moment
+      <View style={{ alignItems: "center" }}>
+        <Text style={{ color: "white", fontSize: 20, fontStyle: "italic" }}>
+          Rien à afficher pour le moment...
         </Text>
       </View>
     );
   }
 
-// Fonction logout
+  // Fonction logout
   const logHandle = () => {
     dispatch(addSirenToSotre(null));
     dispatch(addtokenToSotre(null));
+    dispatch(adduserToSotre(null))
     navigation.navigate("Home");
   };
 
-// Fonction reverse data flow pour slider sur le lecteur des véhicules en cours d'intervention
+  // Fonction reverse data flow pour slider sur le lecteur des véhicules en cours d'intervention
   const handleDisplay = () => {
     if (count === vehiculesEnCours.length - 1) {
       dispatch(defineCountListVehiculesEnCours(0));
     } else {
       dispatch(defineCountListVehiculesEnCours(count + 1));
     }
-  }
-  if(vehiculesEnCours.length > 0) {
+  };
+  if (vehiculesEnCours.length > 0) {
     vehiculesEnCoursDisplay = (
       <LecteurEncours
         plaque={vehiculesEnCours[count].plaque}
@@ -200,13 +201,18 @@ export default function DashboardScreen() {
     );
   } else {
     vehiculesEnCoursDisplay = (
-      <View>
-        <Text>Pas de véhicules en cours d'intervention</Text>
+      <View style={styles.nothing}>
+        <Text style={styles.nothing}>
+          Aucun véhicule en cours d'intervention...
+        </Text>
       </View>
     );
   }
 
-//LECTEUR
+
+
+  
+  //LECTEUR
   return (
     <LinearGradient
       style={styles.container}
@@ -215,6 +221,9 @@ export default function DashboardScreen() {
       end={{ x: 0.5, y: 1 }}
     >
       <View style={styles.maintitle}>
+        <View style={styles.burger}>
+          <Feather name="menu" size={(fontSize = 30)} color="black" />
+        </View>
         <Text style={styles.h1}> Véhicules disponibles </Text>
         <CarouselDashboard click={false}></CarouselDashboard>
       </View>
@@ -234,7 +243,6 @@ export default function DashboardScreen() {
           <Text style={styles.txt}>En cours </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          name="skip-next"
           style={styles.title}
           onPress={() => handlePressModal("skip-next")}
         >
@@ -295,6 +303,15 @@ export default function DashboardScreen() {
   );
 }
 
+function MyDrawer(){
+  const Drawer = createBottomTabNavigator()
+  return(
+      <Drawer.Navigator>
+        <Drawer.Screen name="forgotPassword" component={ForgotPasswordScreen}/>
+      </Drawer.Navigator>
+  )
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -310,9 +327,17 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 200,
     width: "100%",
     backgroundColor: "white",
-    height: '50%',
+    height: "50%",
     alignItems: "center",
     justifyContent: "center",
+  },
+  burger:{
+    marginTop:30,
+    marginBottom:30,
+    flexDirection:'row',
+    justifyContent:"flex-end",
+    alignItems:"center",
+    width:"90%",
   },
   h1: {
     top: -10,
@@ -390,7 +415,7 @@ const styles = StyleSheet.create({
   titleIcon: {
     flexDirection: "row",
   },
-  interbottomsheet:{
+  interbottomsheet: {
     width: "95%",
     overflow: "hidden",
     top: 10,
@@ -400,14 +425,17 @@ const styles = StyleSheet.create({
     fontSize: 35,
   },
 
-
-  
   // LECTEUR
   containlecteur: {
     width: "95%",
     height: 200,
     overflow: "hidden",
     top: 130,
+  },
+  nothing: {
+    alignItems: "center",
+    color: "white",
+    fontStyle: "italic",
   },
   // lecteur: {
   //   alignItems: "center",

@@ -38,6 +38,7 @@ export default function PhoneScreen({ navigation }) {
     >
       <View style={styles.box}>
         <Text style={styles.title}> Répertoire </Text>
+        <Text style={styles.subtitle}> Cliquez sur le patient pour accéder aux informations </Text>
       </View>
       <ScrollView
         horizontal={false}
@@ -58,13 +59,17 @@ const styles = StyleSheet.create({
   },
   box: {
     marginTop: 130,
-    borderBottomWidth: 1,
-    borderBottomColor: "grey",
   },
   title: {
     color: "white",
     fontSize: 35,
     fontWeight: "bold",
+    fontStyle: "italic",
+  },
+  subtitle:{
+    color:'white',
+    marginLeft:5,
+    fontSize: 12,
     fontStyle: "italic",
   },
 });

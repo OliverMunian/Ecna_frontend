@@ -12,6 +12,7 @@ import { updateSearchResults } from "../reducers/searchResult";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function SearchBar(props) {
+  console.log(props)
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -28,8 +29,8 @@ export default function SearchBar(props) {
     dispatch(updateSearchResults(searchQuery));
     if (recherche == "") {
       Alert.alert(
-        "Stop ✋!",
-        "Complétez les champs pour effectuer la recherche"
+        "Oups !",
+        "Vous devez complétez les champs pour effectuer la recherche"
       );
     } else {
       navigation.navigate(props.screenName);

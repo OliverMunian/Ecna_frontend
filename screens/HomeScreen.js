@@ -10,13 +10,14 @@ import {
   ImageBackground,
 } from "react-native";
 import { addtokenToSotre, addSirenToSotre } from "../reducers/user";
-import { useDispatch} from "react-redux";
+import { addtokenEmployeToStore, addEmployeToStore } from "../reducers/employe";
+import { useDispatch } from "react-redux";
+import { BlurView } from "expo-blur";
 import background from "../assets/ambulance.jpg";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 export default function HomeScreen({ navigation }) {
-
-  const BACKEND_ADRESS =
-    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  const BACKEND_ADRESS = "http://192.168.1.20:3000";
   const dispatch = useDispatch();
   const ref_input2 = useRef();
 
@@ -24,6 +25,7 @@ export default function HomeScreen({ navigation }) {
   const [username, setUserName] = useState(null);
   const [password, setPassword] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [notFound, setNotFound] = useState(null);
 
   // Fonction pour sign in
   const handleSubmit = () => {
@@ -37,13 +39,34 @@ export default function HomeScreen({ navigation }) {
         if (data.result) {
           dispatch(addtokenToSotre(data.token));
           dispatch(addSirenToSotre(data.SIREN));
-          setUserName("")
-          setPassword('')
-          navigation.navigate("TabNavigator");
+          setUserName("");
+          setPassword("");
+          navigation.navigate("ChoixDuProfil");
         } else {
-          setUserName("")
-          setPassword('')
-          setErrorMessage(data.error);
+          setNotFound(!notFound);
+          if (!notFound && username && password) {
+            fetch(`${BACKEND_ADRESS}/employe/signin`, {
+              method: "POST",
+              headers: { "Content-type": "application/json" },
+              body: JSON.stringify({ username: username, password: password }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log("ligne 52, HomeScreen :", data);
+                dispatch(addtokenEmployeToStore(data.token));
+                dispatch(addEmployeToStore(data.username));
+                setUserName("");
+                setPassword("");
+                setNotFound(notFound);
+                navigation.navigate("TabNavigator");
+                if(!data){
+                  Alert.alert("Oups !", "Il semblerait que ce compte n'existe pas")
+                }
+              });
+          } else {
+            setNotFound(notFound);
+            setErrorMessage("Utilisateur non-existant");
+          }
         }
       });
   };
@@ -59,7 +82,7 @@ export default function HomeScreen({ navigation }) {
         source={background}
         resizeMode="cover"
         style={styles.image}
-        blurRadius={2}
+        blurRadius={3}
       >
         <KeyboardAvoidingView
           style={styles.container}
@@ -69,18 +92,13 @@ export default function HomeScreen({ navigation }) {
             <Text style={styles.title}> ECNA </Text>
             <Text style={styles.titleDeux}> Time is now yours</Text>
           </View>
-          <View style={styles.view}>
-            <Text style={styles.txt}>
-              {" "}
-              Veuillez compléter tous les champs pour continuer{" "}
-            </Text>
+          <View intensity={20} style={styles.view}>
             <TextInput
               onChangeText={(value) => setUserName(value)}
-              placeholder="Username"
+              placeholder="Nom d'utilisateur"
               style={styles.input}
               placeholderTextColor={"white"}
               returnKeyType={"next"}
-              onSubmitEditing={() => ref_input2.current.focus()}
             />
             <TextInput
               onChangeText={(value) => setPassword(value)}
@@ -88,16 +106,15 @@ export default function HomeScreen({ navigation }) {
               placeholder="Mot de passe"
               style={styles.input}
               placeholderTextColor={"white"}
-              ref={ref_input2}
             />
             <Text style={styles.txtError}>{errorMessage}</Text>
             <TouchableOpacity style={styles.btn} onPress={() => handleSubmit()}>
-              <Text style={styles.btntxt}> Valider</Text>
+              <AntDesign name="login" size={35} color="white" />
+              <Text style={styles.btntxt}>Connexion</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigate()}>
               <Text style={styles.redirection}>
-                {" "}
-                Vous n'avez pas encore de compte ? Cliquez ici{" "}
+                Vous n'avez pas encore de compte ? Cliquez ici
               </Text>
             </TouchableOpacity>
           </View>
@@ -159,27 +176,20 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: "transparent",
     width: "75%",
-    height: 75,
+    height: 65,
     borderRadius: 20,
-    marginBottom: 20,
-    borderWidth: 1,
+    marginBottom: 5,
+    borderBottomWidth: 1,
     borderColor: "white",
     textAlign: "center",
     color: "white",
   },
   btn: {
-    width: 130,
-    height: 60,
-    backgroundColor: "black",
     alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 20,
-    borderWidth: 3,
-    borderColor: "white",
   },
   btntxt: {
+    marginTop: 5,
     color: "white",
-    fontWeight: "bold",
   },
   redirection: {
     marginTop: 20,

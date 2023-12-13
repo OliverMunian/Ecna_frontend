@@ -19,6 +19,8 @@ export default function InterventionsScreen() {
 
 
   const displayInterventions = interventionsDisplay.map((inter, i) => {
+    console.log(inter.patient.address.city)
+  inter.patient.lastName = inter.patient.lastName.toUpperCase();
   // Mise en format de la date
   const day = new Date(inter.date).getDate();
   const month = new Date(inter.date).getMonth()+1 
@@ -33,6 +35,8 @@ export default function InterventionsScreen() {
           lastName={inter.patient.lastName}
           firstName={inter.patient.firstName}
           departure={inter.departure}
+          city={inter.patient.address.city}
+          postalCode={inter.patient.address.postalCode}
           arrival={inter.arrival}
           date={date}
           dispatched={inter.vehicule}
@@ -56,7 +60,7 @@ export default function InterventionsScreen() {
           type={imagesData[inter.vehicule.type]}
         />
       );
-    }
+     }
   });
 
   return (
@@ -67,12 +71,15 @@ export default function InterventionsScreen() {
       end={{ x: 0.5, y: 1 }}
     >
       <Text style={styles.title}>Interventions</Text>
-      <View style={styles.line} />
+      <Text style={styles.subtitle}>Retrouvez l'ensemble de vos interventions</Text>
       <ScrollView
         horizontal={false}
+        keyboardDismissMode="on-drag"
         showsHorizontalScrollIndicator={false}
+        onContentSizeChange={this.onContentSizeChange}
         endFillColor="#000"
         overScrollMode="never"
+        style={{ width: "100%" }}
       >
         {displayInterventions}
       </ScrollView>
@@ -91,8 +98,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontStyle: "italic",
   },
-  line: {
-    borderBottomColor: "grey",
-    borderBottomWidth: StyleSheet.hairlineWidth,
+  subtitle:{
+    color:'white',
+    marginLeft:10,
+    fontStyle:'italic',
+    fontSize: 12,
   },
 });

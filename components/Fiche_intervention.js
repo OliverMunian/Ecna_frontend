@@ -14,7 +14,7 @@ import CarouselDashboard from "./CarouselDashboard";
 import { defineListInter } from "../reducers/interventions";
 import { defineListVehicules } from "../reducers/vehicules";
 import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
-import { defineListVehiculesEnCours} from "../reducers/vehiculesEnCours";
+import { defineListVehiculesEnCours } from "../reducers/vehiculesEnCours";
 
 export default function Fiche_intervention(props) {
   const dispatch = useDispatch();
@@ -24,10 +24,9 @@ export default function Fiche_intervention(props) {
   const [plaque, setPlaque] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
-  const BACKEND_ADRESS =
-    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
-  
-  // Fonction inverse data flow pour communiquer 
+  const BACKEND_ADRESS = "  http://192.168.1.20:3000";
+
+  // Fonction inverse data flow pour communiquer
   const definePlq = (plq) => {
     setPlaque(plq);
   };
@@ -69,10 +68,14 @@ export default function Fiche_intervention(props) {
                         defineListVehiculesDispo(
                           data.vehicules.filter((e) => e.etat === "En ligne")
                         )
-                      )
-                      dispatch(defineListVehiculesEnCours(
-                          data.vehicules.filter(e => e.etat === 'En cours d\'intervention')
-                      ))
+                      );
+                      dispatch(
+                        defineListVehiculesEnCours(
+                          data.vehicules.filter(
+                            (e) => e.etat === "En cours d'intervention"
+                          )
+                        )
+                      );
                     }
                   });
               }
@@ -109,9 +112,13 @@ export default function Fiche_intervention(props) {
                           data.vehicules.filter((e) => e.etat === "En ligne")
                         )
                       );
-                      dispatch(defineListVehiculesEnCours(
-                          data.vehicules.filter(e => e.etat === 'En cours d\'intervention')
-                      ))
+                      dispatch(
+                        defineListVehiculesEnCours(
+                          data.vehicules.filter(
+                            (e) => e.etat === "En cours d'intervention"
+                          )
+                        )
+                      );
                     }
                   });
               }
@@ -162,9 +169,25 @@ export default function Fiche_intervention(props) {
         <Text style={styles.patient}>
           {props.lastName} {props.firstName}
         </Text>
-        <Text style={styles.position}>📍 {props.departure}</Text>
-        <Text style={styles.position}>🏁 {props.arrival}</Text>
-        <Text style={styles.jour}>{props.date}</Text>
+        <View style={styles.departure}>
+          <View>
+            <Text style={styles.position}>📍</Text>
+          </View>
+          <View style={styles.txtdeparture}>
+            <Text style={styles.position}>
+              {props.departure}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.departure}>
+          <View>
+            <Text style={styles.position}>🏁</Text>
+          </View>
+          <View style={styles.txtdeparture}>
+            <Text style={styles.position}>{props.arrival}</Text>
+          </View>
+        </View>
+        <Text style={styles.jour}>Le {props.date}</Text>
       </View>
       {props.dispatched && props.etat === "prévue" && (
         <View style={styles.carContainer}>
@@ -183,7 +206,7 @@ export default function Fiche_intervention(props) {
           <View style={styles.carInfo}>
             <Text style={styles.plaque}>{props.plaque}</Text>
             <TouchableOpacity onPress={() => handleEnd()}>
-                <Text style={styles.statuscar}>Finir</Text>
+              <Text style={styles.statuscar}>Finir</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -253,37 +276,47 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     marginTop: 20,
     flexDirection: "row",
-    alignItems:'center',
-    justifyContent: "space-between",
+    alignItems: "center",
     padding: 10,
+    height: 180
+,  },
+  left: {
+    width: "75%",
   },
   patient: {
-    fontSize: 30,
+    fontSize: 25,
     color: "white",
     fontWeight: "bold",
-    marginBottom:10,
+    marginBottom: 10,
+  },
+  departure: {
+    flexDirection: "row",
+    width: "100%",
+  },
+  txtdeparture: {
+    width: "75%",
   },
   position: {
-    fontSize: 20,
+    fontSize: 15,
     fontStyle: "italic",
     color: "white",
-    marginBottom:5,
-    marginLeft:5,
+    marginBottom: 5,
+    marginLeft: 5,
   },
   jour: {
-    fontSize: 20,
-    marginBottom: 5,
+    fontSize: 15,
     marginTop: 5,
     color: "white",
-    marginLeft:5,
+    textAlign: "left",
+    fontStyle: "italic",
   },
   dispatch: {
     justifyContent: "flex-end",
     borderColor: "white",
     borderWidth: 2,
-    marginRight:10,
+    marginRight: 10,
     padding: 10,
-    borderRadius: 20
+    borderRadius: 20,
   },
   txtdispatch: {
     color: "white",
@@ -293,34 +326,32 @@ const styles = StyleSheet.create({
     color: "white",
   },
   carContainer: {
+    width: "25%",
+    height: "100%",
     flexDirection: "column",
-    alignItems: "center",
-    margin:10,
-    height: 120,
-    width: "30%",
+    justifyContent: "center",
   },
   image: {
     width: "100%",
-    height: 60,
-    marginRight: 10,
-    paddingBottom: 10
+    height: 65,
+    paddingBottom: 10,
   },
   carInfo: {
-    alignItems:'center'
-  },
-  left: {
-    width: 240,
+    alignItems: "center",
   },
   statuscar: {
     justifyContent: "flex-end",
     borderColor: "white",
     borderWidth: 2,
-    marginRight:10,
     padding: 5,
     borderRadius: 10,
-    color: 'white',
-    marginTop : 10, 
+    color: "white",
+    marginTop: 10,
   },
+
+
+  
+
   //MODALE DISPATCH
   modalView: {
     alignItems: "center",

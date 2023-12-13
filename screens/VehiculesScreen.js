@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
   subtitle: {
-    fontSize: 15,
+    fontSize: 12,
     color: "white",
     fontStyle: "italic",
   },
@@ -125,11 +125,11 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 130,
     marginBottom: 20,
-    marginLeft: 20,
   },
   firstbox:{
     flexDirection:'column',
-    width:'80%'
+    width:'80%',
+    marginLeft: 10,
   },
   btn: {
     width: 50,

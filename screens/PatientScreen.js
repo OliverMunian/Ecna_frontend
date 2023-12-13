@@ -5,10 +5,11 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export default function OnePatient({ navigation }) {
   const patient = useSelector((state) => state.patient.value);
+  console.log(patient);
   function back() {
-    navigation.navigate("Repertoire");
+    navigation.navigate("Répertoire");
   }
-  
+
   return (
     <LinearGradient
       style={styles.container}
@@ -35,14 +36,17 @@ export default function OnePatient({ navigation }) {
           </View>
           <View style={styles.complement}>
             <Text style={styles.info_titre}>Adresse postale</Text>
-            <Text style={styles.info}>📍{patient.adress}</Text>
+            <Text style={styles.info}>
+              📍{patient.address.streetNumber} {patient.address.street}, {"\n"}{" "}
+              {patient.address.city} {patient.address.postalCode}
+            </Text>
             <Text style={styles.info_titre}>Téléphone mobile</Text>
-            <Text style={styles.info}>📞{patient.phone}</Text>
+            <Text style={styles.info}>📞 {patient.phone}</Text>
             <Text style={styles.info_titre_secu}>
               Numéro de sécurité sociale:
             </Text>
             <Text style={styles.info_secu}>{patient.SSnumber}</Text>
-            <Text style={styles.info_titre}>informations complémentaires</Text>
+            <Text style={styles.info_titre}>Informations complémentaires</Text>
             <Text style={styles.info_com}>Patient: {patient.valide}</Text>
             <Text style={styles.info_com}>Mutuelle: {patient.mutuelle}</Text>
           </View>
@@ -83,6 +87,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderBottomColor: "grey",
     borderBottomWidth: 0.5,
+    marginLeft: 10,
   },
   complement: {
     top: 20,
@@ -90,11 +95,12 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "white",
-    fontSize: 40,
+    fontSize: 32,
+    fontWeight:'bold',
   },
   info: {
     marginTop: 5,
-    color: "rgba(193, 193, 193, 0.95)",
+    color: "white",
     fontSize: 16,
     marginBottom: 20,
   },

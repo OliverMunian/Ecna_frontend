@@ -20,12 +20,10 @@ import { useNavigation } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function FicheVehicule(props) {
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const BACKEND_ADRESS =
-    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  const BACKEND_ADRESS = "  http://192.168.1.20:3000";
   const etats = ["En ligne", "Hors ligne", "Indisponible"];
 
   const user = useSelector((state) => state.user.value);
@@ -84,23 +82,22 @@ export default function FicheVehicule(props) {
     setModalVisible(false);
   };
 
-// Fonction qui se declenche lorsqu'un clique sur supprimer véhicule dans la modale
-  const handleSup = () =>{
-    Alert.alert('Suppression véhicule', 'Voulez-vous supprimer ce véhicule ?', [
+  // Fonction qui se declenche lorsqu'un clique sur supprimer véhicule dans la modale
+  const handleSup = () => {
+    Alert.alert("Suppression véhicule", "Voulez-vous supprimer ce véhicule ?", [
       {
-        text: 'Non',
+        text: "Non",
       },
-      {text: 'Oui', onPress: () => handleDelete()},
+      { text: "Oui", onPress: () => handleDelete() },
     ]);
-  }
+  };
 
-// Fonction pour delete et update (pas implementée)
-  const handleDelete= () =>{
+  // Fonction pour delete et update (pas implementée)
+  const handleDelete = () => {
     fetch(`${BACKEND_ADRESS}/vehicules/delete/${props.plaque}`, {
       method: "DELETE",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-      }),
+      body: JSON.stringify({}),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -108,18 +105,22 @@ export default function FicheVehicule(props) {
           .then((response) => response.json())
           .then((vehiculesData) => {
             dispatch(defineListVehicules(vehiculesData.vehicules));
-            dispatch(defineListVehiculesDispo(vehiculesData.vehicules.filter(e=>e.etat === 'En ligne')))
+            dispatch(
+              defineListVehiculesDispo(
+                vehiculesData.vehicules.filter((e) => e.etat === "En ligne")
+              )
+            );
           });
       });
-      fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
-            .then((response) => response.json())
-            .then((interData) => {
-              if (interData.result) {
-                dispatch(defineListInter(interData.interventions))
-                setModalVisible(false)
-              }
-            })
-  }
+    fetch(`${BACKEND_ADRESS}/interventions/${user.SIREN}`)
+      .then((response) => response.json())
+      .then((interData) => {
+        if (interData.result) {
+          dispatch(defineListInter(interData.interventions));
+          setModalVisible(false);
+        }
+      });
+  };
 
   return (
     <BlurView intensity={50} style={styles.view}>
@@ -155,12 +156,12 @@ export default function FicheVehicule(props) {
           <View style={styles.centeredViewtwo}>
             <BlurView intensity={50} style={styles.modalView}>
               <View style={styles.close}>
-              <TouchableOpacity
-                onPress={() => handleSup()}
-                style={styles.button_sup}
-              >
-                <Text style={styles.txt}>Supprimer Véhicule</Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleSup()}
+                  style={styles.button_sup}
+                >
+                  <Text style={styles.txt}>Supprimer Véhicule</Text>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={handleClose}>
                   <Ionicons
                     name="close-circle"
@@ -266,9 +267,9 @@ const styles = StyleSheet.create({
   },
   close: {
     width: "100%",
-    flexDirection:'row',
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent:"space-between",
+    justifyContent: "space-between",
     marginBottom: 10,
   },
   modalText: {

@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-  ScrollView
+  ScrollView,
+  Alert,
 } from "react-native";
 import { useState } from "react";
 import FicheVehicule from "./Fiche_Vehicule";
@@ -19,7 +20,6 @@ import { defineListVehicules } from "../reducers/vehicules";
 import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
 import { useDispatch } from "react-redux";
 
-
 export default function FicheAddVehicule(props) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -29,8 +29,7 @@ export default function FicheAddVehicule(props) {
   const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
   const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
 
-  const BACKEND_ADRESS =
-    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  const BACKEND_ADRESS = "  http://192.168.1.20:3000";
 
   // Definition des possibilités des menus déroulants
   const types = ["Gros", "Classique", "VSL"];
@@ -42,11 +41,10 @@ export default function FicheAddVehicule(props) {
   const [type, setType] = useState(null);
   const [etat, setEtat] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-
+  const fields = [{ vehicules: vehicules.plaque }, type, etat];
   // Recuperation des infos des reducers
   const user = useSelector((state) => state.user.value);
   const SIREN = useSelector((state) => state.user.value.SIREN);
-  
 
   // Fonction qui se declenche lors du clique sur le bouton 'Ajouter' afin de sauvegarder le vehicule en BDD et l'afficher sur la page
   // grace à l'etat vehicules + reset des champs/etats dans le cas ou la sauvegarde est réussie en back
@@ -54,7 +52,7 @@ export default function FicheAddVehicule(props) {
     // Verification que la plaque est du bon format
     const regex = /^[A-Z]{2}[-][0-9]{3}[-][A-Z]{2}$/i;
     const testPlaque = regex.test(plaque);
-    if (testPlaque) {
+    if (testPlaque && type && etat) {
       fetch(`${BACKEND_ADRESS}/vehicules/add`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
@@ -73,28 +71,54 @@ export default function FicheAddVehicule(props) {
               { plaque: plaque.toUpperCase(), type: type, etat: etat },
             ]);
             setPlaque("");
+            setEtat("");
+            setErrorMessage(" ");
           }
         });
+    } else if (!testPlaque && !type && !etat) {
+      setErrorMessage("Veuillez compléter tous les champs");
+    } else if ((!type || !etat) && testPlaque) {
+      setErrorMessage(" ");
+      setErrorMessage("Veuillez selectionner un type et un état");
     } else {
+      setErrorMessage(" ");
       setErrorMessage("La plaque ne correspond pas au format attendu");
     }
   };
 
-// Fonction qui se declenche lorsqu'un appuie sur le bouton next afin de modifier les reducers relatifs aux vehicules
+  // Fonction qui se declenche lorsqu'un appuie sur le bouton next afin de modifier les reducers relatifs aux vehicules
   const handleNext = () => {
-    fetch(`${BACKEND_ADRESS}/vehicules/${SIREN}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.result) {
-          dispatch(defineListVehicules(data.vehicules));
-          dispatch(
-            defineListVehiculesDispo(
-              data.vehicules.filter((e) => e.etat === "En ligne")
-            )
-          );
-        }
-      });
-    navigation.navigate(props.screenName);
+    //Si mon tableau de véhicule est superieur à 0 mais qu'un des champs est rempli
+    if (vehicules.length == 0 && fields) {
+      Alert.alert(
+        "Cliquez sur ajouter !",
+        "Veuillez ajouter le véhicule pour continuer"
+      );
+    }
+    //Si mon tableau de véhicule est vide
+    else if (vehicules.length == 0) {
+      Alert.alert(
+        "Aucun ajout !",
+        "Vous devez compléter tous les champs et ajouter un véhicule pour continuer"
+      );
+    } else {
+      setErrorMessage("");
+      setEtat("");
+      setType("");
+      fetch(`${BACKEND_ADRESS}/vehicules/${SIREN}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.result) {
+            dispatch(defineListVehicules(data.vehicules));
+            dispatch(
+              defineListVehiculesDispo(
+                data.vehicules.filter((e) => e.etat === "En ligne")
+              )
+            );
+          }
+        });
+      navigation.navigate(props.screenName);
+    }
   };
 
   // Création des elements JSX à partir du composant Fichevehicule
@@ -169,6 +193,10 @@ export default function FicheAddVehicule(props) {
               buttonTextStyle={styles.dropText}
               dropdownStyle={styles.card_drop}
               defaultButtonText="Option ▾"
+              displayEmpty
+              renderValue={(value) => {
+                return value || "Option ▾";
+              }}
               placeholderStyle={styles.placeholderStyle}
               data={types}
               onSelect={(selectedItem, index) => {

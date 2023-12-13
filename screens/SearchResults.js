@@ -68,7 +68,7 @@ const searchResultDisplay = searchResult.map((inter, i) => {
       end={{ x: 0.5, y: 1 }}
     >
       <TouchableOpacity
-        onPress={() => navigate("TabNavigator", { screen: "Acceuil" })}
+        onPress={() => navigate("UserNavigator")}
       >
         <View style={styles.back_button}>
           <MaterialIcons

@@ -57,7 +57,7 @@ export default function Interventions() {
     );
   }
   const back = () => {
-    navigation.navigate("TabNavigator", { screen: "Véhicules" });
+    navigation.navigate("UserNavigator", { screen: "Véhicules" });
   };
   return (
     <LinearGradient

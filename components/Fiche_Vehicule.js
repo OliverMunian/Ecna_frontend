@@ -23,7 +23,8 @@ export default function FicheVehicule(props) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const BACKEND_ADRESS = "  http://192.168.1.20:3000";
+  const BACKEND_ADRESS =
+    "  https://ecna-backend-odpby015w-olivermunian.vercel.app";
   const etats = ["En ligne", "Hors ligne", "Indisponible"];
 
   const user = useSelector((state) => state.user.value);
@@ -45,6 +46,7 @@ export default function FicheVehicule(props) {
     dispatch(
       addInterPlaque({ plaque: props.plaque, interventions: interVehicule })
     );
+    console.log(props.screenName);
     navigation.navigate(props.screenName);
   }
 

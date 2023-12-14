@@ -5,7 +5,11 @@ import {
   TouchableOpacity,
   BackHandler,
 } from "react-native";
-import { addtokenToSotre, addSirenToSotre, adduserToSotre} from "../reducers/user";
+import {
+  addtokenToSotre,
+  addSirenToSotre,
+  adduserToSotre,
+} from "../reducers/user";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
@@ -16,9 +20,10 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 
 export default function ChoixDuMode() {
   //Récuperation des information de l'utilisateur avec le reducer
-  const BACKEND_ADRESS = "http://192.168.1.20:3000";
+  const BACKEND_ADRESS =
+    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
   const user = useSelector((state) => state.user.value);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [entreprise, setEntreprise] = useState("");
 
@@ -34,17 +39,17 @@ export default function ChoixDuMode() {
       });
   }, []);
 
-  const goDashboard = () =>{
-    navigation.navigate("UserNavigator")
-  }
+  const goDashboard = () => {
+    navigation.navigate("UserNavigator");
+  };
 
   const logHandle = () => {
     dispatch(addSirenToSotre(null));
     dispatch(addtokenToSotre(null));
-    dispatch(adduserToSotre(null))
+    dispatch(adduserToSotre(null));
     navigation.navigate("Home");
   };
-  
+
   return (
     <LinearGradient
       style={styles.container}
@@ -67,7 +72,10 @@ export default function ChoixDuMode() {
         </View>
         <View style={styles.btn}>
           <View style={styles.divbtn}>
-            <TouchableOpacity style={styles.divbtn} onPress={() => goDashboard()}>
+            <TouchableOpacity
+              style={styles.divbtn}
+              onPress={() => goDashboard()}
+            >
               <Text style={styles.txt}>Gérant</Text>
               <Fontawesome name="group" size={35} color="white" />
               <Text style={styles.subtxt}>

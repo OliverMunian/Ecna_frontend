@@ -24,7 +24,8 @@ export default function Fiche_intervention(props) {
   const [plaque, setPlaque] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
-  const BACKEND_ADRESS = "  http://192.168.1.20:3000";
+  const BACKEND_ADRESS =
+    "  https://ecna-backend-odpby015w-olivermunian.vercel.app";
 
   // Fonction inverse data flow pour communiquer
   const definePlq = (plq) => {
@@ -174,9 +175,7 @@ export default function Fiche_intervention(props) {
             <Text style={styles.position}>📍</Text>
           </View>
           <View style={styles.txtdeparture}>
-            <Text style={styles.position}>
-              {props.departure}
-            </Text>
+            <Text style={styles.position}>{props.departure}</Text>
           </View>
         </View>
         <View style={styles.departure}>
@@ -278,8 +277,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
-    height: 180
-,  },
+    height: 180,
+  },
   left: {
     width: "75%",
   },
@@ -348,9 +347,6 @@ const styles = StyleSheet.create({
     color: "white",
     marginTop: 10,
   },
-
-
-  
 
   //MODALE DISPATCH
   modalView: {

@@ -23,6 +23,7 @@ import CalendarScreen from "./screens/Employe/CalendarScreen";
 import StatsScreen from "./screens/Employe/StatsScreen";
 import HomeEmployeScreen from "./screens/Employe/HomeEmployeScreen";
 import WayMode from "./screens/WayMode";
+import NewInterventionClassic from './screens/NewInterventionClassic'
 import user from "./reducers/user";
 import employe from "./reducers/employe";
 import vehicules from "./reducers/vehicules";
@@ -177,6 +178,7 @@ export default function App() {
             component={InterventionDuVehiculeScreen}
           />
           <Stack.Screen name="ChoixDuProfil" component={WayMode} />
+          <Stack.Screen name="InterClassic" component={NewInterventionClassic}/>
           <Stack.Screen name="Infosdupatient" component={PatientScreen} />
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
           <Stack.Screen name="UserNavigator" component={UserNavigator} />

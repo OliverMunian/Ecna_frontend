@@ -19,7 +19,8 @@ export default function Employee() {
   const employe = useSelector((state) => state.employe.value);
   const img = require("/Users/oliviermalahel/Desktop/Ecna_native/frontend/Ecna_frontend/assets/Unknown.jpg");
   const navigation = useNavigation();
-  const BACKEND_ADRESS = "http://192.168.1.20:3000";
+  const BACKEND_ADRESS =
+    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
   const [mail, setMail] = useState("");
   const [userLastName, setUserLastName] = useState("");
   const [phone, setPhone] = useState("");
@@ -53,9 +54,13 @@ export default function Employee() {
         <Image style={styles.img} source={img} resizeMode="cover" />
       </View>
       <Text style={styles.txt}>
-        {employe.username} {userLastName}{"\n"}
+        {employe.username} {userLastName}
+        {"\n"}
       </Text>
-      <Text style={styles.subtitletxt}> Actuellement en contrat à durée inderterminé chez Ambulances Bleues</Text>
+      <Text style={styles.subtitletxt}>
+        {" "}
+        Actuellement en contrat à durée inderterminé chez Ambulances Bleues
+      </Text>
       <View style={styles.boxtitle}>
         <Text style={styles.title}>Informations personnelles</Text>
       </View>
@@ -65,11 +70,17 @@ export default function Employee() {
       </View>
       <View style={styles.box}>
         <Text style={styles.titletxt}> Numéro de téléphone </Text>
-        <Text style={styles.subtitletxt}> 📞 {phone ? phone : <Text>Aucun numéro renseigné</Text>}</Text>
+        <Text style={styles.subtitletxt}>
+          {" "}
+          📞 {phone ? phone : <Text>Aucun numéro renseigné</Text>}
+        </Text>
       </View>
       <View style={styles.box}>
         <Text style={styles.titletxt}> Adresse postale</Text>
-        <Text style={styles.subtitletxt}> 📍{numberStreet} {streetName}, {postalCode}, {city}</Text>
+        <Text style={styles.subtitletxt}>
+          {" "}
+          📍{numberStreet} {streetName}, {postalCode}, {city}
+        </Text>
       </View>
     </LinearGradient>
   );
@@ -106,17 +117,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontStyle: "italic",
   },
-  box:{
+  box: {
     marginTop: 15,
   },
-  titletxt:{
-    fontSize:20,
-    color:"white",
+  titletxt: {
+    fontSize: 20,
+    color: "white",
   },
-  subtitletxt:{
-    fontSize:15,
+  subtitletxt: {
+    fontSize: 15,
     marginTop: 5,
-    paddingLeft:15,
-    color:"white",
+    paddingLeft: 15,
+    color: "white",
   },
 });

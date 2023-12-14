@@ -27,7 +27,8 @@ export default function Formulaire_interventions(props) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const BACKEND_ADRESS = "  http://192.168.1.20:3000";
+  const BACKEND_ADRESS =
+    "  https://ecna-backend-odpby015w-olivermunian.vercel.app";
   const etats = ["Valide", "Invalide"];
 
   // Recuperation des informations du user du reducer
@@ -261,7 +262,7 @@ export default function Formulaire_interventions(props) {
       end={{ x: 0.5, y: 1 }}
     >
       <View style={styles.bigtilte}>
-        <Text style={styles.titre}>Nouvelle intervention</Text>
+        <Text style={styles.titre}>Intervention classique</Text>
         <Text style={styles.tutoriel}>
           Remplissez les champs ci-dessous pour ajouter une nouvelle
           intervention
@@ -781,6 +782,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "white",
     marginTop: 5,
+    marginBottom: 70,
   },
   inputplaceholder: {
     borderRadius: 10,

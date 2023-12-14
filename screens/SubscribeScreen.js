@@ -20,7 +20,8 @@ import { ScrollView } from "react-native-gesture-handler";
 import AntDesign from "react-native-vector-icons/AntDesign";
 
 export default function SubscribeScreen({ navigation }) {
-  const BACKEND_ADRESS = "http://192.168.1.20:3000";
+  const BACKEND_ADRESS =
+    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
   const dispatch = useDispatch();
 
   // Mise en place états liés aux input

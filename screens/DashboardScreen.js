@@ -12,6 +12,7 @@ import { defineListVehicules } from "../reducers/vehicules";
 import CarouselDashboard from "../components/CarouselDashboard";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import SearchBar from "../components/SearchBar";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { defineListVehiculesDispo } from "../reducers/vehiculesDispo";
 import { defineListPatients } from "../reducers/listPatients";
@@ -26,7 +27,11 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
-import { addtokenToSotre, addSirenToSotre, adduserToSotre} from "../reducers/user";
+import {
+  addtokenToSotre,
+  addSirenToSotre,
+  adduserToSotre,
+} from "../reducers/user";
 import { useNavigation } from "@react-navigation/native";
 import EnCours from "../components/EnCours";
 import LecteurEncours from "../components/LecteurEncours";
@@ -36,7 +41,8 @@ import VSLsrc from "../assets/VSL.png";
 import Feather from "react-native-vector-icons/Feather";
 
 export default function DashboardScreen() {
-  const BACKEND_ADRESS = "http://192.168.1.20:3000";
+  const BACKEND_ADRESS =
+    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
 
   // Declaration fonctions
   const navigation = useNavigation();
@@ -176,10 +182,7 @@ export default function DashboardScreen() {
 
   // Fonction logout
   const logHandle = () => {
-    dispatch(addSirenToSotre(null));
-    dispatch(addtokenToSotre(null));
-    dispatch(adduserToSotre(null))
-    navigation.navigate("Home");
+    navigation.navigate("ChoixDuProfil");
   };
 
   // Fonction reverse data flow pour slider sur le lecteur des véhicules en cours d'intervention
@@ -209,9 +212,6 @@ export default function DashboardScreen() {
     );
   }
 
-
-
-  
   //LECTEUR
   return (
     <LinearGradient
@@ -254,13 +254,13 @@ export default function DashboardScreen() {
           <Text style={styles.txt}>Ultérieures</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => logHandle()} style={styles.title}>
-          <MaterialCommunityIcons
-            name="exit-run"
+          <Ionicons
+            name="exit-outline"
             size={(fontSize = 30)}
             color="white"
             style={{ transform: [{ rotateY: "180deg" }], top: 0 }}
           />
-          <Text style={styles.txt}>Déconnexion</Text>
+          <Text style={styles.txt}>Choix du mode</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.containlecteur}>{vehiculesEnCoursDisplay}</View>
@@ -303,13 +303,13 @@ export default function DashboardScreen() {
   );
 }
 
-function MyDrawer(){
-  const Drawer = createBottomTabNavigator()
-  return(
-      <Drawer.Navigator>
-        <Drawer.Screen name="forgotPassword" component={ForgotPasswordScreen}/>
-      </Drawer.Navigator>
-  )
+function MyDrawer() {
+  const Drawer = createBottomTabNavigator();
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen name="forgotPassword" component={ForgotPasswordScreen} />
+    </Drawer.Navigator>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -331,13 +331,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  burger:{
-    marginTop:30,
-    marginBottom:30,
-    flexDirection:'row',
-    justifyContent:"flex-end",
-    alignItems:"center",
-    width:"90%",
+  burger: {
+    marginTop: 30,
+    marginBottom: 30,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    width: "90%",
   },
   h1: {
     top: -10,

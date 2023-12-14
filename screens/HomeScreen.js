@@ -17,7 +17,7 @@ import background from "../assets/ambulance.jpg";
 import AntDesign from "react-native-vector-icons/AntDesign";
 
 export default function HomeScreen({ navigation }) {
-  const BACKEND_ADRESS = "http://192.168.1.20:3000";
+  const BACKEND_ADRESS = "https://ecna-backend-odpby015w-olivermunian.vercel.app";
   const dispatch = useDispatch();
   const ref_input2 = useRef();
 
@@ -41,6 +41,7 @@ export default function HomeScreen({ navigation }) {
           dispatch(addSirenToSotre(data.SIREN));
           setUserName("");
           setPassword("");
+          setErrorMessage("");
           navigation.navigate("ChoixDuProfil");
         } else {
           setNotFound(!notFound);
@@ -59,8 +60,11 @@ export default function HomeScreen({ navigation }) {
                 setPassword("");
                 setNotFound(notFound);
                 navigation.navigate("TabNavigator");
-                if(!data){
-                  Alert.alert("Oups !", "Il semblerait que ce compte n'existe pas")
+                if (!data) {
+                  Alert.alert(
+                    "Oups !",
+                    "Il semblerait que ce compte n'existe pas"
+                  );
                 }
               });
           } else {

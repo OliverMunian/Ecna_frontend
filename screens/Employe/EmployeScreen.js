@@ -26,7 +26,8 @@ export default function Employee() {
   const img = require("/Users/oliviermalahel/Desktop/Ecna_native/frontend/Ecna_frontend/assets/Unknown.jpg");
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const BACKEND_ADRESS = "http://192.168.1.20:3000";
+  const BACKEND_ADRESS =
+    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
   const [userLastName, setUserLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [numberStreet, setNumberStreet] = useState("");
@@ -99,55 +100,56 @@ export default function Employee() {
             <Image style={styles.img} source={img} />
           </View>
           <View style={styles.inputInfos}>
-            <KeyboardAwareScrollView 
-            behavior={Platform.OS == "ios" ? "padding" : "height" }
-            style={styles.KeyboardAwareScrollView}>
+            <KeyboardAwareScrollView
+              behavior={Platform.OS == "ios" ? "padding" : "height"}
+              style={styles.KeyboardAwareScrollView}
+            >
               <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-              <View style={styles.divinkeyboard}>
-              <TextInput
-                keyboardDismissMode="on-drag"
-                placeholder="Nom de famille"
-                style={styles.input}
-                onChangeText={(value) => setUserLastName(value)}
-                value={userLastName}
-              />
-              <TextInput
-                keyboardType="numeric"
-                keyboardDismissMode="on-drag"
-                placeholder="Numero de téléphone"
-                maxLength={10}
-                style={styles.input}
-                onChangeText={(value) => setPhone(value)}
-                value={phone}
-              />
-              <TextInput
-                keyboardType="numeric"
-                placeholder="N°de Rue"
-                style={styles.input}
-                onChangeText={(value) => setNumberStreet(value)}
-                value={numberStreet}
-              />
-              <TextInput
-                placeholder="Nom de rue"
-                style={styles.input}
-                onChangeText={(value) => setStreetName(value)}
-                value={streetName}
-              />
-              <TextInput
-                keyboardType="numeric"
-                placeholder="Code Postal"
-                maxLength={5}
-                style={styles.input}
-                onChangeText={(value) => setPostalCode(value)}
-                value={postalCode}
-              />
-              <TextInput
-                placeholder="Ville"
-                style={styles.input}
-                onChangeText={(value) => setCity(value)}
-                value={city}
-              />
-              </View> 
+                <View style={styles.divinkeyboard}>
+                  <TextInput
+                    keyboardDismissMode="on-drag"
+                    placeholder="Nom de famille"
+                    style={styles.input}
+                    onChangeText={(value) => setUserLastName(value)}
+                    value={userLastName}
+                  />
+                  <TextInput
+                    keyboardType="numeric"
+                    keyboardDismissMode="on-drag"
+                    placeholder="Numero de téléphone"
+                    maxLength={10}
+                    style={styles.input}
+                    onChangeText={(value) => setPhone(value)}
+                    value={phone}
+                  />
+                  <TextInput
+                    keyboardType="numeric"
+                    placeholder="N°de Rue"
+                    style={styles.input}
+                    onChangeText={(value) => setNumberStreet(value)}
+                    value={numberStreet}
+                  />
+                  <TextInput
+                    placeholder="Nom de rue"
+                    style={styles.input}
+                    onChangeText={(value) => setStreetName(value)}
+                    value={streetName}
+                  />
+                  <TextInput
+                    keyboardType="numeric"
+                    placeholder="Code Postal"
+                    maxLength={5}
+                    style={styles.input}
+                    onChangeText={(value) => setPostalCode(value)}
+                    value={postalCode}
+                  />
+                  <TextInput
+                    placeholder="Ville"
+                    style={styles.input}
+                    onChangeText={(value) => setCity(value)}
+                    value={city}
+                  />
+                </View>
               </TouchableWithoutFeedback>
             </KeyboardAwareScrollView>
 
@@ -156,11 +158,8 @@ export default function Employee() {
                 <AntDesign name="login" size={35} color="white" />
                 <Text style={styles.subtxt}>Valider</Text>
               </TouchableOpacity>
-            ): (
-              <TouchableOpacity
-                onPress={() => logHandle()}
-                style={styles.btn}
-              >
+            ) : (
+              <TouchableOpacity onPress={() => logHandle()} style={styles.btn}>
                 <AntDesign
                   name="logout"
                   size={(fontSize = 30)}
@@ -198,7 +197,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   subtxt: {
-    marginTop:10,
+    marginTop: 10,
     textAlign: "center",
     fontStyle: "italic",
     fontSize: 15,
@@ -215,8 +214,6 @@ const styles = StyleSheet.create({
     borderColor: "white",
   },
 
-
-
   /*KEYBOARD*/
   inputInfos: {
     marginTop: 10,
@@ -226,9 +223,9 @@ const styles = StyleSheet.create({
   KeyboardAwareScrollView: {
     width: "100%",
   },
-  divinkeyboard:{
+  divinkeyboard: {
     width: "100%",
-    alignItems:'center',
+    alignItems: "center",
   },
   input: {
     width: "60%",
@@ -241,7 +238,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     justifyContent: "center",
-    alignItems:"center",
+    alignItems: "center",
     marginTop: 20,
   },
   logout: {

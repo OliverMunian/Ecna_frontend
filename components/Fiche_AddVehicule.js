@@ -29,8 +29,7 @@ export default function FicheAddVehicule(props) {
   const VSLuri = Image.resolveAssetSource(VSLsrc).uri;
   const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
 
-  const BACKEND_ADRESS =
-    "  https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  const BACKEND_ADRESS = "http://192.168.1.31:3000";
 
   // Definition des possibilités des menus déroulants
   const types = ["Gros", "Classique", "VSL"];

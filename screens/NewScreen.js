@@ -34,7 +34,7 @@ export default function NewScreen() {
             <Text style={styles.txt}>Classsique</Text>
             <Fontawesome name="wheelchair" size={35} color="white" />
             <Text style={styles.subtxt}>
-              Consultations & Transfert
+              Consultation & Transfert
             </Text>
           </TouchableOpacity>
         </View>

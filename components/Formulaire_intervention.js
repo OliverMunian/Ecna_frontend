@@ -19,6 +19,7 @@ import SelectDropdown from "react-native-select-dropdown";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Entypo from "react-native-vector-icons/Entypo";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { min } from "react-native-reanimated";
@@ -27,8 +28,7 @@ export default function Formulaire_interventions(props) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const BACKEND_ADRESS =
-    "  https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  const BACKEND_ADRESS = "http://192.168.1.31:3000";
   const etats = ["Valide", "Invalide"];
 
   // Recuperation des informations du user du reducer
@@ -71,7 +71,6 @@ export default function Formulaire_interventions(props) {
     Departure,
     Arrival,
   ];
-  const fullAdress = [streetNumber, street, city, postalCode];
 
   //Fonction pour selectionner la date dans le menu déroulant
   const showDatePicker = (mode) => {
@@ -216,6 +215,9 @@ export default function Formulaire_interventions(props) {
                     console.log(patientData.patients);
                     console.log(patientData.patients.adress);
                     dispatch(defineListPatients(patientData.patients));
+                    console.log(
+                      "composant FormulaireInterventions: impossible"
+                    );
                     navigation.navigate(props.screenName, {
                       screen: "Interventions",
                     });
@@ -226,6 +228,13 @@ export default function Formulaire_interventions(props) {
     } else {
       setError("Sécurité Sociale non valide");
     }
+  };
+
+  const removeArrival = () => {
+    setArrival("");
+  };
+  const removeDeparture = () => {
+    setDeparture("");
   };
 
   function pasteDeparture() {
@@ -337,7 +346,7 @@ export default function Formulaire_interventions(props) {
               </View>
 
               {/* SÉCURITÉ SOCIALE */}
-              <View style={styles.divinput}>
+              {/* <View style={styles.divinput}>
                 <View style={styles.divplaceholder}>
                   {!error && !colorPlaceholder ? (
                     <TextInput
@@ -399,7 +408,7 @@ export default function Formulaire_interventions(props) {
                     <Text style={errorStyle}>{error}</Text>
                   </View>
                 </View>
-              </View>
+              </View> */}
 
               {/* Telephone + Valide */}
               <View style={[styles.small]}>
@@ -432,7 +441,7 @@ export default function Formulaire_interventions(props) {
                 />
               </View>
 
-              <View style={styles.divinput}>
+              {/* <View style={styles.divinput}>
                 <TextInput
                   style={styles.input}
                   placeholder="Mutuelle"
@@ -440,7 +449,7 @@ export default function Formulaire_interventions(props) {
                   onChangeText={(value) => setMutuelle(value)}
                   value={mutuelle}
                 />
-              </View>
+              </View> */}
             </View>
             <View style={styles.infospatient}>
               <View style={styles.viewsoustitre}>
@@ -454,12 +463,21 @@ export default function Formulaire_interventions(props) {
                   onChangeText={(value) => setDeparture(value)}
                   value={Departure}
                 />
-                <TouchableOpacity
-                  style={styles.copy}
-                  onPress={() => pasteDeparture()}
-                >
-                  <Fontisto name="paste" size={20} color="white" />
-                </TouchableOpacity>
+                {Departure ? (
+                  <TouchableOpacity
+                    style={styles.copy}
+                    onPress={() => removeDeparture()}
+                  >
+                    <Entypo name="circle-with-cross" size={20} color="white" />
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    style={styles.copy}
+                    onPress={() => pasteDeparture()}
+                  >
+                    <Fontisto name="paste" size={20} color="white" />
+                  </TouchableOpacity>
+                )}
               </View>
 
               <View style={styles.divinputcopy}>
@@ -470,12 +488,21 @@ export default function Formulaire_interventions(props) {
                   onChangeText={(value) => setArrival(value)}
                   value={Arrival}
                 />
-                <TouchableOpacity
-                  style={styles.copy}
-                  onPress={() => pasteArrival()}
-                >
-                  <Fontisto name="paste" size={20} color="white" />
-                </TouchableOpacity>
+                {Arrival ? (
+                  <TouchableOpacity
+                    style={styles.copy}
+                    onPress={() => removeArrival()}
+                  >
+                    <Entypo name="circle-with-cross" size={20} color="white" />
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    style={styles.copy}
+                    onPress={() => pasteArrival()}
+                  >
+                    <Fontisto name="paste" size={20} color="white" />
+                  </TouchableOpacity>
+                )}
               </View>
 
               {/*SELECTIONNER UNE DATE DE PRISE EN CHARGE*/}
@@ -741,17 +768,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "white",
     padding: 10,
+    marginTop: 5,
     borderRadius: 10,
     height: 40,
-    width: "45%",
+    width: "58%",
     color: "white",
   },
   dropdown: {
-    width: "50%",
+    width: "40%",
     backgroundColor: "transparent",
     borderWidth: 1,
     borderColor: "white",
     borderRadius: 10,
+    marginTop: 5,
     height: 40,
   },
   dropText: {
@@ -782,7 +811,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "white",
     marginTop: 5,
-    marginBottom: 70,
+    marginBottom: 50,
   },
   inputplaceholder: {
     borderRadius: 10,

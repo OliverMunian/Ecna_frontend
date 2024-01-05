@@ -23,11 +23,10 @@ import { useState } from "react";
 
 export default function Employee() {
   const employe = useSelector((state) => state.employe.value);
-  const img = require("/Users/oliviermalahel/Desktop/Ecna_native/frontend/Ecna_frontend/assets/Unknown.jpg");
+  // const img = require("/Users/oliviermalahel/Desktop/Ecna_native/frontend/Ecna_frontend/assets/Unknown.jpg");
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const BACKEND_ADRESS =
-    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  const BACKEND_ADRESS = "http://192.168.1.31:3000";
   const [userLastName, setUserLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [numberStreet, setNumberStreet] = useState("");
@@ -97,7 +96,7 @@ export default function Employee() {
             votre profil
           </Text>
           <View style={styles.divimg}>
-            <Image style={styles.img} source={img} />
+            {/* <Image style={styles.img} source={img} /> */}
           </View>
           <View style={styles.inputInfos}>
             <KeyboardAwareScrollView

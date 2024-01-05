@@ -23,8 +23,7 @@ export default function FicheVehicule(props) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const BACKEND_ADRESS =
-    "  https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  const BACKEND_ADRESS = "http://192.168.1.31:3000";
   const etats = ["En ligne", "Hors ligne", "Indisponible"];
 
   const user = useSelector((state) => state.user.value);
@@ -245,6 +244,9 @@ const styles = StyleSheet.create({
   imageView: {
     paddingLeft: 70,
   },
+
+
+  
   //MODALE AU CLIC SUR LE VÉHICULE
   centeredView: {
     flex: 1,

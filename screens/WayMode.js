@@ -20,8 +20,7 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 
 export default function ChoixDuMode() {
   //Récuperation des information de l'utilisateur avec le reducer
-  const BACKEND_ADRESS =
-    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  const BACKEND_ADRESS = "http://192.168.1.31:3000";
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -31,17 +30,20 @@ export default function ChoixDuMode() {
     fetch(`${BACKEND_ADRESS}/users/${user.token}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log("Choix du Mode: ", data);
         for (let item of data.entreprise) {
-          console.log(item.name);
           setEntreprise(item.name);
         }
       });
   }, []);
 
   const goDashboard = () => {
+    // navigation.navigate("CodePin")
     navigation.navigate("UserNavigator");
   };
+  
+  const goDashboardUnitMobile = () =>{
+    navigation.navigate("ChoixduVéhicule");
+  }
 
   const logHandle = () => {
     dispatch(addSirenToSotre(null));
@@ -84,7 +86,7 @@ export default function ChoixDuMode() {
             </TouchableOpacity>
           </View>
           <View>
-            <TouchableOpacity style={styles.divbtn}>
+            <TouchableOpacity style={styles.divbtn} onPress={() => goDashboardUnitMobile()}>
               <Text style={styles.txt}>Unité mobile</Text>
               <MaterialCommunityIcons name="steering" size={35} color="white" />
               <Text style={styles.subtxt}>

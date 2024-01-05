@@ -5,10 +5,13 @@ import { useState } from "react";
 export default function VehiculeDashBoard(item) {
 const [selected, setSelected] = useState(false);
 const handleSet = () => {
-    if (item.click) {
+    if(item.click) {
+      item.tunnel(item.item.type)
       item.tunnel(item.plaque);
       setSelected(!selected);
-    }
+    }else if(!item.click){
+      setSelected(false)
+    };
   };
   if (selected && item.plaque === item.selected) {
     styles.image = {

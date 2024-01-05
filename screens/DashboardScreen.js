@@ -41,8 +41,7 @@ import VSLsrc from "../assets/VSL.png";
 import Feather from "react-native-vector-icons/Feather";
 
 export default function DashboardScreen() {
-  const BACKEND_ADRESS =
-    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  const BACKEND_ADRESS = "http://192.168.1.31:3000";
 
   // Declaration fonctions
   const navigation = useNavigation();
@@ -131,7 +130,6 @@ export default function DashboardScreen() {
     setValue();
     if (name == "dangerous") {
       setAnomalieVisible(true);
-      console.log(anomalieVisible);
     } else if (name == "skip-next") {
       setInterEnCours(interventions.filter((e) => e.etat === "prévue"));
       if (interEnCours.length === 0) {

@@ -17,13 +17,15 @@ import AddVehiculesScreen from "./screens/AddVehiculesScreen";
 import AddVehiculesScreenBis from "./screens/AddVehiculesScreenBis";
 import PatientScreen from "./screens/PatientScreen";
 import InterventionDuVehiculeScreen from "./screens/InterventionDuVehiculeScreen";
+import CodePin from "./screens/CodePin";
 import EmployeScreen from "./screens/Employe/EmployeScreen";
 import ProfileScreen from "./screens/Employe/ProfileScreen";
 import CalendarScreen from "./screens/Employe/CalendarScreen";
 import StatsScreen from "./screens/Employe/StatsScreen";
 import HomeEmployeScreen from "./screens/Employe/HomeEmployeScreen";
 import WayMode from "./screens/WayMode";
-import NewInterventionClassic from './screens/NewInterventionClassic'
+import NewInterventionClassic from "./screens/NewInterventionClassic";
+import HomeEmploye from './screens/UnitMobile/HomeEmploye'
 import user from "./reducers/user";
 import employe from "./reducers/employe";
 import vehicules from "./reducers/vehicules";
@@ -177,8 +179,13 @@ export default function App() {
             name="Interventionduvehicule"
             component={InterventionDuVehiculeScreen}
           />
+          <Stack.Screen name="CodePin" component={CodePin} />
           <Stack.Screen name="ChoixDuProfil" component={WayMode} />
-          <Stack.Screen name="InterClassic" component={NewInterventionClassic}/>
+          <Stack.Screen name="ChoixduVéhicule" component={HomeEmploye} />
+          <Stack.Screen
+            name="InterClassic"
+            component={NewInterventionClassic}
+          />
           <Stack.Screen name="Infosdupatient" component={PatientScreen} />
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
           <Stack.Screen name="UserNavigator" component={UserNavigator} />

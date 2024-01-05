@@ -24,8 +24,7 @@ export default function Fiche_intervention(props) {
   const [plaque, setPlaque] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
-  const BACKEND_ADRESS =
-    "  https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  const BACKEND_ADRESS = "http://192.168.1.31:3000";
 
   // Fonction inverse data flow pour communiquer
   const definePlq = (plq) => {
@@ -380,8 +379,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   modalText: {
+    fontStyle:'italic',
     textAlign: "center",
-    fontSize: 20,
+    fontSize: 15,
     marginBottom: 20,
     color: "white",
   },

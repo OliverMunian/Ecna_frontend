@@ -19,7 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 export default function Employee() {
   const employe = useSelector((state) => state.employe.value);
   console.log("ligne 21, EmployeScreen: ", employe);
-  const img = require("/Users/oliviermalahel/Desktop/Ecna_native/frontend/Ecna_frontend/assets/Unknown.jpg");
+  // const img = require("/Users/oliviermalahel/Desktop/Ecna_native/frontend/Ecna_frontend/assets/Unknown.jpg");
   const dispatch = useDispatch();
   const navigation = useNavigation();
 

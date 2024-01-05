@@ -41,6 +41,7 @@ export default function carouselDashboard(props) {
             tunnel={props.definePlq}
             type={imagesData[item.type]}
             plaque={item.plaque}
+            genre={item.type}
           />
         )}
         horizontal

@@ -3,40 +3,36 @@ import {
   View,
   Text,
   StyleSheet,
-  FlatList,
   Image,
 } from "react-native";
 import { useSelector } from "react-redux";
 
 
-export default function carouselDashboard(props) {
-  // Récupération des assets
-  const imagesData = { Gros: GVuri, Classique: MVuri, VSL: VSLuri };
-  const vehiculesDispo = useSelector((state) => state.vehiculesDispo.value);
-
-  // Message à afficher dans le cas ou aucun véhicule n'est associé au compte
-  if (vehiculesDispo.length === 0) {
-    return (
-      <View>
-        <Text style={styles.errorText}>Pas de vehicules disponibles</Text>
-      </View>
-    );
-  }
+export default function profilConnexion(props) {
+  const img = require("../../assets/Unknown.jpg");
 
   return (
     <View style={styles.container}>
+      <Image style={styles.image} source={img} resizeMode="cover" />
+      <Text style={styles.txt}> {props.username}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    width: 200,
-    height: 200,
+    borderRadius:'50%',
+    justifyContent:'center',
+    alignItems: 'center',
+    margin:10,
   },
-  errorText: {
-    color: 'white',
-    fontSize : 20
-  }
+  image:{
+    borderRadius:'100%',
+    width: 100,
+    height: 100,
+  },
+  txt:{
+    color:'white',
+    fontSize:20,
+  },
 });

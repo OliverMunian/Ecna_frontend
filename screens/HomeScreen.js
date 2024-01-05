@@ -17,7 +17,7 @@ import background from "../assets/ambulance.jpg";
 import AntDesign from "react-native-vector-icons/AntDesign";
 
 export default function HomeScreen({ navigation }) {
-  const BACKEND_ADRESS = "https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  const BACKEND_ADRESS = "http://192.168.1.31:3000";
   const dispatch = useDispatch();
   const ref_input2 = useRef();
 
@@ -39,8 +39,8 @@ export default function HomeScreen({ navigation }) {
         if (data.result) {
           dispatch(addtokenToSotre(data.token));
           dispatch(addSirenToSotre(data.SIREN));
-          setUserName("");
-          setPassword("");
+          setUserName(null);
+          setPassword(null);
           setErrorMessage("");
           navigation.navigate("ChoixDuProfil");
         } else {
@@ -53,11 +53,10 @@ export default function HomeScreen({ navigation }) {
             })
               .then((response) => response.json())
               .then((data) => {
-                console.log("ligne 52, HomeScreen :", data);
                 dispatch(addtokenEmployeToStore(data.token));
                 dispatch(addEmployeToStore(data.username));
-                setUserName("");
-                setPassword("");
+                setUserName(null);
+                setPassword(null);
                 setNotFound(notFound);
                 navigation.navigate("TabNavigator");
                 if (!data) {

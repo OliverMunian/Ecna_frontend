@@ -10,17 +10,12 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { addEmployeToStore } from "../../reducers/employe";
-import { addtokenEmployeToStore } from "../../reducers/employe";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Employee() {
   const employe = useSelector((state) => state.employe.value);
-  const img = require("/Users/oliviermalahel/Desktop/Ecna_native/frontend/Ecna_frontend/assets/Unknown.jpg");
   const navigation = useNavigation();
-  const BACKEND_ADRESS =
-    "https://ecna-backend-odpby015w-olivermunian.vercel.app";
+  const BACKEND_ADRESS = "http://192.168.1.31:3000";
   const [mail, setMail] = useState("");
   const [userLastName, setUserLastName] = useState("");
   const [phone, setPhone] = useState("");

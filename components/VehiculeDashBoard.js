@@ -6,11 +6,15 @@ export default function VehiculeDashBoard(item) {
 const [selected, setSelected] = useState(false);
 const handleSet = () => {
     if(item.click) {
-      item.tunnel(item.item.type)
+      console.log(item.click)
+      item.gabarit(item.item.type)
       item.tunnel(item.plaque);
       setSelected(!selected);
     }else if(!item.click){
+      console.log(item.click)
       setSelected(false)
+      item.gabarit(false)
+      item.tunnel(false);
     };
   };
   if (selected && item.plaque === item.selected) {

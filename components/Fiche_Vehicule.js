@@ -245,8 +245,6 @@ const styles = StyleSheet.create({
     paddingLeft: 70,
   },
 
-
-  
   //MODALE AU CLIC SUR LE VÉHICULE
   centeredView: {
     flex: 1,

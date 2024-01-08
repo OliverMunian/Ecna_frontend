@@ -17,6 +17,7 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Profil from "../../components/Employe/Profil";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export default function MobileUnit(props) {
   const dispatch = useDispatch();
@@ -26,11 +27,11 @@ export default function MobileUnit(props) {
   const [password, setPassword] = useState("");
   const [firstUser, setFirstUser] = useState(null);
   const [secondUser, setSecondUser] = useState(null);
-  const [firstConnection, setFirstConnection] = useState(false);
-  const [secondConnection, setSecondConnection] = useState(false);
+  const [firstConnection, setFirstConnection] = useState("");
+  const [secondConnection, setSecondConnection] = useState("");
   const [error, setError] = useState("");
   const [plaque, setPlaque] = useState("");
-  const [type, setType] = useState("");
+  const [type, setType] = useState(null);
 
   const BACKEND_ADRESS = "http://192.168.1.31:3000";
   const vehiculesDispo = useSelector((state) => state.vehiculesDispo.value);
@@ -39,27 +40,32 @@ export default function MobileUnit(props) {
     if (firstConnection || secondConnection) {
       Alert.alert("Deconnexion", "Tous les profils doivent être déconnecter");
     } else {
+      setPlaque(null);
+      setType(null);
+      setFirstUser(null);
+      setSecondUser(null);
       navigation.navigate("ChoixDuProfil");
     }
   };
 
   const definePlq = (plq) => {
-    console.log(plq)
     setPlaque(plq);
-    if (plq === "Gros") {
-      console.log('GV choisi')
-      setType("Gros");
-    } else if (plq === "VSL") {
-      console.log('vsl choisi: ' + plaque + ' ' + plq)
-      setType("VSL");
-    } else {
-      setType("");
-    }
+    // if(plq == "Gros") {
+    //   setType("Gros");
+    //   console.log('type: ' + type)
+    // } else {
+    //   setType('VSL');
+    //   console.log('type: ' + type)
+    // }
+  };
+
+  const defineGabarit = (gabarit) => {
+    console.log("gabarit: " + gabarit);
+    setType(gabarit);
   };
 
   const onBoard = () => {
-    console.log(plaque);
-    console.log(type);
+    navigation.navigate('')
   };
 
   const showModal = () => {
@@ -72,17 +78,18 @@ export default function MobileUnit(props) {
   };
 
   const firstDeconnexion = () => {
-    setFirstConnection(false);
+    setFirstConnection("");
     setFirstUser(null);
     setUserName(null);
   };
   const secondDeconnexion = () => {
-    setSecondConnection(false);
+    setSecondConnection("");
     setSecondUser(null);
     setUserName(null);
   };
 
   const handleSubmit = () => {
+    console.log(type);
     if (firstConnection) {
       fetch(`${BACKEND_ADRESS}/employe/signin`, {
         method: "POST",
@@ -92,12 +99,18 @@ export default function MobileUnit(props) {
         .then((response) => response.json())
         .then((data) => {
           if (data.result) {
-            console.log(plaque);
-            console.log(type);
-            setSecondUser(data.username);
-            setError("");
-            setSecondConnection(true);
-            closeWindow();
+            console.log("first connection: " + firstConnection);
+            if (data.token === firstConnection) {
+              Alert.alert(
+                "Oups !",
+                "Il semblerait que vous soyez déjà connecter"
+              );
+            } else {
+              setSecondUser(data.username);
+              setError("");
+              setSecondConnection(data.token);
+              closeWindow();
+            }
           } else if (!data.result) {
             console.log(data);
             setError("Mauvais identifiant ou mot de passe");
@@ -116,7 +129,7 @@ export default function MobileUnit(props) {
             setError("");
             closeWindow();
             setPassword("");
-            setFirstConnection(true);
+            setFirstConnection(data.token);
           } else if (!data.result) {
             console.log(data);
             setError("Mauvais identifiant ou mot de passe");
@@ -144,6 +157,7 @@ export default function MobileUnit(props) {
           definePlq={definePlq}
           click={true}
           selected={plaque}
+          defineGabarit={defineGabarit}
         />
       </View>
       <View style={styles.connectionprofile}>
@@ -168,20 +182,38 @@ export default function MobileUnit(props) {
         </View>
       </View>
       <View style={styles.connexion}>
-        {firstConnection && plaque && type == "Gros" ? (
+        {firstConnection && secondConnection && plaque && type === "Gros" ? (
+          <TouchableOpacity style={styles.btn} onPress={onBoard}>
+            <MaterialCommunityIcons name="steering" size={35} color="white" />
+            <Text style={styles.subtitle}>Monter à bord du véhicule</Text>
+          </TouchableOpacity>
+        ) : firstConnection && plaque && type === "Gros" ? (
+          <View>
+            <Text style={styles.subtitle}>
+              L'utilisation de ce véhicule requiert une seconde connection
+            </Text>
+            <TouchableOpacity style={styles.btn} onPress={showModal}>
+              <AntDesign name="login" size={35} color="white" />
+              <Text style={styles.subtitle}>Connection</Text>
+            </TouchableOpacity>
+          </View>
+        ) : firstConnection && secondConnection && plaque && type === "VSL" ? (
+          <View>
+            <Text style={styles.subtitle}>
+              Veuillez déconnecter l'un des deux membres
+            </Text>
+          </View>
+        ) : (firstConnection || secondConnection) &&
+          plaque &&
+          type === "VSL" ? (
+          <TouchableOpacity style={styles.btn} onPress={onBoard}>
+            <MaterialCommunityIcons name="steering" size={35} color="white" />
+            <Text style={styles.subtitle}>Monter à bord du véhicule</Text>
+          </TouchableOpacity>
+        ) : (firstConnection || secondConnection) && !plaque && !type ? (
           <TouchableOpacity style={styles.btn} onPress={showModal}>
-            <AntDesign name="login" size={35} color="white" />
-            <Text style={styles.subtitle}>Connection</Text>
-          </TouchableOpacity>
-        ) : firstConnection && type == "VSL" ? (
-          <TouchableOpacity style={styles.btn} onPress={onBoard}>
-            <MaterialCommunityIcons name="steering" size={35} color="white" />
-            <Text style={styles.subtitle}>Monter à bord du véhicule</Text>
-          </TouchableOpacity>
-        ) : firstConnection && secondConnection && plaque && type == "Gros" ? (
-          <TouchableOpacity style={styles.btn} onPress={onBoard}>
-            <MaterialCommunityIcons name="steering" size={35} color="white" />
-            <Text style={styles.subtitle}>Monter à bord du véhicule</Text>
+            <MaterialCommunityIcons name="cursor-default-click" size={35} color="white" />
+            <Text style={styles.subtitle}>Sélectionner un véhicule</Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity style={styles.btn} onPress={showModal}>
@@ -265,7 +297,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   car: {
-    marginTop: 50,
+    marginTop: 25,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -279,7 +311,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   connexion: {
-    marginTop: 50,
+    marginTop: 15,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -288,7 +320,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   waymode: {
-    top: 50,
+    top: 20,
   },
 
   /* Modal */

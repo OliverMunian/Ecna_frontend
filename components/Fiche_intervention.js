@@ -379,7 +379,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   modalText: {
-    fontStyle:'italic',
+    fontStyle: "italic",
     textAlign: "center",
     fontSize: 15,
     marginBottom: 20,

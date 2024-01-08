@@ -40,10 +40,10 @@ export default function ChoixDuMode() {
     // navigation.navigate("CodePin")
     navigation.navigate("UserNavigator");
   };
-  
-  const goDashboardUnitMobile = () =>{
+
+  const goDashboardUnitMobile = () => {
     navigation.navigate("ChoixduVéhicule");
-  }
+  };
 
   const logHandle = () => {
     dispatch(addSirenToSotre(null));
@@ -86,7 +86,10 @@ export default function ChoixDuMode() {
             </TouchableOpacity>
           </View>
           <View>
-            <TouchableOpacity style={styles.divbtn} onPress={() => goDashboardUnitMobile()}>
+            <TouchableOpacity
+              style={styles.divbtn}
+              onPress={() => goDashboardUnitMobile()}
+            >
               <Text style={styles.txt}>Unité mobile</Text>
               <MaterialCommunityIcons name="steering" size={35} color="white" />
               <Text style={styles.subtxt}>
